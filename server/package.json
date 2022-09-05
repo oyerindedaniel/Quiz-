@@ -1,0 +1,14 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "Quiz!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oyerinde Daniel Diekololuwa",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
