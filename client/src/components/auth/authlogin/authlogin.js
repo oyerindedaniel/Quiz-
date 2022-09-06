@@ -48,7 +48,7 @@ const AuthLogin = () => {
 
   return (
     <AuthCard>
-      <h1 className={`${classes.authH1}`}>Hello</h1>
+      <h1 className={`${classes.authH1}`}>Quiz!</h1>
       <h3 className={`${classes.authH3}`}>
         Welcome to Quiz!, please put your login credentials below to start using
         the app

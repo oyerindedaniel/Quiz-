@@ -1,7 +1,10 @@
 .authH1 {
-  font-size: 3.5rem;
+  font-size: 3.2rem;
   text-align: center;
   margin-bottom: 1rem;
+  background: -webkit-linear-gradient(var(--color-blue-1), var(--color-blue-4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .authH3 {

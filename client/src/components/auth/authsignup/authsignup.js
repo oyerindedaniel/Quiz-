@@ -64,9 +64,9 @@ const AuthSignup = () => {
 
   return (
     <AuthCard>
-      <h1 className={`${classes.authH1}`}>Hello</h1>
+      <h1 className={`${classes.authH1}`}>Quiz!</h1>
       <h3 className={`${classes.authH3}`}>
-        Get access to exclusive features by creating an account
+        Get access to exclusive features on Quiz! by creating an account
       </h3>
       <AuthControl />
       <form onSubmit={submitHandler}>
