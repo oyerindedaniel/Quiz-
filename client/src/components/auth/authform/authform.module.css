@@ -1,0 +1,20 @@
+.inputControl {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 1.2rem;
+  border: none;
+  outline: none;
+  background-color: var(--color-grey-2);
+  border-radius: 1rem;
+}
