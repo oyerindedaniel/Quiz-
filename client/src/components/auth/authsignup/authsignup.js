@@ -70,8 +70,8 @@ const AuthSignup = () => {
       </h3>
       <AuthControl />
       <form onSubmit={submitHandler}>
-        <div className="control-group">{formItems}</div>
-        <div className="form-actions">
+        <div>{formItems}</div>
+        <div>
           <AuthButton>Sign up</AuthButton>
         </div>
       </form>

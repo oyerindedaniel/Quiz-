@@ -1,0 +1,73 @@
+.main {
+  padding: 3.5rem 6rem;
+  display: flex;
+  align-items: center;
+}
+
+.h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.controlGroupContainer {
+  margin-right: auto;
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  margin-left: 3rem;
+  background-color: var(--color-grey-2);
+  padding: 0.5rem;
+  border-radius: 1rem;
+  width: 25rem;
+  margin-right: auto;
+}
+
+.searchInput {
+  border: none;
+  padding: 0.5rem 0;
+  outline: none;
+  background-color: var(--color-grey-2);
+  margin-left: 1rem;
+  width: 100%;
+}
+
+.svgSearch {
+  width: 2rem;
+  height: 2rem;
+  fill: var(--color-grey-1);
+}
+
+.svgAddContainer {
+  padding: 0.5rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(
+    to right,
+    var(--color-blue-1),
+    var(--color-blue-4)
+  );
+}
+
+.svgAdd {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: white;
+}
+
+.addButtonSection {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.addButton {
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: -webkit-linear-gradient(var(--color-blue-1), var(--color-blue-4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 1rem;
+}
