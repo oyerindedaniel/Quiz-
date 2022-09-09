@@ -1,0 +1,7 @@
+.quizItems {
+  margin-top: 3rem;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-left: 6rem;
+  overflow: hidden;
+}
