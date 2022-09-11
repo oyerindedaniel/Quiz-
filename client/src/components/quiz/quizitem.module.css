@@ -38,11 +38,12 @@
 }
 
 .quizItemCaptionName {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 800;
   margin-bottom: 0.1rem;
 }
 
 .quizItemCaptionQuestionNo {
   font-size: 1rem;
+  font-weight: 500;
 }
