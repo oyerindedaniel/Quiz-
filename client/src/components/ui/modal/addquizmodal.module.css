@@ -6,7 +6,9 @@
   height: 100vh;
   z-index: 10;
   background-color: white;
-  opacity: 0.8;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 2s ease-in 1s;
 }
 
 .modal {
@@ -21,6 +23,8 @@
   padding: 1.5rem 2.5rem;
   min-width: 35rem;
   width: 40rem;
+  opacity: 0;
+  transition: opacity 2s ease-in 1s;
 }
 
 .h1 {

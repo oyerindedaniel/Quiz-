@@ -11,13 +11,15 @@ import classes from "./homecp.module.css";
 const Homecp = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const onControlModalHandler = () => {
+  const onDisplayModalHandler = () => {
     setShowModal((currentModalValue) => {
       return !currentModalValue;
     });
   };
 
   const searchOnChangerHandler = () => {};
+
+  const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
 
   return (
     <Fragment>
@@ -36,10 +38,13 @@ const Homecp = () => {
                 placeholder="Search Quiz ..."
                 onChange={searchOnChangerHandler}
               />
+              <svg className={`${classes.svgClear}`}>
+                <use xlinkHref={`${icons}#icon-clear`}></use>
+              </svg>
             </div>
           </form>
           <div
-            onClick={onControlModalHandler}
+            onClick={onDisplayModalHandler}
             className={`${classes.addButtonSection}`}
           >
             <span className={`${classes.svgAddContainer}`}>
@@ -51,7 +56,13 @@ const Homecp = () => {
           </div>
         </div>
         {showModal && (
-          <AddQuizModal>
+          <AddQuizModal
+            classNameModal={`${showModal ? classes.modalVisibility : " "}`}
+            classNameBackdrop={`${
+              showModal ? classes.backdropVisibility : " "
+            }`}
+            onDisplayModalHandler={onDisplayModalHandler}
+          >
             <h2 className={`${classes.modalH2Text}`}>Upload File</h2>
             <form className={`${classes.modalForm}`}>
               <div className={`${classes.modalFormInputContainer}`}>
@@ -86,7 +97,7 @@ const Homecp = () => {
                 </div>
               </div>
               <div className={classes.modalActions}>
-                <button type="button" onClick={onControlModalHandler}>
+                <button type="button" onClick={onDisplayModalHandler}>
                   Cancel
                 </button>
                 <button className={classes.submit}>Add Quiz</button>

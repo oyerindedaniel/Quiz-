@@ -1,8 +1,9 @@
 .nav {
-  padding: 1rem 6rem;
+  padding: 0 6rem;
   display: flex;
   align-items: center;
   border-bottom: 0.1rem solid var(--color-grey-2);
+  position: relative;
 }
 
 .h1 {
@@ -17,23 +18,64 @@
 .accountControl {
   display: flex;
   align-items: center;
+  padding: 1.5rem 1rem;
+}
+
+.accountControlContainer:hover + .accountControlItems {
+  visibility: visible;
+  opacity: 1;
 }
 
 .accountControlItems {
+  background-color: white;
+  color: var(--color-grey-1);
+  padding: 2.5rem 0rem;
+  font-size: 1.4rem;
+  position: absolute;
+  right: 4.5rem;
+  top: 5.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  font-weight: 400;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.accountControlItems:hover {
+  visibility: visible;
+  opacity: 1;
 }
 
 .accountControlItem {
+  display: block;
+  min-width: 15rem;
+  width: 22rem;
+  padding: 1rem 1rem 1rem 2.5rem;
+  transition: background 0.2s ease-in-out;
+}
+
+.accountControlItem:hover {
+  background: var(--color-grey-2);
+  color: black;
+}
+
+.accountControlItemHr {
+  margin: 0.5rem 2.5rem;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
 
 .accountAvatar {
   width: 3rem;
   height: 3rem;
   margin-right: 1rem;
-  cursor: pointer;
 }
 
 .accountName {
   font-size: 1.3rem;
   font-weight: 600;
-  cursor: pointer;
 }
