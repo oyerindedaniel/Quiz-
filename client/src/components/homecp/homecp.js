@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 
 import Navigation from "../navigation/navigation";
 import QuizItems from "../quiz/quizitems";
+import HistoryItems from "../gameshistory/historyitems";
 import AddQuizModal from "../ui/modal/addquizmodal";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
@@ -108,6 +109,7 @@ const Homecp = () => {
         <QuizItems />
         <div className={`${classes.main}`}>
           <h1 className={`${classes.h1}`}>Quiz! History</h1>
+          <HistoryItems />
         </div>
       </main>
     </Fragment>
