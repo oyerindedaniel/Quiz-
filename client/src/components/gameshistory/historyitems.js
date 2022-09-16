@@ -10,24 +10,24 @@ const HistoryItems = () => {
   const historyItems = [
     {
       dateLast: "Jan 15, 13:30",
-      quizName: "EIE 523",
-      trophyPic: { goldImg },
+      quizName: "MCE 421",
+      trophyPic: goldImg,
       trophyName: "Gold",
-      quizScore: "99",
+      quizScore: "90%",
     },
     {
-      dateLast: "Jan 15, 13:30",
-      quizName: "EIE 523",
-      trophyPic: { silverImg },
-      trophyName: "Gold",
-      quizScore: "99",
+      dateLast: " Dec 25, 22:45",
+      quizName: "EDS 111",
+      trophyPic: silverImg,
+      trophyName: "Silver",
+      quizScore: "67%",
     },
     {
-      dateLast: "Jan 15, 13:30",
-      quizName: "EIE 523",
-      trophyPic: { bronzeImg },
-      trophyName: "Gold",
-      quizScore: "99",
+      dateLast: "Feb 1, 9:12",
+      quizName: "POS 221",
+      trophyPic: bronzeImg,
+      trophyName: "Bronze",
+      quizScore: "30%",
     },
   ].map((historyItem) => (
     <HistoryItem

@@ -5,25 +5,29 @@ import avatarImg from "../../assets/img/smile.png";
 
 import classes from "./navigation.module.css";
 
-const Navigation = () => {
+const Navigation = ({ isAccountControlNeeded }) => {
+  const isAccountControlNeededBool = isAccountControlNeeded === "true";
+
   return (
     <Fragment>
       <nav className={`${classes.nav}`}>
         <div className={`${classes.h1}`}>
           <Link to="/">Quiz!</Link>
         </div>
-        <ul className={`${classes.accountControlContainer}`}>
-          <li className={`${classes.accountControl}`}>
-            <img
-              className={`${classes.accountAvatar}`}
-              src={avatarImg}
-              alt="default avatar"
-            />
-            <Link to="/me" className={`${classes.accountName}`}>
-              doyerinde
-            </Link>
-          </li>
-        </ul>
+        {isAccountControlNeededBool && (
+          <ul className={`${classes.accountControlContainer}`}>
+            <li className={`${classes.accountControl}`}>
+              <img
+                className={`${classes.accountAvatar}`}
+                src={avatarImg}
+                alt="default avatar"
+              />
+              <Link to="/me" className={`${classes.accountName}`}>
+                doyerinde
+              </Link>
+            </li>
+          </ul>
+        )}
         <ul className={`${classes.accountControlItems}`}>
           <li>
             <Link

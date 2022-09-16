@@ -1,8 +1,12 @@
 import classes from "./authbutton.module.css";
 
-const AuthButton = ({ children }) => {
+const AuthButton = ({ children, type, className }) => {
   return (
-    <button className={`${classes.button}`} disabled={false}>
+    <button
+      type={type}
+      className={`${classes.button} ${className}`}
+      disabled={false}
+    >
       {children}
     </button>
   );

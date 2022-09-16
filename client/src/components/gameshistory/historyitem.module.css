@@ -1,0 +1,35 @@
+.historyItem {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+.historyItem:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+
+.historyItemDate {
+  margin-right: 5rem;
+  font-size: 1.2rem;
+}
+
+.historyItemName {
+  margin-right: auto;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.historyItemPic {
+  width: 3rem;
+  margin-right: 2rem;
+}
+
+.historyItemTName {
+  font-size: 1.2rem;
+  margin-right: 4rem;
+}
+
+.historyItemScore {
+  font-size: 1.4rem;
+  font-weight: 700;
+}

@@ -24,7 +24,7 @@ const Homecp = () => {
 
   return (
     <Fragment>
-      <Navigation />
+      <Navigation isAccountControlNeeded="true" />
       <main>
         <div className={`${classes.main}`}>
           <h1 className={`${classes.h1}`}>My Quizes</h1>
@@ -107,7 +107,7 @@ const Homecp = () => {
           </AddQuizModal>
         )}
         <QuizItems />
-        <div className={`${classes.main}`}>
+        <div className={`${classes.main2}`}>
           <h1 className={`${classes.h1}`}>Quiz! History</h1>
           <HistoryItems />
         </div>

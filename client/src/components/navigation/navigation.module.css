@@ -13,6 +13,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-right: auto;
+  padding: 1.5rem 0;
 }
 
 .accountControl {
