@@ -5,16 +5,35 @@ import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
 import AuthButton from "../../ui/authbutton/authbutton";
 
+import useInput from "../../../hooks/use-input";
+
 import classes from "./authlogin.module.css";
 
 const AuthLogin = () => {
-  const submitHandler = () => {};
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailOnChangedHandler,
+    inputBlurHandler: emailOnBlurHandler,
+    reset: resetEmailInput,
+  } = useInput((value) =>
+    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
+  );
 
-  const emailAddressOnChangeHandler = () => {
-    console.log("email changed");
+  const {
+    value: enteredPassword,
+    isValid: enteredPasswordIsValid,
+    hasError: passwordInputHasError,
+    valueChangeHandler: passwordOnChangedHandler,
+    inputBlurHandler: passwordOnBlurHandler,
+    reset: resetPasswordInput,
+  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+
+  const submitHandler = () => {
+    resetEmailInput();
+    resetPasswordInput();
   };
-
-  const passwordOnChangeHandler = () => {};
 
   const formItems = [
     {
@@ -22,27 +41,36 @@ const AuthLogin = () => {
       htmlFor: "emailaddress",
       id: "emailaddress",
       type: "text",
+      value: enteredEmail,
       content: "E-mail Address",
       placeholder: "oyerinde.daniel@mail.com",
-      onChangeHandler: emailAddressOnChangeHandler,
+      onChangeHandler: emailOnChangedHandler,
+      onBlurHandler: emailOnBlurHandler,
     },
     {
       key: 2,
       htmlFor: "password",
       id: "password",
       type: "password",
+      value: enteredPassword,
       content: "Password",
       placeholder: "Your Password",
-      onChangeHandler: passwordOnChangeHandler,
+      onChangeHandler: passwordOnChangedHandler,
+      onBlurHandler: passwordOnBlurHandler,
+      passwordBool: true,
     },
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
       htmlFor={formItem.htmlFor}
       id={formItem.id}
+      type={formItem.type}
       content={formItem.content}
+      value={formItem.value}
       onChange={formItem.onChangeHandler}
+      onBlur={formItem.onBlurHandler}
       placeholder={formItem.placeholder}
+      passwordBool={formItem.passwordBool}
     />
   ));
 
@@ -65,8 +93,8 @@ const AuthLogin = () => {
             />
             <label for="checkbox">Remember me</label>
           </div>
-          <Link to="/reset-password" className={`${classes.authReset}`}>
-            Reset Password
+          <Link to="/forgot-password" className={`${classes.authReset}`}>
+            Forgot Password
           </Link>
         </div>
         <div className="form-actions">

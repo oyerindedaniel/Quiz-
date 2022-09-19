@@ -1,7 +1,7 @@
 .button {
   padding: 1.2rem;
   border: none;
-  background-image: linear-gradient(
+  background: linear-gradient(
     to right,
     var(--color-blue-1),
     var(--color-blue-4)
@@ -12,4 +12,12 @@
   font-weight: 700;
   margin-top: 1.5rem;
   cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+  outline: none;
+  background: var(--color-blue-1);
 }

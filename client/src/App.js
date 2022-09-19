@@ -5,6 +5,7 @@ import SignUp from "./routes/signup";
 import Home from "./routes/home";
 import QuizCbt from "./routes/quizcbt";
 import NotFound from "./routes/notfound";
+import ForgotPassword from "./routes/forgotpassword";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
+      <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="quiz/:quizName" element={<QuizCbt />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

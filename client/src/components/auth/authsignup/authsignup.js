@@ -3,16 +3,47 @@ import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
 import AuthButton from "../../ui/authbutton/authbutton";
 
+import useInput from "../../../hooks/use-input";
+
 import classes from "./authsignup.module.css";
 
 const AuthSignup = () => {
+  const {
+    value: enteredUsername,
+    isValid: enteredUsernameIsValid,
+    hasError: usernameInputHasError,
+    valueChangeHandler: usernameOnChangedHandler,
+    inputBlurHandler: usernameOnBlurHandler,
+    reset: resetUsernameInput,
+  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailOnChangedHandler,
+    inputBlurHandler: emailOnBlurHandler,
+    reset: resetEmailInput,
+  } = useInput((value) =>
+    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
+  );
+
+  const {
+    value: enteredPassword,
+    isValid: enteredPasswordIsValid,
+    hasError: passwordInputHasError,
+    valueChangeHandler: passwordOnChangedHandler,
+    inputBlurHandler: passwordOnBlurHandler,
+    reset: resetPasswordInput,
+  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+
   const submitHandler = () => {};
 
-  const usernameOnChangeHandler = () => {};
+  // const usernameOnChangeHandler = () => {};
 
-  const emailAddressOnChangeHandler = () => {};
+  // const emailAddressOnChangeHandler = () => {};
 
-  const passwordOnChangeHandler = () => {};
+  // const passwordOnChangeHandler = () => {};
 
   const formItems = [
     {
@@ -22,7 +53,7 @@ const AuthSignup = () => {
       type: "text",
       content: "Username",
       placeholder: "doyerinde",
-      onChangeHandler: usernameOnChangeHandler,
+      onChangeHandler: usernameOnChangedHandler,
     },
     {
       key: 2,
@@ -31,7 +62,8 @@ const AuthSignup = () => {
       type: "text",
       content: "E-mail Address",
       placeholder: "oyerinde.daniel@mail.com",
-      onChangeHandler: emailAddressOnChangeHandler,
+      passwordBool: true,
+      onChangeHandler: emailOnChangedHandler,
     },
     {
       key: 3,
@@ -40,7 +72,8 @@ const AuthSignup = () => {
       type: "password",
       content: "Password",
       placeholder: "Your Password",
-      onChangeHandler: passwordOnChangeHandler,
+      passwordBool: true,
+      onChangeHandler: passwordOnChangedHandler,
     },
     {
       key: 4,
@@ -49,13 +82,14 @@ const AuthSignup = () => {
       type: "password",
       content: "Confirm Password",
       placeholder: "Your Password",
-      onChangeHandler: passwordOnChangeHandler,
+      onChangeHandler: passwordOnChangedHandler,
     },
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
       htmlFor={formItem.htmlFor}
       id={formItem.id}
+      type={formItem.type}
       content={formItem.content}
       onChange={formItem.onChangeHandler}
       placeholder={formItem.placeholder}

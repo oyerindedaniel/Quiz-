@@ -37,3 +37,10 @@
   font-size: 1.1rem;
   color: var(--color-blue-4);
 }
+
+.authReset:active,
+.authReset:focus,
+.authReset:hover {
+  outline: none;
+  text-decoration: underline;
+}
