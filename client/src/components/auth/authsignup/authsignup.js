@@ -37,13 +37,16 @@ const AuthSignup = () => {
     reset: resetPasswordInput,
   } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
 
+  const {
+    value: enteredConfirmPassword,
+    isValid: enteredConfirmPasswordIsValid,
+    hasError: confirmPasswordInputHasError,
+    valueChangeHandler: confirmPasswordOnChangedHandler,
+    inputBlurHandler: confirmPasswordOnBlurHandler,
+    reset: resetConfirmPasswordInput,
+  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+
   const submitHandler = () => {};
-
-  // const usernameOnChangeHandler = () => {};
-
-  // const emailAddressOnChangeHandler = () => {};
-
-  // const passwordOnChangeHandler = () => {};
 
   const formItems = [
     {
@@ -51,48 +54,59 @@ const AuthSignup = () => {
       htmlFor: "username",
       id: "username",
       type: "text",
+      value: enteredUsername,
       content: "Username",
       placeholder: "doyerinde",
       onChangeHandler: usernameOnChangedHandler,
+      onBlurHandler: usernameOnBlurHandler,
     },
     {
       key: 2,
       htmlFor: "emailaddress",
       id: "emailaddress",
       type: "text",
+      value: enteredEmail,
       content: "E-mail Address",
       placeholder: "oyerinde.daniel@mail.com",
-      passwordBool: true,
       onChangeHandler: emailOnChangedHandler,
+      onBlurHandler: emailOnBlurHandler,
     },
     {
       key: 3,
       htmlFor: "password",
       id: "password",
       type: "password",
+      value: enteredPassword,
       content: "Password",
       placeholder: "Your Password",
       passwordBool: true,
       onChangeHandler: passwordOnChangedHandler,
+      onBlurHandler: passwordOnBlurHandler,
     },
     {
       key: 4,
       htmlFor: "confirmpassword",
       id: "confirmpassword",
       type: "password",
+      value: enteredConfirmPassword,
       content: "Confirm Password",
       placeholder: "Your Password",
-      onChangeHandler: passwordOnChangedHandler,
+      passwordBool: true,
+      onChangeHandler: confirmPasswordOnChangedHandler,
+      onBlurHandler: confirmPasswordOnBlurHandler,
     },
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
       htmlFor={formItem.htmlFor}
       id={formItem.id}
+      value={formItem.value}
       type={formItem.type}
       content={formItem.content}
       onChange={formItem.onChangeHandler}
       placeholder={formItem.placeholder}
+      passwordBool={formItem.passwordBool}
+      onBlur={formItem.onBlurHandler}
     />
   ));
 
