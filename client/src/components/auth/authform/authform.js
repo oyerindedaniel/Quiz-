@@ -19,27 +19,30 @@ const AuthForm = ({
     useState(true);
 
   const toggleDisplayPasswordFun = (e) => {
-    setShowDisplayPasswordButton((prevValue) => !prevValue);
+    console.log(e.target.closest(".svgDisplayPassword"));
 
     if (showDisplayPasswordButton) {
-      e.target.parentElement.parentElement.firstChild.setAttribute(
-        "type",
-        "text"
-      );
+      //   e.target
+      //     .closest(".displayButton")
+      //     .parentElement.setAttribute("type", "text");
+      // }
     }
-
     if (!showDisplayPasswordButton) {
+      console.log("second");
       e.target.parentElement.parentElement.firstChild.setAttribute(
         "type",
         "password"
       );
     }
+
+    setShowDisplayPasswordButton((prevValue) => !prevValue);
   };
 
   return (
     <div className={`${classes.inputControl}`}>
-      <label className={`${classes.label}`} htmlFor={htmlFor}>
+      <label className={`${classes.label}`} htmlFor={htmlFor} aria-label="">
         {content}
+        <span></span>
       </label>
       <div className={`${passwordBool && classes.inputCont}`}>
         <input
@@ -51,6 +54,8 @@ const AuthForm = ({
           id={id}
           onChange={onChange}
           onBlur={onBlur}
+          aria-required="true"
+          required
         />
         {passwordBool && (
           <span

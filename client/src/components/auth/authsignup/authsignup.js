@@ -64,7 +64,7 @@ const AuthSignup = () => {
       key: 2,
       htmlFor: "emailaddress",
       id: "emailaddress",
-      type: "text",
+      type: "email",
       value: enteredEmail,
       content: "E-mail Address",
       placeholder: "oyerinde.daniel@mail.com",

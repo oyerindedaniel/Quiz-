@@ -4,11 +4,11 @@ import classes from "./authcontrol.module.css";
 
 const AuthControl = () => {
   let activeStyle = {
-    border: ".1rem solid var(--color-blue-4)",
+    border: ".2rem solid var(--color-blue-4)",
   };
 
   let notActiveStyle = {
-    border: "0.1px solid var(--color-grey-1)",
+    border: "0.1rem solid var(--color-grey-1)",
   };
 
   return (

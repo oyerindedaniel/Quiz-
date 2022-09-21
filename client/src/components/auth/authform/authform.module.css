@@ -58,9 +58,8 @@ select:-webkit-autofill:focus {
   transition: all 0.2s ease-in-out;
 }
 
-.inputCont:focus,
-.inputCont:active {
-  border: 0.1rem solid var(--color-grey-1);
+.inputCont:has(.inputEdit:focus, .inputEdit:active) {
+  border: 0.15em solid var(--color-grey-1);
 }
 
 .inputEdit:focus,
@@ -70,7 +69,7 @@ select:-webkit-autofill:focus {
 
 .input:focus,
 .input:active {
-  border: 0.1rem solid var(--color-grey-1);
+  border: 0.15rem solid var(--color-grey-1);
 }
 
 .svgDisplayPassword {
