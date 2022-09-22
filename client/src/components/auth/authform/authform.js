@@ -7,7 +7,7 @@ import classes from "./authform.module.css";
 const AuthForm = ({
   htmlFor,
   id,
-  content,
+  label,
   type,
   value,
   onChange,
@@ -40,7 +40,7 @@ const AuthForm = ({
   return (
     <div className={`${classes.inputControl}`}>
       <label className={`${classes.label}`} htmlFor={htmlFor} aria-label="">
-        {content}
+        {label}
         <span className={`${classes.labelRequired}`}>*</span>
       </label>
       <div className={`${classes.inputDetail}`}>{passwordDetail}</div>
@@ -83,12 +83,12 @@ const AuthForm = ({
       </div>
       {hasError && (
         <div className={`${classes.inputErrorContainer}`}>
-          <span className={`${classes.inputErrorValue}`}>{errorValue}</span>
           <span>
             <svg className={`${classes.inputErrorSvg}`}>
               <use xlinkHref={`${icons}#icon-error_outline`}></use>
             </svg>
           </span>
+          <span className={`${classes.inputErrorValue}`}>{errorValue}</span>
         </div>
       )}
     </div>

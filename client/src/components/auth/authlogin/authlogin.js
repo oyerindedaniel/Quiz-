@@ -42,7 +42,7 @@ const AuthLogin = () => {
       id: "emailaddress",
       type: "email",
       value: enteredEmail,
-      content: "E-mail Address",
+      label: "E-mail Address",
       placeholder: "oyerinde.daniel@mail.com",
       onChangeHandler: emailOnChangedHandler,
       onBlurHandler: emailOnBlurHandler,
@@ -53,7 +53,7 @@ const AuthLogin = () => {
       id: "password",
       type: "password",
       value: enteredPassword,
-      content: "Password",
+      label: "Password",
       placeholder: "Your Password",
       onChangeHandler: passwordOnChangedHandler,
       onBlurHandler: passwordOnBlurHandler,
@@ -65,7 +65,7 @@ const AuthLogin = () => {
       htmlFor={formItem.htmlFor}
       id={formItem.id}
       type={formItem.type}
-      content={formItem.content}
+      label={formItem.label}
       value={formItem.value}
       onChange={formItem.onChangeHandler}
       onBlur={formItem.onBlurHandler}

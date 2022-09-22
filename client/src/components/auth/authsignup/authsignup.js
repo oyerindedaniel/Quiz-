@@ -46,7 +46,7 @@ const AuthSignup = () => {
     valueChangeHandler: confirmPasswordOnChangedHandler,
     inputBlurHandler: confirmPasswordOnBlurHandler,
     reset: resetConfirmPasswordInput,
-  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+  } = useInput((value) => enteredPassword === value);
 
   const submitHandler = () => {};
 
@@ -57,7 +57,7 @@ const AuthSignup = () => {
       id: "username",
       type: "text",
       value: enteredUsername,
-      content: "Username",
+      label: "Username",
       placeholder: "doyerinde",
       onChangeHandler: usernameOnChangedHandler,
       onBlurHandler: usernameOnBlurHandler,
@@ -70,7 +70,7 @@ const AuthSignup = () => {
       id: "emailaddress",
       type: "email",
       value: enteredEmail,
-      content: "E-mail Address",
+      label: "E-mail Address",
       placeholder: "oyerinde.daniel@mail.com",
       onChangeHandler: emailOnChangedHandler,
       onBlurHandler: emailOnBlurHandler,
@@ -80,8 +80,8 @@ const AuthSignup = () => {
       htmlFor: "password",
       id: "password",
       type: "password",
+      label: "Password",
       value: enteredPassword,
-      content: "Password",
       placeholder: "Your Password",
       passwordBool: true,
       passwordDetail:
@@ -97,7 +97,7 @@ const AuthSignup = () => {
       id: "confirmpassword",
       type: "password",
       value: enteredConfirmPassword,
-      content: "Confirm Password",
+      label: "Confirm Password",
       placeholder: "Your Password",
       passwordBool: true,
       onChangeHandler: confirmPasswordOnChangedHandler,
@@ -112,7 +112,7 @@ const AuthSignup = () => {
       id={formItem.id}
       value={formItem.value}
       type={formItem.type}
-      content={formItem.content}
+      label={formItem.label}
       onChange={formItem.onChangeHandler}
       placeholder={formItem.placeholder}
       passwordDetail={formItem.passwordDetail}

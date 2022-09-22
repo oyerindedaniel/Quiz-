@@ -34,7 +34,7 @@ select:-webkit-autofill:focus {
 
 .label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   font-weight: 700;
   font-size: 1.3em;
 }
@@ -92,19 +92,19 @@ select:-webkit-autofill:focus {
 
 .inputErrorValue {
   font-size: 1.1rem;
-  color: red;
+  color: var(--color-red-1);
 }
 
 .inputErrorSvg {
   width: 1.5rem;
   height: 1.5rem;
-  margin-left: 0.5rem;
-  fill: red;
+  margin-right: 0.25rem;
+  fill: var(--color-red-1);
   margin-top: 0.35rem;
 }
 
 .inputBorderErrorChange {
-  border: 0.2rem solid red !important;
+  border: 0.2rem solid var(--color-red-1) !important;
 }
 
 .svgDisplayPassword {
