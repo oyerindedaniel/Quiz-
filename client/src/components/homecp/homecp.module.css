@@ -90,7 +90,7 @@ main {
   font-size: 2rem;
   font-weight: 800;
   padding: 1rem 0rem;
-  border-bottom: 1px solid var(--color-grey-1);
+  border-bottom: 0.2rem solid var(--color-grey-1);
 }
 
 .modalForm {
@@ -114,7 +114,15 @@ main {
 
 .modalFormInputContainer3 {
   margin-bottom: 2.5rem;
-  border: 0.2px solid var(--color-grey-1);
+  border: 0.5px solid var(--color-grey-1);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.modalFormInputContainer3:active,
+.modalFormInputContainer3:focus {
+  margin-bottom: 2.5rem;
+  border: 0.5px solid var(--color-grey-1);
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
@@ -125,11 +133,12 @@ main {
   border: 0.5px solid var(--color-grey-1);
   padding: 0.8rem;
   outline: none;
+  transition: all 0.2s ease-in-out;
 }
 
 .modalQuizNameInput:active,
 .modalQuizNameInput:focus {
-  border: 0.1px solid var(--color-blue-1);
+  border: 0.2rem solid var(--color-blue-1);
 }
 
 .modalQuestionNoInput {
@@ -138,11 +147,12 @@ main {
   outline: none;
   border-radius: 0.5rem;
   border: 0.5px solid var(--color-grey-1);
+  transition: all 0.2s ease-in-out;
 }
 
 .modalQuestionNoInput:active,
 .modalQuestionNoInput:focus {
-  border: 0.1px solid var(--color-blue-1);
+  border: 0.2rem solid var(--color-blue-1);
 }
 
 .modalActions {

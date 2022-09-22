@@ -16,7 +16,7 @@ select:-webkit-autofill:focus {
   width: 100%;
   background-color: var(--color-grey-2);
   border: 0.1rem solid var(--color-grey-2);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
 }
@@ -28,7 +28,7 @@ select:-webkit-autofill:focus {
   font-size: 1.1rem;
 }
 
-.inputControl {
+.inputControl:not(:last-of-type) {
   margin-bottom: 1rem;
 }
 
@@ -36,7 +36,12 @@ select:-webkit-autofill:focus {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.3em;
+}
+
+.labelRequired {
+  color: var(--color-blue-1);
+  margin-left: 0.3rem;
 }
 
 .input {
@@ -45,7 +50,7 @@ select:-webkit-autofill:focus {
   border: 0.1rem solid var(--color-grey-2);
   outline: none;
   background-color: var(--color-grey-2);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
 }
 
@@ -59,7 +64,7 @@ select:-webkit-autofill:focus {
 }
 
 .inputCont:has(.inputEdit:focus, .inputEdit:active) {
-  border: 0.15em solid var(--color-grey-1);
+  border: 0.2em solid var(--color-grey-1);
 }
 
 .inputEdit:focus,
@@ -69,11 +74,42 @@ select:-webkit-autofill:focus {
 
 .input:focus,
 .input:active {
-  border: 0.15rem solid var(--color-grey-1);
+  border: 0.2rem solid var(--color-grey-1);
+}
+
+.inputDetail {
+  font-size: 1.1rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  font-weight: 500;
+}
+
+.inputErrorContainer {
+  display: flex;
+  align-items: center;
+}
+
+.inputErrorValue {
+  font-size: 1.1rem;
+  color: red;
+}
+
+.inputErrorSvg {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.5rem;
+  fill: red;
+  margin-top: 0.35rem;
+}
+
+.inputBorderErrorChange {
+  border: 0.2rem solid red !important;
 }
 
 .svgDisplayPassword {
   margin-top: 0.45rem;
   width: 1.5rem;
   height: 1.5rem;
+  fill: var(--color-grey-1);
 }

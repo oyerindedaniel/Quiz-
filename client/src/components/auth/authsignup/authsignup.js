@@ -35,7 +35,9 @@ const AuthSignup = () => {
     valueChangeHandler: passwordOnChangedHandler,
     inputBlurHandler: passwordOnBlurHandler,
     reset: resetPasswordInput,
-  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+  } = useInput((value) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
+  );
 
   const {
     value: enteredConfirmPassword,
@@ -59,6 +61,8 @@ const AuthSignup = () => {
       placeholder: "doyerinde",
       onChangeHandler: usernameOnChangedHandler,
       onBlurHandler: usernameOnBlurHandler,
+      errorValue: "Username may only contain alphanumeric characters",
+      hasError: usernameInputHasError,
     },
     {
       key: 2,
@@ -80,8 +84,12 @@ const AuthSignup = () => {
       content: "Password",
       placeholder: "Your Password",
       passwordBool: true,
+      passwordDetail:
+        "Password must contain at least one uppercase and lowercase letter, number and a minimum of 8 characters",
       onChangeHandler: passwordOnChangedHandler,
       onBlurHandler: passwordOnBlurHandler,
+      errorValue: "Password is too week",
+      hasError: passwordInputHasError,
     },
     {
       key: 4,
@@ -94,6 +102,8 @@ const AuthSignup = () => {
       passwordBool: true,
       onChangeHandler: confirmPasswordOnChangedHandler,
       onBlurHandler: confirmPasswordOnBlurHandler,
+      errorValue: "Password does not match",
+      hasError: confirmPasswordInputHasError,
     },
   ].map((formItem) => (
     <AuthForm
@@ -105,7 +115,10 @@ const AuthSignup = () => {
       content={formItem.content}
       onChange={formItem.onChangeHandler}
       placeholder={formItem.placeholder}
+      passwordDetail={formItem.passwordDetail}
       passwordBool={formItem.passwordBool}
+      hasError={formItem.hasError}
+      errorValue={formItem.errorValue}
       onBlur={formItem.onBlurHandler}
     />
   ));
@@ -119,7 +132,7 @@ const AuthSignup = () => {
       <AuthControl />
       <form onSubmit={submitHandler}>
         <div>{formItems}</div>
-        <div>
+        <div className={`${classes.formActions}`}>
           <AuthButton>Sign up</AuthButton>
         </div>
       </form>

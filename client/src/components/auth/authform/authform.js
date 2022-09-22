@@ -14,25 +14,24 @@ const AuthForm = ({
   onBlur,
   placeholder,
   passwordBool,
+  passwordDetail,
+  hasError,
+  errorValue,
 }) => {
   const [showDisplayPasswordButton, setShowDisplayPasswordButton] =
     useState(true);
 
   const toggleDisplayPasswordFun = (e) => {
-    console.log(e.target.closest(".svgDisplayPassword"));
-
     if (showDisplayPasswordButton) {
-      //   e.target
-      //     .closest(".displayButton")
-      //     .parentElement.setAttribute("type", "text");
-      // }
+      e.target
+        .closest(".authform_inputCont__ryb0g")
+        .firstChild.setAttribute("type", "text");
     }
+
     if (!showDisplayPasswordButton) {
-      console.log("second");
-      e.target.parentElement.parentElement.firstChild.setAttribute(
-        "type",
-        "password"
-      );
+      e.target
+        .closest(".authform_inputCont__ryb0g")
+        .firstChild.setAttribute("type", "password");
     }
 
     setShowDisplayPasswordButton((prevValue) => !prevValue);
@@ -42,11 +41,18 @@ const AuthForm = ({
     <div className={`${classes.inputControl}`}>
       <label className={`${classes.label}`} htmlFor={htmlFor} aria-label="">
         {content}
-        <span></span>
+        <span className={`${classes.labelRequired}`}>*</span>
       </label>
-      <div className={`${passwordBool && classes.inputCont}`}>
+      <div className={`${classes.inputDetail}`}>{passwordDetail}</div>
+      <div
+        className={`${passwordBool && classes.inputCont} ${
+          passwordBool && hasError && classes.inputBorderErrorChange
+        }`}
+      >
         <input
-          className={`${passwordBool ? classes.inputEdit : classes.input}`}
+          className={`${passwordBool ? classes.inputEdit : classes.input} ${
+            !passwordBool && hasError && classes.inputBorderErrorChange
+          }`}
           type={type}
           value={value}
           htmlFor={htmlFor}
@@ -75,6 +81,16 @@ const AuthForm = ({
           </span>
         )}
       </div>
+      {hasError && (
+        <div className={`${classes.inputErrorContainer}`}>
+          <span className={`${classes.inputErrorValue}`}>{errorValue}</span>
+          <span>
+            <svg className={`${classes.inputErrorSvg}`}>
+              <use xlinkHref={`${icons}#icon-error_outline`}></use>
+            </svg>
+          </span>
+        </div>
+      )}
     </div>
   );
 };

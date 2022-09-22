@@ -97,7 +97,7 @@ const AuthLogin = () => {
             Forgot Password
           </Link>
         </div>
-        <div className="form-actions">
+        <div className={`${classes.formActions}`}>
           <AuthButton>Login</AuthButton>
         </div>
       </form>

@@ -44,3 +44,8 @@
   outline: none;
   text-decoration: underline;
 }
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+}
