@@ -17,6 +17,7 @@ const AuthForm = ({
   passwordDetail,
   hasError,
   errorValue,
+  valueCheck,
 }) => {
   const [showDisplayPasswordButton, setShowDisplayPasswordButton] =
     useState(true);
@@ -68,7 +69,7 @@ const AuthForm = ({
             className={`${classes.displayButton}`}
             onClick={toggleDisplayPasswordFun}
           >
-            {value.length > 0 &&
+            {valueCheck.length > 0 &&
               (showDisplayPasswordButton ? (
                 <svg className={`${classes.svgDisplayPassword}`}>
                   <use xlinkHref={`${icons}#icon-view-show`}></use>

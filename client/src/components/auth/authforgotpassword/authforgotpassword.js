@@ -1,32 +1,45 @@
-import classes from "./authforgotpassword.module.css";
-
 import AuthForm from "../authform/authform";
 import AuthCard from "../../ui/authcard/authcard";
 import AuthButton from "../../ui/authbutton/authbutton";
 import AuthControl from "../authcontrol/authcontrol";
 
+import useInput from "../../../hooks/use-input";
+
+import classes from "./authforgotpassword.module.css";
+
 const AuthForgotPassword = () => {
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailOnChangedHandler,
+    inputBlurHandler: emailOnBlurHandler,
+    reset: resetEmailInput,
+  } = useInput((value) =>
+    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
+  );
+
   const submitHandler = () => {};
-  const emailAddressOnChangeHandler = () => {
-    console.log("email changed");
-  };
 
   const formItems = [
     {
       key: 1,
       htmlFor: "emailaddress",
       id: "emailaddress",
-      type: "text",
-      content: "E-mail Address",
+      type: "email",
+      value: enteredEmail,
+      label: "E-mail Address",
       placeholder: "oyerinde.daniel@mail.com",
-      onChangeHandler: emailAddressOnChangeHandler,
+      onChangeHandler: emailOnChangedHandler,
     },
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
       htmlFor={formItem.htmlFor}
       id={formItem.id}
-      content={formItem.content}
+      label={formItem.label}
+      type={formItem.type}
+      value={formItem.value}
       onChange={formItem.onChangeHandler}
       placeholder={formItem.placeholder}
     />
@@ -42,7 +55,7 @@ const AuthForgotPassword = () => {
       <AuthControl />
       <form onSubmit={submitHandler}>
         <div>{formItems}</div>
-        <div>
+        <div className={`${classes.formActions}`}>
           <AuthButton>Reset my Password</AuthButton>
         </div>
       </form>

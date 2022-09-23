@@ -81,7 +81,7 @@ const AuthSignup = () => {
       id: "password",
       type: "password",
       label: "Password",
-      value: enteredPassword,
+      valueCheck: enteredPassword,
       placeholder: "Your Password",
       passwordBool: true,
       passwordDetail:
@@ -96,7 +96,7 @@ const AuthSignup = () => {
       htmlFor: "confirmpassword",
       id: "confirmpassword",
       type: "password",
-      value: enteredConfirmPassword,
+      valueCheck: enteredConfirmPassword,
       label: "Confirm Password",
       placeholder: "Your Password",
       passwordBool: true,
@@ -119,9 +119,12 @@ const AuthSignup = () => {
       passwordBool={formItem.passwordBool}
       hasError={formItem.hasError}
       errorValue={formItem.errorValue}
+      valueCheck={formItem.valueCheck}
       onBlur={formItem.onBlurHandler}
     />
   ));
+
+  const daniel = {};
 
   return (
     <AuthCard>

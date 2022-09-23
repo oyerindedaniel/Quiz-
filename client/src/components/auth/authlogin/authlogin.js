@@ -28,7 +28,9 @@ const AuthLogin = () => {
     valueChangeHandler: passwordOnChangedHandler,
     inputBlurHandler: passwordOnBlurHandler,
     reset: resetPasswordInput,
-  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+  } = useInput((value) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
+  );
 
   const submitHandler = () => {
     resetEmailInput();
@@ -52,25 +54,27 @@ const AuthLogin = () => {
       htmlFor: "password",
       id: "password",
       type: "password",
-      value: enteredPassword,
       label: "Password",
+      valueCheck: enteredPassword,
       placeholder: "Your Password",
-      onChangeHandler: passwordOnChangedHandler,
-      onBlurHandler: passwordOnBlurHandler,
       passwordBool: true,
+      onChangeHandler: passwordOnChangedHandler,
     },
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
       htmlFor={formItem.htmlFor}
       id={formItem.id}
+      value={formItem.value}
       type={formItem.type}
       label={formItem.label}
-      value={formItem.value}
       onChange={formItem.onChangeHandler}
-      onBlur={formItem.onBlurHandler}
       placeholder={formItem.placeholder}
       passwordBool={formItem.passwordBool}
+      hasError={formItem.hasError}
+      errorValue={formItem.errorValue}
+      valueCheck={formItem.valueCheck}
+      onBlur={formItem.onBlurHandler}
     />
   ));
 
