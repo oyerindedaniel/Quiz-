@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
@@ -134,7 +136,7 @@ const AuthSignup = () => {
       </h3>
       <AuthControl />
       <form onSubmit={submitHandler}>
-        <div>{formItems}</div>
+        <Fragment>{formItems}</Fragment>
         <div className={`${classes.formActions}`}>
           <AuthButton>Sign up</AuthButton>
         </div>

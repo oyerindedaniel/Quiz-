@@ -40,7 +40,7 @@ const Navigation = ({ isAccountControlNeeded }) => {
           <hr className={`${classes.accountControlItemHr}`} />
           <li>
             <Link
-              to="/account"
+              to="/account/settings"
               className={`${classes.accountControlItem} ${classes.accountControlItem2}`}
             >
               Account Settings

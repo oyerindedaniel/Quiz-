@@ -2,6 +2,7 @@ import { Fragment } from "react";
 
 import AuthForm from "../auth/authform/authform";
 import Navigation from "../navigation/navigation";
+import AuthButton from "../ui/authbutton/authbutton";
 
 import useInput from "../../hooks/use-input";
 
@@ -26,6 +27,17 @@ const AccountSetting = () => {
     reset: resetEmailInput,
   } = useInput((value) =>
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
+  );
+
+  const {
+    value: enteredCurrentPassword,
+    isValid: enteredCurrentPasswordIsValid,
+    hasError: currentPasswordInputHasError,
+    valueChangeHandler: currentPasswordOnChangedHandler,
+    inputBlurHandler: currentPasswordOnBlurHandler,
+    reset: resetcurrentPasswordInput,
+  } = useInput((value) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
 
   const {
@@ -93,6 +105,17 @@ const AccountSetting = () => {
 
   const formItemsEditPassword = [
     {
+      key: 0,
+      htmlFor: "currentpassword",
+      id: "currentpassword",
+      type: "password",
+      label: "Current Password",
+      valueCheck: enteredCurrentPassword,
+      placeholder: "Your Password",
+      passwordBool: true,
+      onChangeHandler: currentPasswordOnChangedHandler,
+    },
+    {
       key: 1,
       htmlFor: "password",
       id: "password",
@@ -144,14 +167,27 @@ const AccountSetting = () => {
   return (
     <Fragment>
       <Navigation isAccountControlNeeded="true" />
-      <main>
+      <main className={`${classes.main}`}>
         <h1 className={`${classes.h1}`}>Account Settings</h1>
         <div className={`${classes.editCont}`}>
           <div className={`${classes.editCont1} ${classes.editProfileCont}`}>
-            {formItemsEditProfile}
+            <div className={`${classes.editHeader}`}>
+              <h1>User Profile</h1>
+              <p>Update your profile information below</p>
+            </div>
+            <Fragment>{formItemsEditProfile}</Fragment>
+            <div className={`${classes.formActions}`}>
+              <AuthButton>Update Profile</AuthButton>
+            </div>
           </div>
           <div className={`${classes.editCont1} ${classes.editPasswordCont}`}>
-            {formItemsEditPassword}
+            <div className={`${classes.editHeader}`}>
+              <h1>Change Password</h1>
+            </div>
+            <Fragment>{formItemsEditPassword}</Fragment>
+            <div className={`${classes.formActions}`}>
+              <AuthButton>Change Password</AuthButton>
+            </div>
           </div>
         </div>
       </main>

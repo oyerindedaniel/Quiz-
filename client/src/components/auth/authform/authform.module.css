@@ -64,7 +64,7 @@ select:-webkit-autofill:focus {
 }
 
 .inputCont:has(.inputEdit:focus, .inputEdit:active) {
-  border: 0.2em solid var(--color-grey-1);
+  border: 0.2rem solid var(--color-grey-1);
 }
 
 .inputEdit:focus,

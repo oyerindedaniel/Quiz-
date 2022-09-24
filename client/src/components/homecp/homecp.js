@@ -70,6 +70,7 @@ const Homecp = () => {
                 <div className={`${classes.modalFormInputContainer1}`}>
                   <label className={`${classes.modalLabel}`} htmlFor="name">
                     Quiz Name
+                    <span className={`${classes.labelRequired}`}>*</span>
                   </label>
                   <input
                     className={`${classes.modalQuizNameInput}`}
@@ -83,6 +84,7 @@ const Homecp = () => {
                     htmlFor="questionno"
                   >
                     Number of Question
+                    <span className={`${classes.labelRequired}`}>*</span>
                   </label>
                   <input
                     className={`${classes.modalQuestionNoInput}`}

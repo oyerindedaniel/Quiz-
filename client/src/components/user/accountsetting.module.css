@@ -1,4 +1,4 @@
-main {
+.main {
   padding: 3.5rem 6rem;
 }
 
@@ -18,12 +18,23 @@ main {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-radius: 1rem;
-  width: 40rem;
+  width: 50rem;
   padding: 3rem 2rem;
 }
 
-.editProfileCont {
+.editHeader h1 {
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
 }
 
-.editPasswordCont {
+.editHeader p {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
 }

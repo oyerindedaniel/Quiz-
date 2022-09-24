@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Fragment } from "react";
 
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
@@ -87,7 +88,7 @@ const AuthLogin = () => {
       </h3>
       <AuthControl />
       <form onSubmit={submitHandler}>
-        <div className="control-group">{formItems}</div>
+        <Fragment>{formItems}</Fragment>
         <div className={`${classes.authCaution}`}>
           <div className={`${classes.authCheckboxContainer}`}>
             <input
