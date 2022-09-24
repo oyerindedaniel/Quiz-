@@ -24,6 +24,7 @@
 .quizAnswerItem {
   padding: 1rem;
   background-color: var(--color-grey-2);
+  border-radius: 0.5rem;
 }
 
 .quizAnswerItem:not(:last-of-type) {
