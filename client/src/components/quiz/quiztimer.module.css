@@ -1,0 +1,14 @@
+.quizTimer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quizTime {
+  font-family: "Bebas Neue", cursive;
+  font-size: 4.5rem;
+  padding: 0rem 0.8rem;
+  color: white;
+  background: -webkit-linear-gradient(var(--color-blue-1), var(--color-blue-4));
+  border: 0.15rem solid white;
+  border-radius: 0.5rem;
+}

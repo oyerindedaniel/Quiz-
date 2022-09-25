@@ -2,7 +2,7 @@ import { Fragment } from "react";
 
 import Navigation from "../navigation/navigation";
 import AuthButton from "../ui/authbutton/authbutton";
-import QuizT
+import QuizTimer from "./quiztimer";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
 
@@ -16,8 +16,10 @@ const QuizCbtTest = () => {
   return (
     <Fragment>
       <Navigation isAccountControlNeeded="false" />
-      <main>
-        <div className={`${classes.quizTimer}`}></div>
+      <main className={`${classes.main}`}>
+        <Fragment>
+          <QuizTimer />
+        </Fragment>
         <div className={`${classes.mainQuiz}`}>
           <h4 className={`${classes.quizQuestionCount}`}>
             QUESTION {`${currentQuizNo}/${totalQuizNo}`}

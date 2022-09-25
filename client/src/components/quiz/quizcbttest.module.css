@@ -1,3 +1,18 @@
+.main {
+  padding: 3.5rem 6rem;
+}
+
+.mainQuiz {
+  width: 60rem;
+  margin: 0 auto;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  padding: 1.5rem;
+  margin-top: 6rem; */
+}
+
 .quizQuestionCount {
   font-size: 1.2rem;
   margin-bottom: 1.3rem;
@@ -13,14 +28,6 @@
   text-align: center;
 }
 
-.mainQuiz {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  padding: 1.5rem;
-}
-
 .quizAnswerItem {
   padding: 1rem;
   background-color: var(--color-grey-2);
@@ -33,13 +40,12 @@
 
 /* Customize the label (the container) */
 .quizAnswerLabel {
-  /* display: flex;
-  align-items: center; */
+  text-align: justify;
+  display: flex;
   position: relative;
   padding-left: 3.5rem;
-  margin-bottom: 100rem;
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -66,6 +72,7 @@
   background-color: #eee;
   border-radius: 50%;
   border: 1px solid var(--color-blue-4);
+  /* margin-right: 2rem; */
 }
 
 /* On mouse-over, add a grey background color */
