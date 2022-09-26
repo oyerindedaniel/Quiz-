@@ -13,11 +13,13 @@ const AuthForm = ({
   onChange,
   onBlur,
   placeholder,
+  minlength,
   passwordBool,
   passwordDetail,
   hasError,
   errorValue,
   valueCheck,
+  autocomplete,
 }) => {
   const [showDisplayPasswordButton, setShowDisplayPasswordButton] =
     useState(true);
@@ -61,6 +63,7 @@ const AuthForm = ({
           id={id}
           onChange={onChange}
           onBlur={onBlur}
+          autocomplete={autocomplete}
           aria-required="true"
           required
         />

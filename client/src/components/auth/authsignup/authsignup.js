@@ -1,15 +1,19 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
 import AuthButton from "../../ui/authbutton/authbutton";
 
+import AuthContext from "../../../contexts/auth-context";
+
 import useInput from "../../../hooks/use-input";
 
 import classes from "./authsignup.module.css";
 
 const AuthSignup = () => {
+  const ctx = useContext(AuthContext);
+
   const {
     value: enteredUsername,
     isValid: enteredUsernameIsValid,
@@ -50,7 +54,23 @@ const AuthSignup = () => {
     reset: resetConfirmPasswordInput,
   } = useInput((value) => enteredPassword === value);
 
-  const submitHandler = () => {};
+  const signupOnSubmitHandler = (e) => {
+    e.preventDefault();
+
+    const userSubmittedData = {
+      username: enteredUsername,
+      email: enteredEmail,
+      password: enteredPassword,
+      confirmPassword: enteredConfirmPassword,
+    };
+
+    ctx.signup(userSubmittedData);
+
+    resetUsernameInput();
+    resetEmailInput();
+    resetPasswordInput();
+    resetConfirmPasswordInput();
+  };
 
   const formItems = [
     {
@@ -85,6 +105,8 @@ const AuthSignup = () => {
       label: "Password",
       valueCheck: enteredPassword,
       placeholder: "Your Password",
+      minlength: 8,
+      autocomplete: "false",
       passwordBool: true,
       passwordDetail:
         "Password must contain at least one uppercase and lowercase letter, number and a minimum of 8 characters",
@@ -101,6 +123,8 @@ const AuthSignup = () => {
       valueCheck: enteredConfirmPassword,
       label: "Confirm Password",
       placeholder: "Your Password",
+      minlength: 8,
+      autocomplete: "false",
       passwordBool: true,
       onChangeHandler: confirmPasswordOnChangedHandler,
       onBlurHandler: confirmPasswordOnBlurHandler,
@@ -123,10 +147,10 @@ const AuthSignup = () => {
       errorValue={formItem.errorValue}
       valueCheck={formItem.valueCheck}
       onBlur={formItem.onBlurHandler}
+      minlength={formItem.minlength}
+      autocomplete={formItem.autocomplete}
     />
   ));
-
-  const daniel = {};
 
   return (
     <AuthCard>
@@ -135,7 +159,7 @@ const AuthSignup = () => {
         Get access to exclusive features on Quiz! by creating an account
       </h3>
       <AuthControl />
-      <form onSubmit={submitHandler}>
+      <form onSubmit={signupOnSubmitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.formActions}`}>
           <AuthButton>Sign up</AuthButton>

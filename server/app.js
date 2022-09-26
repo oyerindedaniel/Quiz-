@@ -1,9 +1,15 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const userRouter = require("./routes/userRoutes");
+const globalErrorHandler = require("./controllers/errorController");
 
 // Start express app
 const app = express();
+
+app.use(cors());
 
 //MIDDLEWARES
 if (process.env.NODE_ENV === "development") {
@@ -11,6 +17,13 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+
+app.use("/quiz", userRouter);
+
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(globalErrorHandler);
 
 module.exports = app;

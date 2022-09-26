@@ -3,16 +3,16 @@ import useTimer from "../../hooks/use-timer";
 import classes from "./quiztimer.module.css";
 
 const QuizTimer = () => {
-  const setQuizDuration = () => {
-    let date = new Date();
-    date.setHours(
-      date.getHours() + 2,
-      date.getMinutes() + 30,
-      date.getSeconds() + 0
-    );
-    return date;
-  };
-  const {} = useTimer(setQuizDuration);
+  // const setQuizDuration = () => {
+  //   let date = new Date();
+  //   date.setHours(
+  //     date.getHours() + 2,
+  //     date.getMinutes() + 30,
+  //     date.getSeconds() + 0
+  //   );
+  //   return date;
+  // };
+  // const {timer} = useTimer(setQuizDuration);
 
   return (
     <div className={`${classes.quizTimer}`}>

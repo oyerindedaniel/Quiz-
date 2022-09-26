@@ -16,6 +16,7 @@ function App() {
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
       <Route path="forgot-password" element={<ForgotPassword />} />
+      <Route path="account/settings" element={<UserAccountSettings />} />
       <Route path="profile" element={<MyProfile />} />
       <Route path="quiz/:quizName" element={<QuizCbt />} />
       <Route path="*" element={<NotFound />} />
