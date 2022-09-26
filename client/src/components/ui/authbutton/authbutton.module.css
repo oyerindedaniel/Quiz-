@@ -13,6 +13,7 @@
   margin-top: 1.5rem;
   cursor: pointer;
   transition: background 0.2s ease-in-out;
+  text-align: center;
 }
 
 .button:hover,

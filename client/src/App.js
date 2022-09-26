@@ -1,4 +1,7 @@
+import { useContext } from "react";
+
 import { Route, Routes, Navigate } from "react-router-dom";
+
 import Login from "./routes/login";
 import SignUp from "./routes/signup";
 import Home from "./routes/home";
@@ -8,7 +11,11 @@ import NotFound from "./routes/notfound";
 import ForgotPassword from "./routes/forgotpassword";
 import MyProfile from "./routes/myprofile";
 
+import AuthContext from "./contexts/auth-context";
+
 function App() {
+  const ctx = useContext(AuthContext);
+
   return (
     <Routes>
       <Route path="/" element={<Navigate replace to="home" />} />

@@ -1,4 +1,12 @@
+const User = require("./../models/userModel");
+const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
+
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
@@ -24,14 +32,12 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  console.log("accepted");
-  console.log(req.body);
-  // const newUser = await User.create({
-  //   username: req.body.username,
-  //   email: req.body.email,
-  //   password: req.body.password,
-  //   confirmPassword: req.body.confirmPassword,
-  // });
+  const newUser = await User.create({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    confirmPassword: req.body.confirmPassword,
+  });
 
-  // createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, res);
 });

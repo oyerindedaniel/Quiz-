@@ -7,13 +7,14 @@ import useHttp from "../hooks/use-http";
 import React from "react";
 
 const AuthContext = React.createContext({
-  isLoggedIn: false,
+  isLoggedState: null,
+  loggedInUser: null,
+  loggedInError: null,
+  loggedInStatus: null,
   login: () => {},
   signup: () => {},
   logout: () => {},
 });
-
-let track = 1;
 
 export const AuthContextProvider = (props) => {
   const [submittedData, setSubmittedData] = useState(null);
@@ -21,13 +22,17 @@ export const AuthContextProvider = (props) => {
 
   const {
     sendRequest,
-    status,
+    status: userLoggingStatus,
     data: loggedInUserInfo,
     error,
   } = useHttp(signup);
 
+  if (userLoggingStatus === "success") {
+    const { status: loggedIn } = loggedInUserInfo;
+    if (loggedIn === "status") setIsLoggedIn(true);
+  }
+
   useEffect(() => {
-    // if (track === 1) return track++;
     if (submittedData) {
       sendRequest(submittedData);
     }
@@ -44,10 +49,13 @@ export const AuthContextProvider = (props) => {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        isLoggedState: isLoggedIn,
         login: loginHandler,
         signup: signupHandler,
         logout: logoutHandler,
+        loggedInUser: loggedInUserInfo,
+        loggedInError: error,
+        loggingInStatus: userLoggingStatus,
       }}
     >
       {props.children}

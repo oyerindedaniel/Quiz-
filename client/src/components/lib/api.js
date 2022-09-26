@@ -8,24 +8,8 @@ export async function signup(userSubmittedData) {
       password: userSubmittedData.password,
       confirmPassword: userSubmittedData.confirmPassword,
     });
-    console.log(signUpUser);
-  } catch (err) {}
+    return signUpUser.data;
+  } catch (err) {
+    throw err;
+  }
 }
-
-// export async function getCountryWithRegion(region) {
-//   const response = await fetch(`${GET_ALL_COUNTRIES}/region/${region}`);
-//   const countryData = await response.json();
-
-//   if (!response.ok) {
-//     throw new Error(countryData.message || "Could not fetch countries.");
-//   }
-
-//   return countryData;
-// }
-
-// .then(function (response) {
-//     console.log(response);
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });

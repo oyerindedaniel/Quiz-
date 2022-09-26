@@ -8,9 +8,9 @@ import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <AuthContextProvider>
+  <AuthContextProvider>
+    <BrowserRouter>
       <App />
-    </AuthContextProvider>
-  </BrowserRouter>
+    </BrowserRouter>
+  </AuthContextProvider>
 );

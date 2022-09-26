@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -9,7 +10,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please provide your email"],
-    unique: true,
+    unique: [true, "Email Address already used"],
     lowercase: true,
   },
   password: {
@@ -37,6 +38,18 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+});
+
+userSchema.pre("save", async function (next) {
+  // Only run this function if password was actually modified
+  if (!this.isModified("password")) return next();
+
+  // Hash the password with cost of 12
+  this.password = await bcrypt.hash(this.password, 12);
+
+  // Delete passwordConfirm field
+  this.confirmPassword = undefined;
+  next();
 });
 
 const User = mongoose.model("User", userSchema);

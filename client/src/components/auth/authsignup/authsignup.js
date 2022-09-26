@@ -7,6 +7,8 @@ import AuthButton from "../../ui/authbutton/authbutton";
 
 import AuthContext from "../../../contexts/auth-context";
 
+import { Oval } from "react-loader-spinner";
+
 import useInput from "../../../hooks/use-input";
 
 import classes from "./authsignup.module.css";
@@ -162,7 +164,9 @@ const AuthSignup = () => {
       <form onSubmit={signupOnSubmitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.formActions}`}>
-          <AuthButton>Sign up</AuthButton>
+          <AuthButton>
+            {ctx.loggingInStatus === "pending" ? "" : "Sign up"}
+          </AuthButton>
         </div>
       </form>
     </AuthCard>
