@@ -27,8 +27,12 @@ export const AuthContextProvider = (props) => {
     error,
   } = useHttp(signup);
 
+  console.log(loggedInUserInfo);
+  console.log(userLoggingStatus);
+
   if (userLoggingStatus === "success") {
     const { status: loggedIn } = loggedInUserInfo;
+    console.log(loggedIn);
     if (loggedIn === "status") setIsLoggedIn(true);
   }
 

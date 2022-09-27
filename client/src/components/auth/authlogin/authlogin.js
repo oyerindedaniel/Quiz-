@@ -1,16 +1,22 @@
 import { Link } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
 import AuthButton from "../../ui/authbutton/authbutton";
 
+import AuthContext from "../../../contexts/auth-context";
+
+import { Oval } from "react-loader-spinner";
+
 import useInput from "../../../hooks/use-input";
 
 import classes from "./authlogin.module.css";
 
 const AuthLogin = () => {
+  const ctx = useContext(AuthContext);
+
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,
@@ -103,7 +109,21 @@ const AuthLogin = () => {
           </Link>
         </div>
         <div className={`${classes.formActions}`}>
-          <AuthButton>Login</AuthButton>
+          <AuthButton>
+            {ctx.loggingInStatus === "pending" ? (
+              <Oval
+                ariaLabel="loading-indicator"
+                height={20}
+                width={20}
+                strokeWidth={10}
+                strokeWidthSecondary={5}
+                color="white"
+                secondaryColor="#6035e7"
+              />
+            ) : (
+              "Login"
+            )}
+          </AuthButton>
         </div>
       </form>
     </AuthCard>

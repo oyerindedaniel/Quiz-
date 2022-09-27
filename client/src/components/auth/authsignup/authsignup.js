@@ -4,10 +4,14 @@ import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
 import AuthButton from "../../ui/authbutton/authbutton";
+import Alert from "../../ui/alert/alert";
 
 import AuthContext from "../../../contexts/auth-context";
 
 import { Oval } from "react-loader-spinner";
+
+import img1 from "../../../assets/alertimg/dog.png";
+import img2 from "../../../assets/alertimg/refresh-arrow.png";
 
 import useInput from "../../../hooks/use-input";
 
@@ -161,11 +165,26 @@ const AuthSignup = () => {
         Get access to exclusive features on Quiz! by creating an account
       </h3>
       <AuthControl />
+      <Alert img1={img1} img2={img2}>
+        Please try again Later
+      </Alert>
       <form onSubmit={signupOnSubmitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.formActions}`}>
           <AuthButton>
-            {ctx.loggingInStatus === "pending" ? "" : "Sign up"}
+            {ctx.loggingInStatus === "pending" ? (
+              <Oval
+                ariaLabel="loading-indicator"
+                height={20}
+                width={20}
+                strokeWidth={10}
+                strokeWidthSecondary={5}
+                color="white"
+                secondaryColor="#6035e7"
+              />
+            ) : (
+              "Sign up"
+            )}
           </AuthButton>
         </div>
       </form>

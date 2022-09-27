@@ -10,6 +10,7 @@ export async function signup(userSubmittedData) {
     });
     return signUpUser.data;
   } catch (err) {
+    console.log(err);
     throw err;
   }
 }
