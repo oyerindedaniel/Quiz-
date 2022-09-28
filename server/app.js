@@ -10,7 +10,15 @@ const globalErrorHandler = require("./controllers/errorController");
 // Start express app
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: true, // reflect request origin
+    credentials: true,
+  })
+);
+app.options("*", cors()); // enable pre-flight?
 
 //MIDDLEWARES
 if (process.env.NODE_ENV === "development") {

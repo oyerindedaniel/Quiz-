@@ -34,11 +34,11 @@ const createSendToken = (user, statusCode, res) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   // Check if user exists
-  // const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email });
 
-  // if (!user) {
-  //   return next(new AppError("Incorrect email", 401));
-  // }
+  if (user) {
+    return next(new AppError("Incorrect email", 401));
+  }
 
   const newUser = await User.create({
     username: req.body.username,
