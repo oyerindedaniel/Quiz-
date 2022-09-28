@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please provide your email"],
-    unique: [true, "Email Address already used"],
+    unique: true,
     lowercase: true,
   },
   password: {
@@ -41,6 +41,12 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre("save", async function (next) {
+ //Check if the email address already exist
+ const User = await User.findOne({ email: this.email })
+ if(user) return next(
+   new AppError('Email already exist', 401)
+ );
+
   // Only run this function if password was actually modified
   if (!this.isModified("password")) return next();
 

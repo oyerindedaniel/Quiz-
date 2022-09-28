@@ -5,6 +5,8 @@
   --color-red-1: #f32424;
   --color-red-2: #d06460;
   --color-red-3: #b85050;
+  --color-red-4: #fed7d7;
+  --color-red-5: #e2e8f0;
 
   --color-blue-1: #6035e7;
   --color-blue-2: #6035e4;
@@ -30,6 +32,11 @@ html {
   box-sizing: border-box;
   font-size: 62.5%;
   font-family: "Open Sans", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  overflow: scroll;
 }
 
 a {

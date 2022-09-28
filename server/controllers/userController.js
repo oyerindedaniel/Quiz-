@@ -1,6 +1,7 @@
 const User = require("./../models/userModel");
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -32,6 +33,13 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  // Check if user exists
+  // const user = await User.findOne({ email: req.body.email });
+
+  // if (!user) {
+  //   return next(new AppError("Incorrect email", 401));
+  // }
+
   const newUser = await User.create({
     username: req.body.username,
     email: req.body.email,

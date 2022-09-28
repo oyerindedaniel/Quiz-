@@ -23,15 +23,14 @@ export const AuthContextProvider = (props) => {
   const {
     sendRequest,
     status: userLoggingStatus,
-    data: loggedInUserInfo,
+    data: loggedInData,
     error,
   } = useHttp(signup);
 
-  console.log(loggedInUserInfo);
-  console.log(userLoggingStatus);
+  if (loggedInData) console.log(loggedInData.status);
 
   if (userLoggingStatus === "success") {
-    const { status: loggedIn } = loggedInUserInfo;
+    const { status: loggedIn } = loggedInData;
     console.log(loggedIn);
     if (loggedIn === "status") setIsLoggedIn(true);
   }
@@ -57,8 +56,8 @@ export const AuthContextProvider = (props) => {
         login: loginHandler,
         signup: signupHandler,
         logout: logoutHandler,
-        loggedInUser: loggedInUserInfo,
-        loggedInError: error,
+        loggedInUser: loggedInData,
+        loggingInError: error,
         loggingInStatus: userLoggingStatus,
       }}
     >

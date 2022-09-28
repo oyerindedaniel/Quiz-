@@ -10,7 +10,7 @@ import AuthContext from "../../../contexts/auth-context";
 
 import { Oval } from "react-loader-spinner";
 
-import img1 from "../../../assets/alertimg/dog.png";
+import img1 from "../../../assets/alertimg/bear.png";
 import img2 from "../../../assets/alertimg/refresh-arrow.png";
 
 import useInput from "../../../hooks/use-input";
@@ -19,6 +19,9 @@ import classes from "./authsignup.module.css";
 
 const AuthSignup = () => {
   const ctx = useContext(AuthContext);
+
+  console.log(ctx.loggedInUser);
+  console.log(ctx.loggedInUser?.message);
 
   const {
     value: enteredUsername,
@@ -165,9 +168,13 @@ const AuthSignup = () => {
         Get access to exclusive features on Quiz! by creating an account
       </h3>
       <AuthControl />
-      <Alert img1={img1} img2={img2}>
-        Please try again Later
-      </Alert>
+      {(ctx.loggingInError || ctx.loggedInUser?.status === "error") && (
+        <Alert img1={img1} img2={img2}>
+          {ctx.loggedInError
+            ? "Please try again Later"
+            : ctx.loggedInUser?.message}
+        </Alert>
+      )}
       <form onSubmit={signupOnSubmitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.formActions}`}>
