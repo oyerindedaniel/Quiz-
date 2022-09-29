@@ -36,7 +36,7 @@ select:-webkit-autofill:focus {
   display: block;
   margin-bottom: 1rem;
   font-weight: 700;
-  font-size: 1.3em;
+  font-size: 1.3rem;
 }
 
 .labelRequired {

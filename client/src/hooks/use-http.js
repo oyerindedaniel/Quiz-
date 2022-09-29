@@ -20,7 +20,7 @@ function httpReducer(state, action) {
   if (action.type === "ERROR") {
     return {
       data: null,
-      error: action.errorMessage,
+      error: action.errorData,
       status: "completed",
     };
   }
@@ -44,7 +44,7 @@ function useHttp(requestFunction, startWithPending = false) {
       } catch (error) {
         dispatch({
           type: "ERROR",
-          errorMessage: error.message || "Something went wrong!",
+          errorData: error,
         });
       }
     },

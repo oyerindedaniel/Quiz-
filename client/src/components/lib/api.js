@@ -5,6 +5,18 @@ const instance = axios.create({
   baseURL: "http://localhost:3000",
 });
 
+// Check if logged In
+export async function initialProtect() {
+  try {
+    const response = await instance.get("/quiz/initialProtect");
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.log(err.response.data);
+    throw err.response.data;
+  }
+}
+
 //Sign up API call
 export async function signup(userSubmittedData) {
   try {
@@ -14,11 +26,9 @@ export async function signup(userSubmittedData) {
       password: userSubmittedData.password,
       confirmPassword: userSubmittedData.confirmPassword,
     });
-    console.log(response.data);
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
-    return err.response.data;
+    throw err.response.data;
   }
 }
 
@@ -29,11 +39,9 @@ export async function login(userSubmittedData) {
       email: userSubmittedData.email,
       password: userSubmittedData.password,
     });
-    console.log(response.data);
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
-    return err.response.data;
+    throw err.response.data;
   }
 }
 

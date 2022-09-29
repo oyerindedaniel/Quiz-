@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { signup, login } from "../components/lib/api";
+import { signup, login, initialProtect } from "../components/lib/api";
 
 import useHttp from "../hooks/use-http";
 
@@ -39,6 +39,13 @@ export const AuthContextProvider = (props) => {
     error: loginError,
   } = useHttp(login);
 
+  const {
+    sendRequest: initialProtectSendRequest,
+    status: initialProtectStatus,
+    data: initialProtectData,
+    error: initialProtectError,
+  } = useHttp(initialProtect);
+
   //UseEffect
   //Sign up Use Effect
   useEffect(() => {
@@ -54,9 +61,15 @@ export const AuthContextProvider = (props) => {
     }
   }, [submittedLoginData, loginSendRequest]);
 
+  //
+  useEffect(() => {
+    console.log("initial protect");
+    initialProtectSendRequest();
+  }, [initialProtectSendRequest]);
+
   // Handler Function
   const logoutHandler = () => {
-    setIsLoggedIn(true);
+    setIsLoggedIn(false);
   };
 
   const loginHandler = (userSubmittedData) => {

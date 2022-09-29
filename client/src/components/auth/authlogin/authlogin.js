@@ -21,8 +21,6 @@ import classes from "./authlogin.module.css";
 const AuthLogin = () => {
   const ctx = useContext(AuthContext);
 
-  console.log(ctx.loggingInError);
-
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,

@@ -58,7 +58,6 @@ const AuthForm = ({
           }`}
           type={type}
           value={value}
-          htmlFor={htmlFor}
           placeholder={placeholder}
           id={id}
           onChange={onChange}

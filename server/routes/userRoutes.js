@@ -7,4 +7,6 @@ router.route("/signup").post(userController.signup);
 
 router.route("/login").post(userController.login);
 
+router.route("/initialProtect").get(userController.initialProtect);
+
 module.exports = router;

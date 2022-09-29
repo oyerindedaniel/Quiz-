@@ -1,5 +1,7 @@
 import { Fragment, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import Navigation from "../navigation/navigation";
 import QuizItems from "../quiz/quizitems";
 import HistoryItems from "../gameshistory/historyitems";
@@ -10,6 +12,8 @@ import icons from "../../assets/svg/SVG/sprite.svg";
 import classes from "./homecp.module.css";
 
 const Homecp = () => {
+  const navigate = useNavigate();
+
   const [showModal, setShowModal] = useState(false);
 
   const onDisplayModalHandler = () => {
