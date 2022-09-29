@@ -20,9 +20,6 @@ import classes from "./authsignup.module.css";
 const AuthSignup = () => {
   const ctx = useContext(AuthContext);
 
-  console.log(ctx.loggedInUser);
-  console.log(ctx.loggedInUser?.message);
-
   const {
     value: enteredUsername,
     isValid: enteredUsernameIsValid,
@@ -168,18 +165,16 @@ const AuthSignup = () => {
         Get access to exclusive features on Quiz! by creating an account
       </h3>
       <AuthControl />
-      {(ctx.loggingInError || ctx.loggedInUser?.status === "error") && (
+      {ctx.signingUpError && (
         <Alert img1={img1} img2={img2}>
-          {ctx.loggedInError
-            ? "Please try again Later"
-            : ctx.loggedInUser?.message}
+          {ctx.signingUpError.message}
         </Alert>
       )}
       <form onSubmit={signupOnSubmitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.formActions}`}>
-          <AuthButton>
-            {ctx.loggingInStatus === "pending" ? (
+          <AuthButton status={ctx.signingUpStatus}>
+            {ctx.signingUpStatus === "pending" ? (
               <Oval
                 ariaLabel="loading-indicator"
                 height={20}

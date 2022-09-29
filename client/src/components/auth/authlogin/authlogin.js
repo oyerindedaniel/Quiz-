@@ -5,10 +5,14 @@ import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
 import AuthButton from "../../ui/authbutton/authbutton";
+import Alert from "../../ui/alert/alert";
 
 import AuthContext from "../../../contexts/auth-context";
 
 import { Oval } from "react-loader-spinner";
+
+import img1 from "../../../assets/alertimg/bear.png";
+import img2 from "../../../assets/alertimg/refresh-arrow.png";
 
 import useInput from "../../../hooks/use-input";
 
@@ -16,6 +20,8 @@ import classes from "./authlogin.module.css";
 
 const AuthLogin = () => {
   const ctx = useContext(AuthContext);
+
+  console.log(ctx.loggingInError);
 
   const {
     value: enteredEmail,
@@ -39,7 +45,16 @@ const AuthLogin = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
 
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    const userSubmittedData = {
+      email: enteredEmail,
+      password: enteredPassword,
+    };
+
+    ctx.login(userSubmittedData);
+
     resetEmailInput();
     resetPasswordInput();
   };
@@ -93,6 +108,11 @@ const AuthLogin = () => {
         the app
       </h3>
       <AuthControl />
+      {ctx.loggingInError && (
+        <Alert img1={img1} img2={img2}>
+          {ctx.loggingInError.message}
+        </Alert>
+      )}
       <form onSubmit={submitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.authCaution}`}>
@@ -109,7 +129,7 @@ const AuthLogin = () => {
           </Link>
         </div>
         <div className={`${classes.formActions}`}>
-          <AuthButton>
+          <AuthButton status={ctx.loggingInStatus}>
             {ctx.loggingInStatus === "pending" ? (
               <Oval
                 ariaLabel="loading-indicator"

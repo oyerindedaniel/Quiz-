@@ -4,16 +4,12 @@ import AuthContext from "../../../contexts/auth-context";
 
 import classes from "./authbutton.module.css";
 
-const AuthButton = ({ children, type, className }) => {
-  const ctx = useContext(AuthContext);
-
+const AuthButton = ({ children, type, className, status }) => {
   return (
     <button
       type={type}
       className={`${
-        ctx.loggingInStatus !== "pending"
-          ? classes.buttonNormal
-          : classes.buttonPending
+        status !== "pending" ? classes.buttonNormal : classes.buttonPending
       } ${classes.button} ${className}`}
       disabled={false}
     >

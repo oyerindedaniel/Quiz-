@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { signup } from "../components/lib/api";
+import { signup, login } from "../components/lib/api";
 
 import useHttp from "../hooks/use-http";
 
@@ -17,36 +17,55 @@ const AuthContext = React.createContext({
 });
 
 export const AuthContextProvider = (props) => {
-  const [submittedData, setSubmittedData] = useState(null);
+  const [submittedSignUpData, setSubmittedSignUpData] = useState(null);
+  const [submittedLoginData, setSubmittedLoginData] = useState(null);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  //UseHttp
+  //UseHttp for sign up
   const {
-    sendRequest,
-    status: userLoggingStatus,
-    data: loggedInData,
-    error,
+    sendRequest: signupSendRequest,
+    status: userSigningUpStatus,
+    data: signUpData,
+    error: signupError,
   } = useHttp(signup);
 
-  if (loggedInData) console.log(loggedInData.status);
+  //UseHttp for login
+  const {
+    sendRequest: loginSendRequest,
+    status: userLoggingStatus,
+    data: loginData,
+    error: loginError,
+  } = useHttp(login);
 
-  if (userLoggingStatus === "success") {
-    const { status: loggedIn } = loggedInData;
-    console.log(loggedIn);
-    if (loggedIn === "status") setIsLoggedIn(true);
-  }
-
+  //UseEffect
+  //Sign up Use Effect
   useEffect(() => {
-    if (submittedData) {
-      sendRequest(submittedData);
+    if (submittedSignUpData) {
+      signupSendRequest(submittedSignUpData);
     }
-  }, [submittedData, sendRequest]);
+  }, [submittedSignUpData, signupSendRequest]);
 
-  const logoutHandler = () => {};
+  //Login Use Effect
+  useEffect(() => {
+    if (submittedLoginData) {
+      loginSendRequest(submittedLoginData);
+    }
+  }, [submittedLoginData, loginSendRequest]);
 
-  const loginHandler = () => {};
+  // Handler Function
+  const logoutHandler = () => {
+    setIsLoggedIn(true);
+  };
+
+  const loginHandler = (userSubmittedData) => {
+    console.log(userSubmittedData);
+    setSubmittedLoginData(userSubmittedData);
+  };
 
   const signupHandler = (userSubmittedData) => {
-    setSubmittedData(userSubmittedData);
+    setSubmittedSignUpData(userSubmittedData);
   };
 
   return (
@@ -56,8 +75,11 @@ export const AuthContextProvider = (props) => {
         login: loginHandler,
         signup: signupHandler,
         logout: logoutHandler,
-        loggedInUser: loggedInData,
-        loggingInError: error,
+        signedUpUser: signUpData,
+        signingUpError: signupError,
+        signingUpStatus: userSigningUpStatus,
+        loggedInUser: loginData,
+        loggingInError: loginError,
         loggingInStatus: userLoggingStatus,
       }}
     >
