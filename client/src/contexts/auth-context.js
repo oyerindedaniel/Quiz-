@@ -46,26 +46,36 @@ export const AuthContextProvider = (props) => {
     error: initialProtectError,
   } = useHttp(initialProtect);
 
+  useEffect(() => {
+    if (!initialProtectData) {
+      return localStorage.removeItem("isLoggedIn");
+    }
+
+    localStorage.setItem("isLoggedIn", true);
+    setIsLoggedIn(true);
+  }, [initialProtectData, isLoggedIn]);
+
   //UseEffect
   //Sign up Use Effect
   useEffect(() => {
     if (submittedSignUpData) {
       signupSendRequest(submittedSignUpData);
     }
-  }, [submittedSignUpData, signupSendRequest]);
 
-  //Login Use Effect
-  useEffect(() => {
     if (submittedLoginData) {
       loginSendRequest(submittedLoginData);
     }
-  }, [submittedLoginData, loginSendRequest]);
+  }, [
+    submittedSignUpData,
+    signupSendRequest,
+    submittedLoginData,
+    loginSendRequest,
+  ]);
 
   //
   useEffect(() => {
-    console.log("initial protect");
     initialProtectSendRequest();
-  }, [initialProtectSendRequest]);
+  }, [initialProtectSendRequest, isLoggedIn]);
 
   // Handler Function
   const logoutHandler = () => {
@@ -73,13 +83,15 @@ export const AuthContextProvider = (props) => {
   };
 
   const loginHandler = (userSubmittedData) => {
-    console.log(userSubmittedData);
     setSubmittedLoginData(userSubmittedData);
   };
 
   const signupHandler = (userSubmittedData) => {
     setSubmittedSignUpData(userSubmittedData);
   };
+
+  console.log(isLoggedIn);
+  console.log("isLoggedIn in AuthContext");
 
   return (
     <AuthContext.Provider

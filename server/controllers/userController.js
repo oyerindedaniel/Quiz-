@@ -20,7 +20,7 @@ const createSendToken = (user, statusCode, res) => {
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
-  res.cookie("e_24i5i_jk", token, cookieOptions);
+  res.cookie("jwt", token, cookieOptions);
 
   // Remove password from output
   user.password = undefined;
@@ -74,11 +74,11 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.initialProtect = catchAsync(async (req, res, next) => {
-  console.log("yeah, initial protect");
   // 1) Getting token and check of it's there
   let token;
-  if (req.cookies.e_24i5i_jk) {
-    token = req.cookies.e_24i5i_jk;
+  if (req.cookies.jwt) {
+    console.log("jwt");
+    token = req.cookies.jwt;
   }
 
   if (!token) {
@@ -108,7 +108,7 @@ exports.initialProtect = catchAsync(async (req, res, next) => {
     );
   }
 
-  res.status(statusCode).json({
+  res.status(200).json({
     status: "success",
     data: {
       user: currentUser,

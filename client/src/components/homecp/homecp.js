@@ -12,8 +12,6 @@ import icons from "../../assets/svg/SVG/sprite.svg";
 import classes from "./homecp.module.css";
 
 const Homecp = () => {
-  const navigate = useNavigate();
-
   const [showModal, setShowModal] = useState(false);
 
   const onDisplayModalHandler = () => {

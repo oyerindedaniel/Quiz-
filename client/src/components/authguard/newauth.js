@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-const AuthGuard = () => {
+const NewAuth = () => {
   const isLoggedLS = localStorage.getItem("isLoggedIn");
 
-  return isLoggedLS ? <Outlet /> : <Navigate to="/login" />;
+  return isLoggedLS ? <Navigate to="/home" /> : <Outlet />;
 };
 
-export default AuthGuard;
+export default NewAuth;

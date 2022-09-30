@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Fragment, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Fragment, useContext, useEffect } from "react";
 
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
@@ -19,7 +19,9 @@ import useInput from "../../../hooks/use-input";
 import classes from "./authlogin.module.css";
 
 const AuthLogin = () => {
-  const ctx = useContext(AuthContext);
+  const { login, loggingInError, loggingInStatus, loggedInUser } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     value: enteredEmail,
@@ -43,6 +45,14 @@ const AuthLogin = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
 
+  console.log("login");
+
+  // useEffect(() => {
+  //   if (loggedInUser) {
+  //     navigate("/home", { replace: true });
+  //   }
+  // }, [loggedInUser]);
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -51,7 +61,7 @@ const AuthLogin = () => {
       password: enteredPassword,
     };
 
-    ctx.login(userSubmittedData);
+    login(userSubmittedData);
 
     resetEmailInput();
     resetPasswordInput();
@@ -106,9 +116,9 @@ const AuthLogin = () => {
         the app
       </h3>
       <AuthControl />
-      {ctx.loggingInError && (
+      {loggingInError && (
         <Alert img1={img1} img2={img2}>
-          {ctx.loggingInError.message}
+          {loggingInError.message}
         </Alert>
       )}
       <form onSubmit={submitHandler}>
@@ -127,8 +137,8 @@ const AuthLogin = () => {
           </Link>
         </div>
         <div className={`${classes.formActions}`}>
-          <AuthButton status={ctx.loggingInStatus}>
-            {ctx.loggingInStatus === "pending" ? (
+          <AuthButton status={loggingInStatus}>
+            {loggingInStatus === "pending" ? (
               <Oval
                 ariaLabel="loading-indicator"
                 height={20}

@@ -10,22 +10,21 @@ const globalErrorHandler = require("./controllers/errorController");
 // Start express app
 const app = express();
 
-// app.use(cors());
-
 app.use(
   cors({
-    origin: true, // reflect request origin
+    origin: "http://localhost:3001", // reflect request origin
     credentials: true,
   })
 );
 app.options("*", cors()); // enable pre-flight?
 
+app.use(express.json());
+app.use(cookieParser());
+
 //MIDDLEWARES
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
-app.use(express.json());
 
 app.use("/quiz", userRouter);
 
