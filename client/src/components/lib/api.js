@@ -9,8 +9,10 @@ const instance = axios.create({
 export async function initialProtect() {
   try {
     const response = await instance.get("/quiz/initialProtect");
+    console.log(response.data);
     return response.data;
   } catch (err) {
+    console.log(err.response.data);
     throw err.response.data;
   }
 }

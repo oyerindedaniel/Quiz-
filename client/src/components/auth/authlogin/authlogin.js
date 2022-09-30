@@ -45,8 +45,6 @@ const AuthLogin = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
 
-  console.log("login");
-
   // useEffect(() => {
   //   if (loggedInUser) {
   //     navigate("/home", { replace: true });

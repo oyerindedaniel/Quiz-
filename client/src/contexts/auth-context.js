@@ -22,6 +22,8 @@ export const AuthContextProvider = (props) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const isLoggedInLS = localStorage.getItem("isLoggedIn");
+
   //UseHttp
   //UseHttp for sign up
   const {
@@ -47,13 +49,14 @@ export const AuthContextProvider = (props) => {
   } = useHttp(initialProtect);
 
   useEffect(() => {
-    if (!initialProtectData) {
-      return localStorage.removeItem("isLoggedIn");
+    if (initialProtectData) {
+      localStorage.setItem("isLoggedIn", true);
     }
 
-    localStorage.setItem("isLoggedIn", true);
-    setIsLoggedIn(true);
-  }, [initialProtectData, isLoggedIn]);
+    if (initialProtectError) {
+      localStorage.removeItem("isLoggedIn");
+    }
+  }, [initialProtectData, initialProtectError, isLoggedIn]);
 
   //UseEffect
   //Sign up Use Effect
@@ -74,8 +77,10 @@ export const AuthContextProvider = (props) => {
 
   //
   useEffect(() => {
-    initialProtectSendRequest();
-  }, [initialProtectSendRequest, isLoggedIn]);
+    if (!isLoggedInLS && !initialProtectError) {
+      initialProtectSendRequest();
+    }
+  }, [initialProtectSendRequest, initialProtectError, isLoggedInLS]);
 
   // Handler Function
   const logoutHandler = () => {
@@ -89,9 +94,6 @@ export const AuthContextProvider = (props) => {
   const signupHandler = (userSubmittedData) => {
     setSubmittedSignUpData(userSubmittedData);
   };
-
-  console.log(isLoggedIn);
-  console.log("isLoggedIn in AuthContext");
 
   return (
     <AuthContext.Provider
