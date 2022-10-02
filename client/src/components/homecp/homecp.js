@@ -14,13 +14,20 @@ import classes from "./homecp.module.css";
 const Homecp = () => {
   const [showModal, setShowModal] = useState(false);
 
+  const navigate = useNavigate();
+
   const onDisplayModalHandler = () => {
     setShowModal((currentModalValue) => {
       return !currentModalValue;
     });
   };
 
-  const searchOnChangerHandler = () => {};
+  const searchHandler = () => {};
+
+  const searchHandlerOn = (e) => {
+    e.preventDefault();
+    navigate("/account/settings");
+  };
 
   const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
 
@@ -30,7 +37,10 @@ const Homecp = () => {
       <main>
         <div className={`${classes.main}`}>
           <h1 className={`${classes.h1}`}>My Quizes</h1>
-          <form className={`${classes.controlGroupContainer}`} onSubmit="">
+          <form
+            className={`${classes.controlGroupContainer}`}
+            onSubmit={searchHandlerOn}
+          >
             <div className={`${classes.controlGroup}`}>
               <svg className={`${classes.svgSearch}`}>
                 <use xlinkHref={`${icons}#icon-search`}></use>
@@ -39,7 +49,7 @@ const Homecp = () => {
                 className={`${classes.searchInput}`}
                 type="text"
                 placeholder="Search Quiz ..."
-                onChange={searchOnChangerHandler}
+                onChange={searchHandler}
               />
               <svg className={`${classes.svgClear}`}>
                 <use xlinkHref={`${icons}#icon-clear`}></use>

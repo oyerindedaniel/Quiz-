@@ -5,7 +5,7 @@ import icons from "../../../assets/svg/SVG/sprite.svg";
 import classes from "./authform.module.css";
 
 const AuthForm = ({
-  htmlFor,
+  htmlForValue,
   id,
   label,
   type,
@@ -19,7 +19,7 @@ const AuthForm = ({
   hasError,
   errorValue,
   valueCheck,
-  autocomplete,
+  autoCompleteBool,
 }) => {
   const [showDisplayPasswordButton, setShowDisplayPasswordButton] =
     useState(true);
@@ -42,7 +42,11 @@ const AuthForm = ({
 
   return (
     <div className={`${classes.inputControl}`}>
-      <label className={`${classes.label}`} htmlFor={htmlFor} aria-label="">
+      <label
+        className={`${classes.label}`}
+        htmlFor={htmlForValue}
+        aria-label=""
+      >
         {label}
         <span className={`${classes.labelRequired}`}>*</span>
       </label>
@@ -62,7 +66,7 @@ const AuthForm = ({
           id={id}
           onChange={onChange}
           onBlur={onBlur}
-          autocomplete={autocomplete}
+          autoComplete={autoCompleteBool}
           aria-required="true"
           required
         />

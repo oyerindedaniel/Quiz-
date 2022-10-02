@@ -24,7 +24,7 @@ const AuthForgotPassword = () => {
   const formItems = [
     {
       key: 1,
-      htmlFor: "emailaddress",
+      htmlForValue: "emailaddress",
       id: "emailaddress",
       type: "email",
       value: enteredEmail,
@@ -35,7 +35,7 @@ const AuthForgotPassword = () => {
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
-      htmlFor={formItem.htmlFor}
+      htmlForValue={formItem.htmlForValue}
       id={formItem.id}
       label={formItem.label}
       type={formItem.type}
@@ -53,7 +53,7 @@ const AuthForgotPassword = () => {
         we'll send you a reset link
       </h3>
       <AuthControl />
-      <form onSubmit={submitHandler}>
+      <form autoComplete="on" onSubmit={submitHandler}>
         <div>{formItems}</div>
         <div className={`${classes.formActions}`}>
           <AuthButton>Reset my Password</AuthButton>

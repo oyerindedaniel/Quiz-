@@ -11,25 +11,25 @@ import NotFound from "./routes/notfound";
 import ForgotPassword from "./routes/forgotpassword";
 import MyProfile from "./routes/myprofile";
 
-import AuthGuard from "./components/authguard/authguard";
-import NewAuth from "./components/authguard/newauth";
+import ProtectedRoute from "./components/authguard/ProtectedRoute";
+import UnProtectedRoute from "./components/authguard/UnProtectedRoute";
 
 function App() {
   return (
     <Routes>
-      <Route element={<AuthGuard />}>
-        <Route path="/" element={<Navigate replace to="home" />} />
-        <Route path="home" element={<Home />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="account/settings" element={<UserAccountSettings />} />
-        <Route path="profile" element={<MyProfile />} />
-        <Route path="quiz/:quizName" element={<QuizCbt />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-      <Route element={<NewAuth />}>
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
-      </Route>
+      {/* <Route element={<ProtectedRoute />}> */}
+      <Route path="/" element={<Navigate replace to="home" />} />
+      <Route path="home" element={<Home />} />
+      <Route path="forgot-password" element={<ForgotPassword />} />
+      <Route path="account/settings" element={<UserAccountSettings />} />
+      <Route path="me" element={<MyProfile />} />
+      <Route path="quiz/:quizName" element={<QuizCbt />} />
+      <Route path="*" element={<NotFound />} />
+      {/* </Route> */}
+      {/* <Route element={<UnProtectedRoute />}> */}
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<SignUp />} />
+      {/* </Route> */}
     </Routes>
   );
 }

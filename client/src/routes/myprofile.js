@@ -1,5 +1,7 @@
+import Profile from "../components/user/profile";
+
 const MyProfile = () => {
-  return;
+  return <Profile />;
 };
 
 export default MyProfile;

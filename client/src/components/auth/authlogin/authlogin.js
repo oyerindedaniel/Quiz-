@@ -25,7 +25,6 @@ const AuthLogin = () => {
 
   const {
     value: enteredEmail,
-    isValid: enteredEmailIsValid,
     hasError: emailInputHasError,
     valueChangeHandler: emailOnChangedHandler,
     inputBlurHandler: emailOnBlurHandler,
@@ -36,7 +35,6 @@ const AuthLogin = () => {
 
   const {
     value: enteredPassword,
-    isValid: enteredPasswordIsValid,
     hasError: passwordInputHasError,
     valueChangeHandler: passwordOnChangedHandler,
     inputBlurHandler: passwordOnBlurHandler,
@@ -45,11 +43,12 @@ const AuthLogin = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
 
-  // useEffect(() => {
-  //   if (loggedInUser) {
-  //     navigate("/home", { replace: true });
-  //   }
-  // }, [loggedInUser]);
+  // UseEffect that navigate to the home Page
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate("/home", { replace: true });
+    }
+  }, [loggedInUser, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -68,7 +67,7 @@ const AuthLogin = () => {
   const formItems = [
     {
       key: 1,
-      htmlFor: "emailaddress",
+      htmlForValue: "emailaddress",
       id: "emailaddress",
       type: "email",
       value: enteredEmail,
@@ -79,19 +78,20 @@ const AuthLogin = () => {
     },
     {
       key: 2,
-      htmlFor: "password",
+      htmlForValue: "password",
       id: "password",
       type: "password",
       label: "Password",
       valueCheck: enteredPassword,
       placeholder: "Your Password",
       passwordBool: true,
+      autoCompleteBool: "off",
       onChangeHandler: passwordOnChangedHandler,
     },
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
-      htmlFor={formItem.htmlFor}
+      htmlForValue={formItem.htmlForValue}
       id={formItem.id}
       value={formItem.value}
       type={formItem.type}
@@ -100,6 +100,7 @@ const AuthLogin = () => {
       placeholder={formItem.placeholder}
       passwordBool={formItem.passwordBool}
       hasError={formItem.hasError}
+      autoCompleteBool={formItem.autoCompleteBool}
       errorValue={formItem.errorValue}
       valueCheck={formItem.valueCheck}
       onBlur={formItem.onBlurHandler}
@@ -119,7 +120,7 @@ const AuthLogin = () => {
           {loggingInError.message}
         </Alert>
       )}
-      <form onSubmit={submitHandler}>
+      <form autoComplete="on" onSubmit={submitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.authCaution}`}>
           <div className={`${classes.authCheckboxContainer}`}>

@@ -5,10 +5,16 @@ import silverImg from "../../assets/img/silver-cup.png";
 import bronzeImg from "../../assets/img/bronze-cup.png";
 
 import classes from "./historyitems.module.css";
+import { useEffect } from "react";
 
 const HistoryItems = () => {
+  useEffect(() => {
+    console.log("History Items");
+  }, []);
+
   const historyItems = [
     {
+      key: 1,
       dateLast: "Jan 15, 13:30",
       quizName: "MCE 421",
       trophyPic: goldImg,
@@ -16,6 +22,7 @@ const HistoryItems = () => {
       quizScore: "90%",
     },
     {
+      key: 2,
       dateLast: " Dec 25, 22:45",
       quizName: "EDS 111",
       trophyPic: silverImg,
@@ -23,6 +30,7 @@ const HistoryItems = () => {
       quizScore: "67%",
     },
     {
+      key: 3,
       dateLast: "Feb 1, 9:12",
       quizName: "POS 221",
       trophyPic: bronzeImg,
@@ -31,6 +39,7 @@ const HistoryItems = () => {
     },
   ].map((historyItem) => (
     <HistoryItem
+      key={historyItem.key}
       dateLast={historyItem.dateLast}
       quizName={historyItem.quizName}
       trophyPic={historyItem.trophyPic}

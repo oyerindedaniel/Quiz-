@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { signup, login, initialProtect } from "../components/lib/api";
+import { signup, login } from "../components/lib/api";
 
 import useHttp from "../hooks/use-http";
 
@@ -22,8 +22,6 @@ export const AuthContextProvider = (props) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const isLoggedInLS = localStorage.getItem("isLoggedIn");
-
   //UseHttp
   //UseHttp for sign up
   const {
@@ -41,22 +39,15 @@ export const AuthContextProvider = (props) => {
     error: loginError,
   } = useHttp(login);
 
-  const {
-    sendRequest: initialProtectSendRequest,
-    status: initialProtectStatus,
-    data: initialProtectData,
-    error: initialProtectError,
-  } = useHttp(initialProtect);
-
   useEffect(() => {
-    if (initialProtectData) {
-      localStorage.setItem("isLoggedIn", true);
-    }
+    if (loginData || signUpData) {
+      setIsLoggedIn(true);
 
-    if (initialProtectError) {
-      localStorage.removeItem("isLoggedIn");
+      if (loginError || signupError) {
+        setIsLoggedIn(false);
+      }
     }
-  }, [initialProtectData, initialProtectError, isLoggedIn]);
+  }, [loginData, loginError, signUpData, signupError, setIsLoggedIn]);
 
   //UseEffect
   //Sign up Use Effect
@@ -75,12 +66,7 @@ export const AuthContextProvider = (props) => {
     loginSendRequest,
   ]);
 
-  //
-  useEffect(() => {
-    if (!isLoggedInLS && !initialProtectError) {
-      initialProtectSendRequest();
-    }
-  }, [initialProtectSendRequest, initialProtectError, isLoggedInLS]);
+  console.log("Auth Context");
 
   // Handler Function
   const logoutHandler = () => {
@@ -88,6 +74,7 @@ export const AuthContextProvider = (props) => {
   };
 
   const loginHandler = (userSubmittedData) => {
+    console.log("submitted");
     setSubmittedLoginData(userSubmittedData);
   };
 

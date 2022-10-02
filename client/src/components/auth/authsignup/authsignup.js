@@ -22,7 +22,6 @@ const AuthSignup = () => {
 
   const {
     value: enteredUsername,
-    isValid: enteredUsernameIsValid,
     hasError: usernameInputHasError,
     valueChangeHandler: usernameOnChangedHandler,
     inputBlurHandler: usernameOnBlurHandler,
@@ -31,7 +30,6 @@ const AuthSignup = () => {
 
   const {
     value: enteredEmail,
-    isValid: enteredEmailIsValid,
     hasError: emailInputHasError,
     valueChangeHandler: emailOnChangedHandler,
     inputBlurHandler: emailOnBlurHandler,
@@ -42,7 +40,6 @@ const AuthSignup = () => {
 
   const {
     value: enteredPassword,
-    isValid: enteredPasswordIsValid,
     hasError: passwordInputHasError,
     valueChangeHandler: passwordOnChangedHandler,
     inputBlurHandler: passwordOnBlurHandler,
@@ -53,7 +50,6 @@ const AuthSignup = () => {
 
   const {
     value: enteredConfirmPassword,
-    isValid: enteredConfirmPasswordIsValid,
     hasError: confirmPasswordInputHasError,
     valueChangeHandler: confirmPasswordOnChangedHandler,
     inputBlurHandler: confirmPasswordOnBlurHandler,
@@ -81,7 +77,7 @@ const AuthSignup = () => {
   const formItems = [
     {
       key: 1,
-      htmlFor: "username",
+      htmlForValue: "username",
       id: "username",
       type: "text",
       value: enteredUsername,
@@ -94,7 +90,7 @@ const AuthSignup = () => {
     },
     {
       key: 2,
-      htmlFor: "emailaddress",
+      htmlForValue: "emailaddress",
       id: "emailaddress",
       type: "email",
       value: enteredEmail,
@@ -105,14 +101,14 @@ const AuthSignup = () => {
     },
     {
       key: 3,
-      htmlFor: "password",
+      htmlForValue: "password",
       id: "password",
       type: "password",
       label: "Password",
       valueCheck: enteredPassword,
       placeholder: "Your Password",
       minlength: 8,
-      autocomplete: "false",
+      autocompleteBool: "off",
       passwordBool: true,
       passwordDetail:
         "Password must contain at least one uppercase and lowercase letter, number and a minimum of 8 characters",
@@ -123,14 +119,14 @@ const AuthSignup = () => {
     },
     {
       key: 4,
-      htmlFor: "confirmpassword",
+      htmlForValue: "confirmpassword",
       id: "confirmpassword",
       type: "password",
       valueCheck: enteredConfirmPassword,
       label: "Confirm Password",
       placeholder: "Your Password",
       minlength: 8,
-      autocomplete: "false",
+      autoCompleteBool: "off",
       passwordBool: true,
       onChangeHandler: confirmPasswordOnChangedHandler,
       onBlurHandler: confirmPasswordOnBlurHandler,
@@ -140,7 +136,7 @@ const AuthSignup = () => {
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
-      htmlFor={formItem.htmlFor}
+      htmlForValue={formItem.htmlForValue}
       id={formItem.id}
       value={formItem.value}
       type={formItem.type}
@@ -154,7 +150,7 @@ const AuthSignup = () => {
       valueCheck={formItem.valueCheck}
       onBlur={formItem.onBlurHandler}
       minlength={formItem.minlength}
-      autocomplete={formItem.autocomplete}
+      autocomplete={formItem.autoCompleteBool}
     />
   ));
 
@@ -170,7 +166,7 @@ const AuthSignup = () => {
           {ctx.signingUpError.message}
         </Alert>
       )}
-      <form onSubmit={signupOnSubmitHandler}>
+      <form autoComplete="on" onSubmit={signupOnSubmitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.formActions}`}>
           <AuthButton status={ctx.signingUpStatus}>

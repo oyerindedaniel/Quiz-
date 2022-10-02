@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useContext } from "react";
 
 import AuthForm from "../auth/authform/authform";
 import Navigation from "../navigation/navigation";
@@ -6,12 +6,20 @@ import AuthButton from "../ui/authbutton/authbutton";
 
 import useInput from "../../hooks/use-input";
 
+import AuthContext from "../../contexts/auth-context";
+
 import classes from "./accountsetting.module.css";
 
 const AccountSetting = () => {
+  const ctx = useContext(AuthContext);
+  console.log(ctx.isLoggedState);
+
+  useEffect(() => {
+    console.log("Account Settings");
+  }, []);
+
   const {
     value: enteredUsername,
-    isValid: enteredUsernameIsValid,
     hasError: usernameInputHasError,
     valueChangeHandler: usernameOnChangedHandler,
     inputBlurHandler: usernameOnBlurHandler,
@@ -20,7 +28,6 @@ const AccountSetting = () => {
 
   const {
     value: enteredEmail,
-    isValid: enteredEmailIsValid,
     hasError: emailInputHasError,
     valueChangeHandler: emailOnChangedHandler,
     inputBlurHandler: emailOnBlurHandler,
@@ -31,7 +38,6 @@ const AccountSetting = () => {
 
   const {
     value: enteredCurrentPassword,
-    isValid: enteredCurrentPasswordIsValid,
     hasError: currentPasswordInputHasError,
     valueChangeHandler: currentPasswordOnChangedHandler,
     inputBlurHandler: currentPasswordOnBlurHandler,
@@ -42,7 +48,6 @@ const AccountSetting = () => {
 
   const {
     value: enteredPassword,
-    isValid: enteredPasswordIsValid,
     hasError: passwordInputHasError,
     valueChangeHandler: passwordOnChangedHandler,
     inputBlurHandler: passwordOnBlurHandler,
@@ -53,7 +58,6 @@ const AccountSetting = () => {
 
   const {
     value: enteredConfirmPassword,
-    isValid: enteredConfirmPasswordIsValid,
     hasError: confirmPasswordInputHasError,
     valueChangeHandler: confirmPasswordOnChangedHandler,
     inputBlurHandler: confirmPasswordOnBlurHandler,
@@ -63,7 +67,7 @@ const AccountSetting = () => {
   const formItemsEditProfile = [
     {
       key: 1,
-      htmlFor: "username",
+      htmlForValue: "username",
       id: "username",
       type: "text",
       value: enteredUsername,
@@ -76,7 +80,7 @@ const AccountSetting = () => {
     },
     {
       key: 2,
-      htmlFor: "emailaddress",
+      htmlForValue: "emailaddress",
       id: "emailaddress",
       type: "email",
       value: enteredEmail,
@@ -88,7 +92,7 @@ const AccountSetting = () => {
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
-      htmlFor={formItem.htmlFor}
+      htmlForValue={formItem.htmlForValue}
       id={formItem.id}
       value={formItem.value}
       type={formItem.type}
@@ -106,7 +110,7 @@ const AccountSetting = () => {
   const formItemsEditPassword = [
     {
       key: 0,
-      htmlFor: "currentpassword",
+      htmlForValue: "currentpassword",
       id: "currentpassword",
       type: "password",
       label: "Current Password",
@@ -117,7 +121,7 @@ const AccountSetting = () => {
     },
     {
       key: 1,
-      htmlFor: "password",
+      htmlForValue: "password",
       id: "password",
       type: "password",
       label: "Password",
@@ -133,7 +137,7 @@ const AccountSetting = () => {
     },
     {
       key: 2,
-      htmlFor: "confirmpassword",
+      htmlForValue: "confirmpassword",
       id: "confirmpassword",
       type: "password",
       valueCheck: enteredConfirmPassword,
@@ -148,7 +152,7 @@ const AccountSetting = () => {
   ].map((formItem) => (
     <AuthForm
       key={formItem.key}
-      htmlFor={formItem.htmlFor}
+      htmlForValue={formItem.htmlForValue}
       id={formItem.id}
       value={formItem.value}
       type={formItem.type}
@@ -164,6 +168,16 @@ const AccountSetting = () => {
     />
   ));
 
+  const editProfileOnSubmitHandler = (e) => {
+    e.prevent.Default();
+  };
+
+  const editPasswordOnSubmitHandler = (e) => {
+    e.prevent.Default();
+  };
+
+  console.log("Account settings");
+
   return (
     <Fragment>
       <Navigation isAccountControlNeeded="true" />
@@ -175,19 +189,23 @@ const AccountSetting = () => {
               <h1>User Profile</h1>
               <p>Update your profile information below</p>
             </div>
-            <Fragment>{formItemsEditProfile}</Fragment>
-            <div className={`${classes.formActions}`}>
-              <AuthButton>Update Profile</AuthButton>
-            </div>
+            <form autoComplete="on" onSubmit={editProfileOnSubmitHandler}>
+              <Fragment>{formItemsEditProfile}</Fragment>
+              <div className={`${classes.formActions}`}>
+                <AuthButton>Update Profile</AuthButton>
+              </div>
+            </form>
           </div>
           <div className={`${classes.editCont1} ${classes.editPasswordCont}`}>
             <div className={`${classes.editHeader}`}>
               <h1>Change Password</h1>
             </div>
-            <Fragment>{formItemsEditPassword}</Fragment>
-            <div className={`${classes.formActions}`}>
-              <AuthButton>Change Password</AuthButton>
-            </div>
+            <form autoComplete="off" onSubmit={editPasswordOnSubmitHandler}>
+              <Fragment>{formItemsEditPassword}</Fragment>
+              <div className={`${classes.formActions}`}>
+                <AuthButton>Change Password</AuthButton>
+              </div>
+            </form>
           </div>
         </div>
       </main>
