@@ -1,12 +1,14 @@
+.cardContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
 .card {
   width: 50rem;
   padding: 4rem 8rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-radius: 1rem;
-  margin: auto;
-  /* position: absolute;
-  top: 50%;
-  left: 50%; */
-  /* transform: translateY(-50%) translateX(-50%); */
 }

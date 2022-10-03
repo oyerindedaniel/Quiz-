@@ -1,7 +1,11 @@
 import classes from "./authcard.module.css";
 
 const AuthCard = ({ children }) => {
-  return <div className={`${classes.card}`}>{children}</div>;
+  return (
+    <section className={`${classes.cardContainer}`}>
+      <div className={`${classes.card}`}>{children}</div>
+    </section>
+  );
 };
 
 export default AuthCard;
