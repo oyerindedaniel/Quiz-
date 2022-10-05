@@ -19,6 +19,8 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = (props) => {
   const [submittedSignUpData, setSubmittedSignUpData] = useState(null);
   const [submittedLoginData, setSubmittedLoginData] = useState(null);
+  const [submittedForgotPasswordData, setSubmittedForgotPasswordDData] =
+    useState(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -37,6 +39,14 @@ export const AuthContextProvider = (props) => {
     status: userLoggingStatus,
     data: loginData,
     error: loginError,
+  } = useHttp(login);
+
+  //UseHttp for forgot password
+  const {
+    sendRequest: forgotPasswordSendRequest,
+    status: forgotPasswordLoggingStatus,
+    data: forgotPasswordData,
+    error: forgotPasswordError,
   } = useHttp(login);
 
   useEffect(() => {
@@ -59,11 +69,17 @@ export const AuthContextProvider = (props) => {
     if (submittedLoginData) {
       loginSendRequest(submittedLoginData);
     }
+
+    if (submittedForgotPasswordData) {
+      forgotPasswordSendRequest(submittedForgotPasswordData);
+    }
   }, [
     submittedSignUpData,
     signupSendRequest,
     submittedLoginData,
     loginSendRequest,
+    submittedForgotPasswordData,
+    forgotPasswordSendRequest,
   ]);
 
   console.log("Auth Context");
@@ -82,12 +98,18 @@ export const AuthContextProvider = (props) => {
     setSubmittedSignUpData(userSubmittedData);
   };
 
+  const forgotPasswordHandler = (userSubmittedData) => {
+    console.log("submitted");
+    setSubmittedLoginData(userSubmittedData);
+  };
+
   return (
     <AuthContext.Provider
       value={{
         isLoggedState: isLoggedIn,
         login: loginHandler,
         signup: signupHandler,
+        forgotPassword: forgotPasswordHandler,
         logout: logoutHandler,
         signedUpUser: signUpData,
         signingUpError: signupError,

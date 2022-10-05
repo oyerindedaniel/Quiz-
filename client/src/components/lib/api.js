@@ -45,4 +45,16 @@ export async function login(userSubmittedData) {
   }
 }
 
+//Forgot Password API call
+export async function forgotPassword(userSubmittedData) {
+  try {
+    const response = await instance.post("/quiz/forgotPassword", {
+      email: userSubmittedData.email,
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+}
+
 // instance.get('/todos')

@@ -1,0 +1,39 @@
+.nav {
+  padding: 0 6rem;
+  display: flex;
+  align-items: center;
+}
+
+.navH1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: -webkit-linear-gradient(var(--color-blue-1), var(--color-blue-4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-right: auto;
+  padding: 1.5rem 0;
+}
+
+.navLinks {
+  display: flex;
+}
+
+.navLink {
+  padding: 1rem 2rem;
+  border: 0.1rem solid var(--color-blue-1);
+  font-size: 1.3rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-blue-1);
+}
+
+.navLink1 {
+  margin-right: 5rem;
+  background: linear-gradient(
+    to right,
+    var(--color-blue-1),
+    var(--color-blue-4)
+  );
+  color: white;
+}

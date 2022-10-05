@@ -1,13 +1,18 @@
+import { useContext } from "react";
+
 import AuthForm from "../authform/authform";
 import AuthCard from "../../ui/authcard/authcard";
 import AuthButton from "../../ui/authbutton/authbutton";
 import AuthControl from "../authcontrol/authcontrol";
+import AuthContext from "../../../contexts/auth-context";
 
 import useInput from "../../../hooks/use-input";
 
 import classes from "./authforgotpassword.module.css";
 
 const AuthForgotPassword = () => {
+  const { forgotPassword } = useContext(AuthContext);
+
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,
@@ -19,7 +24,17 @@ const AuthForgotPassword = () => {
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
   );
 
-  const submitHandler = () => {};
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    const userSubmittedData = {
+      email: enteredEmail,
+    };
+
+    forgotPassword(userSubmittedData);
+
+    resetEmailInput();
+  };
 
   const formItems = [
     {

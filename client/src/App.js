@@ -10,6 +10,8 @@ import QuizCbt from "./routes/quizcbt";
 import NotFound from "./routes/notfound";
 import ForgotPassword from "./routes/forgotpassword";
 import MyProfile from "./routes/myprofile";
+import ConfirmEmail from "./routes/confirmemail";
+import FrontPage from "./routes/front";
 
 import ProtectedRoute from "./components/authguard/ProtectedRoute";
 import UnProtectedRoute from "./components/authguard/UnProtectedRoute";
@@ -19,11 +21,13 @@ function App() {
     <Routes>
       {/* <Route element={<ProtectedRoute />}> */}
       <Route path="/" element={<Navigate replace to="home" />} />
+      <Route path="front-page" element={<FrontPage />} />
       <Route path="home" element={<Home />} />
       <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="account/settings" element={<UserAccountSettings />} />
       <Route path="me" element={<MyProfile />} />
       <Route path="quiz/:quizName" element={<QuizCbt />} />
+      <Route path="confirm-email" element={<ConfirmEmail />} />
       <Route path="*" element={<NotFound />} />
       {/* </Route> */}
       {/* <Route element={<UnProtectedRoute />}> */}

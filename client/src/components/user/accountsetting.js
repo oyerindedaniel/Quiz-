@@ -184,7 +184,9 @@ const AccountSetting = () => {
       <main className={`${classes.main}`}>
         <h1 className={`${classes.h1}`}>Account Settings</h1>
         <div className={`${classes.editCont}`}>
-          <div className={`${classes.editCont1} ${classes.editProfileCont}`}>
+          <section
+            className={`${classes.editCont1} ${classes.editProfileCont}`}
+          >
             <div className={`${classes.editHeader}`}>
               <h1>User Profile</h1>
               <p>Update your profile information below</p>
@@ -195,8 +197,10 @@ const AccountSetting = () => {
                 <AuthButton>Update Profile</AuthButton>
               </div>
             </form>
-          </div>
-          <div className={`${classes.editCont1} ${classes.editPasswordCont}`}>
+          </section>
+          <section
+            className={`${classes.editCont1} ${classes.editPasswordCont}`}
+          >
             <div className={`${classes.editHeader}`}>
               <h1>Change Password</h1>
             </div>
@@ -206,7 +210,7 @@ const AccountSetting = () => {
                 <AuthButton>Change Password</AuthButton>
               </div>
             </form>
-          </div>
+          </section>
         </div>
       </main>
     </Fragment>
