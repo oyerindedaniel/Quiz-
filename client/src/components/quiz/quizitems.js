@@ -12,10 +12,10 @@ import pptImg from "../../assets/img/ppt.png";
 const QuizItems = () => {
   const quizItems = [
     { key: 1, img: excelImg, caption: "EIE 523" },
-    { key: 2, img: wordImg, caption: "POS 222" },
-    { key: 3, img: pptImg, caption: "CVE 111" },
+    { key: 2, img: excelImg, caption: "POS 222" },
+    { key: 3, img: excelImg, caption: "CVE 111" },
     { key: 4, img: excelImg, caption: "MCE 229" },
-    { key: 5, img: wordImg, caption: "TMC 328" },
+    { key: 5, img: excelImg, caption: "TMC 328" },
     { key: 6, img: excelImg, caption: "AGP 221" },
     { key: 7, img: excelImg, caption: "AGP 121" },
     { key: 8, img: excelImg, caption: "AGP 521" },

@@ -77,6 +77,21 @@ const Homecp = () => {
             onDisplayModalHandler={onDisplayModalHandler}
           >
             <h2 className={`${classes.modalH2Text}`}>Upload File</h2>
+            <p className={`${classes.modalTextP}`}>
+              Make sure to upload an{" "}
+              <span className={`${classes.modalTextSpan}`}>.xlsx</span> or
+              <span className={`${classes.modalTextSpan}`}>.xls</span> and
+              adhere to our format{" "}
+              <span>
+                <a
+                  className={`${classes.modalTextLinkDownload}`}
+                  href="a"
+                  download
+                >
+                  (download template)
+                </a>
+              </span>
+            </p>
             <form className={`${classes.modalForm}`}>
               <div className={`${classes.modalFormInputContainer}`}>
                 <div className={`${classes.modalFormInputContainer1}`}>

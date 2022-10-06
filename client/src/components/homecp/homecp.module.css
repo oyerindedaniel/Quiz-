@@ -101,6 +101,23 @@
   border-bottom: 0.2rem solid var(--color-grey-1);
 }
 
+.modalTextP {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.modalTextLinkDownload {
+  background: -webkit-linear-gradient(var(--color-blue-1), var(--color-blue-4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.modalTextSpan {
+  font-weight: 800;
+}
+
 .modalForm {
   margin-top: 2rem;
 }

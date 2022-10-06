@@ -18,7 +18,10 @@ const NavigationMain = () => {
           </Link>
         </li>
         <li>
-          <Link to="/signup" className={`${classes.navLink}`}>
+          <Link
+            to="/signup"
+            className={`${classes.navLink} ${classes.navLink2}`}
+          >
             Sign up
           </Link>
         </li>
