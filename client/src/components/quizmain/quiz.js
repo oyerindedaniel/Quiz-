@@ -14,7 +14,7 @@ const Quiz = () => {
       <main className={`${classes.main}`}>
         <section className={`${classes.quiz}`}>
           <h1 className={`${classes.quizHeader}`}>
-            Spreadsheet to <span className={`${classes.quizSpan}`}>QUIZ!</span>
+            Excel File to <span className={`${classes.quizSpan}`}>QUIZ!</span>
           </h1>
           <p className={`${classes.quizP}`}>
             Add Quiz, Take a Quiz, Get a score and review Corrections in one
@@ -38,6 +38,7 @@ const Quiz = () => {
               </Link>
             </li>
           </ul>
+          <img className={`${classes.img}`} src={img1} alt="img" />
         </section>
       </main>
     </Fragment>

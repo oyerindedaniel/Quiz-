@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { signup, login } from "../components/lib/api";
+import { signup, login, updatePassword } from "../components/lib/api";
 
 import useHttp from "../hooks/use-http";
 
@@ -20,6 +20,8 @@ export const AuthContextProvider = (props) => {
   const [submittedSignUpData, setSubmittedSignUpData] = useState(null);
   const [submittedLoginData, setSubmittedLoginData] = useState(null);
   const [submittedForgotPasswordData, setSubmittedForgotPasswordDData] =
+    useState(null);
+  const [submittedUpdatePasswordData, setSubmittedUpdatePasswordData] =
     useState(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,6 +51,14 @@ export const AuthContextProvider = (props) => {
     error: forgotPasswordError,
   } = useHttp(login);
 
+  //UseHttp for forgot password
+  const {
+    sendRequest: updatePasswordSendRequest,
+    status: updatePasswordLoggingStatus,
+    data: updatePasswordData,
+    error: updatePasswordError,
+  } = useHttp(updatePassword);
+
   useEffect(() => {
     if (loginData || signUpData) {
       setIsLoggedIn(true);
@@ -73,6 +83,10 @@ export const AuthContextProvider = (props) => {
     if (submittedForgotPasswordData) {
       forgotPasswordSendRequest(submittedForgotPasswordData);
     }
+
+    if (submittedUpdatePasswordData) {
+      updatePasswordSendRequest(submittedUpdatePasswordData);
+    }
   }, [
     submittedSignUpData,
     signupSendRequest,
@@ -80,6 +94,8 @@ export const AuthContextProvider = (props) => {
     loginSendRequest,
     submittedForgotPasswordData,
     forgotPasswordSendRequest,
+    submittedUpdatePasswordData,
+    updatePasswordSendRequest,
   ]);
 
   console.log("Auth Context");
@@ -99,8 +115,11 @@ export const AuthContextProvider = (props) => {
   };
 
   const forgotPasswordHandler = (userSubmittedData) => {
-    console.log("submitted");
     setSubmittedLoginData(userSubmittedData);
+  };
+
+  const updatePasswordHandler = (userSubmittedData) => {
+    setSubmittedUpdatePasswordData(userSubmittedData);
   };
 
   return (
@@ -110,6 +129,7 @@ export const AuthContextProvider = (props) => {
         login: loginHandler,
         signup: signupHandler,
         forgotPassword: forgotPasswordHandler,
+        updatePassword: updatePasswordHandler,
         logout: logoutHandler,
         signedUpUser: signUpData,
         signingUpError: signupError,
@@ -117,6 +137,7 @@ export const AuthContextProvider = (props) => {
         loggedInUser: loginData,
         loggingInError: loginError,
         loggingInStatus: userLoggingStatus,
+        updatePasswordError: updatePasswordError,
       }}
     >
       {props.children}

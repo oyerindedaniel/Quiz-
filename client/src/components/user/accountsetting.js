@@ -3,20 +3,23 @@ import { Fragment, useEffect, useContext } from "react";
 import AuthForm from "../auth/authform/authform";
 import Navigation from "../navigation/navigation";
 import AuthButton from "../ui/authbutton/authbutton";
+import Alert from "../ui/alert/alert";
 
 import useInput from "../../hooks/use-input";
+
+import img1 from "../../assets/alertimg/bear.png";
+import img2 from "../../assets/alertimg/refresh-arrow.png";
 
 import AuthContext from "../../contexts/auth-context";
 
 import classes from "./accountsetting.module.css";
 
 const AccountSetting = () => {
-  const ctx = useContext(AuthContext);
-  console.log(ctx.isLoggedState);
+  const { updatePassword, updatePasswordError } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log("Account Settings");
-  }, []);
+  // useEffect(() => {
+  //   console.log("Account Settings");
+  // }, []);
 
   const {
     value: enteredUsername,
@@ -41,7 +44,7 @@ const AccountSetting = () => {
     hasError: currentPasswordInputHasError,
     valueChangeHandler: currentPasswordOnChangedHandler,
     inputBlurHandler: currentPasswordOnBlurHandler,
-    reset: resetcurrentPasswordInput,
+    reset: resetCurrentPasswordInput,
   } = useInput((value) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
@@ -169,14 +172,24 @@ const AccountSetting = () => {
   ));
 
   const editProfileOnSubmitHandler = (e) => {
-    e.prevent.Default();
+    e.preventDefault();
   };
 
   const editPasswordOnSubmitHandler = (e) => {
-    e.prevent.Default();
-  };
+    e.preventDefault();
 
-  console.log("Account settings");
+    const userSubmittedData = {
+      currentPassword: enteredConfirmPassword,
+      password: enteredPassword,
+      confirmPassword: enteredConfirmPassword,
+    };
+
+    updatePassword(userSubmittedData);
+
+    resetCurrentPasswordInput();
+    resetPasswordInput();
+    resetConfirmPasswordInput();
+  };
 
   return (
     <Fragment>
@@ -204,6 +217,11 @@ const AccountSetting = () => {
             <div className={`${classes.editHeader}`}>
               <h1>Change Password</h1>
             </div>
+            {updatePasswordError && (
+              <Alert img1={img1} img2={img2}>
+                {updatePasswordError.message}
+              </Alert>
+            )}
             <form autoComplete="off" onSubmit={editPasswordOnSubmitHandler}>
               <Fragment>{formItemsEditPassword}</Fragment>
               <div className={`${classes.formActions}`}>

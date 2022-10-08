@@ -13,6 +13,27 @@
   font-family: "Roboto", sans-serif;
   font-size: 4rem;
   font-weight: 900;
+  position: relative;
+}
+
+.quizHeader::before {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-image: url(../../assets/img/xls1.png);
+  height: 3rem;
+  width: 3rem;
+  content: " ";
+  z-index: 100;
+}
+
+.quizHeader::after {
+  content: " ";
+  display: inline-block;
+  background-image: url(../../assets/img/xlsx.png);
+  position: absolute;
+  height: 6rem;
+  width: 6rem;
 }
 
 .quizSpan {
@@ -54,4 +75,10 @@
   color: white;
   border: 0.1rem solid white;
   margin-right: 3rem;
+}
+
+.img {
+  margin-top: 6rem;
+  width: 70%;
+  height: 70%;
 }
