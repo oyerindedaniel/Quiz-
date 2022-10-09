@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useContext } from "react";
+import { Fragment, useEffect, useContext, useState } from "react";
 
 import AuthForm from "../auth/authform/authform";
 import Navigation from "../navigation/navigation";
@@ -10,41 +10,43 @@ import useInput from "../../hooks/use-input";
 import img1 from "../../assets/alertimg/bear.png";
 import img2 from "../../assets/alertimg/refresh-arrow.png";
 
+import { Oval } from "react-loader-spinner";
+
 import AuthContext from "../../contexts/auth-context";
 
 import classes from "./accountsetting.module.css";
 
-const AccountSetting = () => {
-  const { updatePassword, updatePasswordError } = useContext(AuthContext);
+const AccountSetting = ({ userData }) => {
+  const { username, email } = userData;
 
-  // useEffect(() => {
-  //   console.log("Account Settings");
-  // }, []);
+  const {
+    updatePassword,
+    updatePasswordError,
+    updatePasswordData,
+    updatePasswordLoggingStatus,
+  } = useContext(AuthContext);
+  const [event, setEvent] = useState(null);
 
   const {
     value: enteredUsername,
     hasError: usernameInputHasError,
     valueChangeHandler: usernameOnChangedHandler,
     inputBlurHandler: usernameOnBlurHandler,
-    reset: resetUsernameInput,
+    valueOnLoadHandler: usernameOnLoadHandler,
   } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
 
   const {
     value: enteredEmail,
-    hasError: emailInputHasError,
     valueChangeHandler: emailOnChangedHandler,
     inputBlurHandler: emailOnBlurHandler,
-    reset: resetEmailInput,
+    valueOnLoadHandler: emailOnLoadHandler,
   } = useInput((value) =>
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
   );
 
   const {
     value: enteredCurrentPassword,
-    hasError: currentPasswordInputHasError,
     valueChangeHandler: currentPasswordOnChangedHandler,
-    inputBlurHandler: currentPasswordOnBlurHandler,
-    reset: resetCurrentPasswordInput,
   } = useInput((value) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
@@ -54,7 +56,6 @@ const AccountSetting = () => {
     hasError: passwordInputHasError,
     valueChangeHandler: passwordOnChangedHandler,
     inputBlurHandler: passwordOnBlurHandler,
-    reset: resetPasswordInput,
   } = useInput((value) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
@@ -64,7 +65,6 @@ const AccountSetting = () => {
     hasError: confirmPasswordInputHasError,
     valueChangeHandler: confirmPasswordOnChangedHandler,
     inputBlurHandler: confirmPasswordOnBlurHandler,
-    reset: resetConfirmPasswordInput,
   } = useInput((value) => enteredPassword === value);
 
   const formItemsEditProfile = [
@@ -177,19 +177,26 @@ const AccountSetting = () => {
 
   const editPasswordOnSubmitHandler = (e) => {
     e.preventDefault();
+    setEvent(e);
 
     const userSubmittedData = {
-      currentPassword: enteredConfirmPassword,
+      currentPassword: enteredCurrentPassword,
       password: enteredPassword,
       confirmPassword: enteredConfirmPassword,
     };
 
     updatePassword(userSubmittedData);
-
-    resetCurrentPasswordInput();
-    resetPasswordInput();
-    resetConfirmPasswordInput();
   };
+
+  if (updatePasswordData && event) {
+    event.target.reset();
+    setEvent(null);
+  }
+
+  useEffect(() => {
+    usernameOnLoadHandler(username);
+    emailOnLoadHandler(email);
+  }, [usernameOnLoadHandler, emailOnLoadHandler, username, email]);
 
   return (
     <Fragment>
@@ -225,7 +232,21 @@ const AccountSetting = () => {
             <form autoComplete="off" onSubmit={editPasswordOnSubmitHandler}>
               <Fragment>{formItemsEditPassword}</Fragment>
               <div className={`${classes.formActions}`}>
-                <AuthButton>Change Password</AuthButton>
+                <AuthButton status={updatePasswordLoggingStatus}>
+                  {updatePasswordLoggingStatus === "pending" ? (
+                    <Oval
+                      ariaLabel="loading-indicator"
+                      height={20}
+                      width={20}
+                      strokeWidth={10}
+                      strokeWidthSecondary={5}
+                      color="white"
+                      secondaryColor="#6035e7"
+                    />
+                  ) : (
+                    "Change Password"
+                  )}
+                </AuthButton>
               </div>
             </form>
           </section>

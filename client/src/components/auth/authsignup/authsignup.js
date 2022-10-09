@@ -68,10 +68,12 @@ const AuthSignup = () => {
 
     ctx.signup(userSubmittedData);
 
+    // Clear input after submission,
     resetUsernameInput();
     resetEmailInput();
-    resetPasswordInput();
-    resetConfirmPasswordInput();
+    e.target.reset();
+    // resetPasswordInput();
+    // resetConfirmPasswordInput();
   };
 
   const formItems = [

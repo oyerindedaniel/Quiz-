@@ -19,7 +19,6 @@ const UserAccountSettings = () => {
     error: initialProtectError,
   } = useHttp(initialProtect);
 
-  //
   useEffect(() => {
     initialProtectSendRequest();
   }, [initialProtectSendRequest]);
@@ -33,7 +32,9 @@ const UserAccountSettings = () => {
   return (
     <Fragment>
       {initialProtectStatus === "pending" && <LoadingScreen />}
-      {initialProtectData && <AccountSetting />}
+      {initialProtectData && (
+        <AccountSetting userData={initialProtectData.data.user} />
+      )}
     </Fragment>
   );
 };

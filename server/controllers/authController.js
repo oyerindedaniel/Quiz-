@@ -1,4 +1,4 @@
-const User = require("./../models/userModel");
+const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const catchAsync = require("../utils/catchAsync");
@@ -70,7 +70,6 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.initialProtect = catchAsync(async (req, res, next) => {
   let token;
   if (req.cookies.jwt) {
-    console.log("jwt");
     token = req.cookies.jwt;
   }
 
@@ -197,7 +196,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log("update password");
   const user = await User.findById(req.user.id).select("+password");
 
   if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
@@ -208,5 +206,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.confirmPassword = req.body.confirmPassword;
   await user.save();
 
-  createSendToken(user, 200, req, res);
+  createSendToken(user, 200, res);
 });

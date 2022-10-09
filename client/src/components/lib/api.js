@@ -11,6 +11,7 @@ export async function initialProtect() {
     const response = await instance.get("/quiz/initialProtect");
     return response.data;
   } catch (err) {
+    console.log(err.response.data);
     throw err.response.data;
   }
 }
@@ -56,13 +57,27 @@ export async function forgotPassword(userSubmittedData) {
   }
 }
 
-//Forgot Password API call
+//Update Password API call
 export async function updatePassword(userSubmittedData) {
   try {
     const response = await instance.patch("/quiz/updateMyPassword", {
       currentPassword: userSubmittedData.currentPassword,
       password: userSubmittedData.password,
       confirmPassword: userSubmittedData.confirmPassword,
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err.response.data);
+    throw err.response.data;
+  }
+}
+
+//Update Profile API call
+export async function updateProfile(userSubmittedData) {
+  try {
+    const response = await instance.patch("/quiz/updateMe", {
+      username: userSubmittedData.username,
+      email: userSubmittedData.email,
     });
     return response.data;
   } catch (err) {

@@ -25,7 +25,6 @@ const AuthLogin = () => {
 
   const {
     value: enteredEmail,
-    hasError: emailInputHasError,
     valueChangeHandler: emailOnChangedHandler,
     inputBlurHandler: emailOnBlurHandler,
     reset: resetEmailInput,
@@ -35,9 +34,7 @@ const AuthLogin = () => {
 
   const {
     value: enteredPassword,
-    hasError: passwordInputHasError,
     valueChangeHandler: passwordOnChangedHandler,
-    inputBlurHandler: passwordOnBlurHandler,
     reset: resetPasswordInput,
   } = useInput((value) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { signup, login, updatePassword } from "../components/lib/api";
+import {
+  signup,
+  login,
+  updatePassword,
+  updateProfile,
+  forgotPassword,
+} from "../components/lib/api";
 
 import useHttp from "../hooks/use-http";
 
@@ -22,6 +28,8 @@ export const AuthContextProvider = (props) => {
   const [submittedForgotPasswordData, setSubmittedForgotPasswordDData] =
     useState(null);
   const [submittedUpdatePasswordData, setSubmittedUpdatePasswordData] =
+    useState(null);
+  const [submittedUpdateProfileData, setSubmittedUpdateProfileData] =
     useState(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,15 +57,22 @@ export const AuthContextProvider = (props) => {
     status: forgotPasswordLoggingStatus,
     data: forgotPasswordData,
     error: forgotPasswordError,
-  } = useHttp(login);
+  } = useHttp(forgotPassword);
 
-  //UseHttp for forgot password
+  //UseHttp for update password
   const {
     sendRequest: updatePasswordSendRequest,
     status: updatePasswordLoggingStatus,
     data: updatePasswordData,
     error: updatePasswordError,
   } = useHttp(updatePassword);
+
+  //UseHttp for update profile
+  const {
+    sendRequest: updateProfileSendRequest,
+    status: updateProfileLoggingStatus,
+    data: updateProfileData,
+  } = useHttp(updateProfile);
 
   useEffect(() => {
     if (loginData || signUpData) {
@@ -84,8 +99,8 @@ export const AuthContextProvider = (props) => {
       forgotPasswordSendRequest(submittedForgotPasswordData);
     }
 
-    if (submittedUpdatePasswordData) {
-      updatePasswordSendRequest(submittedUpdatePasswordData);
+    if (submittedUpdateProfileData) {
+      updateProfileSendRequest(submittedUpdateProfileData);
     }
   }, [
     submittedSignUpData,
@@ -96,9 +111,9 @@ export const AuthContextProvider = (props) => {
     forgotPasswordSendRequest,
     submittedUpdatePasswordData,
     updatePasswordSendRequest,
+    submittedUpdateProfileData,
+    updateProfileSendRequest,
   ]);
-
-  console.log("Auth Context");
 
   // Handler Function
   const logoutHandler = () => {
@@ -122,6 +137,10 @@ export const AuthContextProvider = (props) => {
     setSubmittedUpdatePasswordData(userSubmittedData);
   };
 
+  const updateProfileHandler = (userSubmittedData) => {
+    setSubmittedUpdatePasswordData(userSubmittedData);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -137,7 +156,11 @@ export const AuthContextProvider = (props) => {
         loggedInUser: loginData,
         loggingInError: loginError,
         loggingInStatus: userLoggingStatus,
-        updatePasswordError: updatePasswordError,
+        updatePasswordError,
+        updatePasswordData,
+        updatePasswordLoggingStatus,
+        updateProfile: updateProfileHandler,
+        updateProfileLoggingStatus,
       }}
     >
       {props.children}
