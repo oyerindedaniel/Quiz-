@@ -79,6 +79,7 @@ export async function updateProfile(userSubmittedData) {
       username: userSubmittedData.username,
       email: userSubmittedData.email,
     });
+    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err.response.data);

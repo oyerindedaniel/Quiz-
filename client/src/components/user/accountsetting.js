@@ -18,14 +18,17 @@ import classes from "./accountsetting.module.css";
 
 const AccountSetting = ({ userData }) => {
   const { username, email } = userData;
+  const [event, setEvent] = useState(null);
 
   const {
     updatePassword,
     updatePasswordError,
     updatePasswordData,
     updatePasswordLoggingStatus,
+    updateProfileLoggingStatus,
+    updateProfile,
+    updateProfileData,
   } = useContext(AuthContext);
-  const [event, setEvent] = useState(null);
 
   const {
     value: enteredUsername,
@@ -172,10 +175,19 @@ const AccountSetting = ({ userData }) => {
   ));
 
   const editProfileOnSubmitHandler = (e) => {
+    console.log("submit profile");
     e.preventDefault();
+
+    const userSubmittedData = {
+      username: enteredUsername,
+      email: enteredEmail,
+    };
+
+    updateProfile(userSubmittedData);
   };
 
   const editPasswordOnSubmitHandler = (e) => {
+    console.log("Password");
     e.preventDefault();
     setEvent(e);
 
@@ -211,10 +223,29 @@ const AccountSetting = ({ userData }) => {
               <h1>User Profile</h1>
               <p>Update your profile information below</p>
             </div>
+            {updateProfileData && (
+              <Alert img1={img1} img2={img2} alertType="success">
+                Successfully updated profile
+              </Alert>
+            )}
             <form autoComplete="on" onSubmit={editProfileOnSubmitHandler}>
               <Fragment>{formItemsEditProfile}</Fragment>
               <div className={`${classes.formActions}`}>
-                <AuthButton>Update Profile</AuthButton>
+                <AuthButton status={updateProfileLoggingStatus}>
+                  {updateProfileLoggingStatus === "pending" ? (
+                    <Oval
+                      ariaLabel="loading-indicator"
+                      height={20}
+                      width={20}
+                      strokeWidth={10}
+                      strokeWidthSecondary={5}
+                      color="white"
+                      secondaryColor="#6035e7"
+                    />
+                  ) : (
+                    "Update Profile"
+                  )}
+                </AuthButton>
               </div>
             </form>
           </section>
@@ -225,7 +256,7 @@ const AccountSetting = ({ userData }) => {
               <h1>Change Password</h1>
             </div>
             {updatePasswordError && (
-              <Alert img1={img1} img2={img2}>
+              <Alert img1={img1} img2={img2} alertType="error">
                 {updatePasswordError.message}
               </Alert>
             )}

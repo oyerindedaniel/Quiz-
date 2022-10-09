@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import {
   signup,
@@ -22,15 +22,47 @@ const AuthContext = React.createContext({
   logout: () => {},
 });
 
+const initialQuizDataState = {
+  submittedSignUpData: null,
+  submittedLoginData: null,
+  submittedForgotPasswordData: null,
+  submittedUpdatePasswordData: null,
+  submittedUpdateProfileData: null,
+};
+
+const quizDataStateReducer = (state, action) => {
+  if (action.type === "LOGIN") {
+    return { submittedLoginData: action.value };
+  }
+  if (action.type === "SIGNUP") {
+    return { submittedSignUpData: action.value };
+  }
+  if (action.type === "FORGOTPASSWORD") {
+    return { submittedForgotPasswordData: action.value };
+  }
+  if (action.type === "UPDATEPASSWORD") {
+    return { submittedUpdatePasswordData: action.value };
+  }
+  if (action.type === "UPDATEPROFILE") {
+    return { submittedUpdateProfileData: action.value };
+  }
+  if (action.type === "RESET") {
+    return {
+      submittedLoginData: null,
+      submittedSignUpData: null,
+      submittedForgotPasswordData: null,
+      submittedUpdatePasswordData: null,
+      submittedUpdateProfileData: null,
+    };
+  }
+  return quizDataStateReducer;
+};
+
 export const AuthContextProvider = (props) => {
-  const [submittedSignUpData, setSubmittedSignUpData] = useState(null);
-  const [submittedLoginData, setSubmittedLoginData] = useState(null);
-  const [submittedForgotPasswordData, setSubmittedForgotPasswordDData] =
-    useState(null);
-  const [submittedUpdatePasswordData, setSubmittedUpdatePasswordData] =
-    useState(null);
-  const [submittedUpdateProfileData, setSubmittedUpdateProfileData] =
-    useState(null);
+  const [quizDataState, dispatchQuizDataState] = useReducer(
+    quizDataStateReducer,
+    initialQuizDataState
+  );
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -72,6 +104,7 @@ export const AuthContextProvider = (props) => {
     sendRequest: updateProfileSendRequest,
     status: updateProfileLoggingStatus,
     data: updateProfileData,
+    error: updateProfileError,
   } = useHttp(updateProfile);
 
   useEffect(() => {
@@ -87,32 +120,60 @@ export const AuthContextProvider = (props) => {
   //UseEffect
   //Sign up Use Effect
   useEffect(() => {
-    if (submittedSignUpData) {
-      signupSendRequest(submittedSignUpData);
+    if (quizDataState.submittedSignUpData) {
+      signupSendRequest(quizDataState.submittedSignUpData);
     }
 
-    if (submittedLoginData) {
-      loginSendRequest(submittedLoginData);
+    if (quizDataState.submittedLoginData) {
+      loginSendRequest(quizDataState.submittedLoginData);
     }
 
-    if (submittedForgotPasswordData) {
-      forgotPasswordSendRequest(submittedForgotPasswordData);
+    if (quizDataState.submittedForgotPasswordData) {
+      forgotPasswordSendRequest(quizDataState.submittedForgotPasswordData);
     }
 
-    if (submittedUpdateProfileData) {
-      updateProfileSendRequest(submittedUpdateProfileData);
+    if (quizDataState.submittedUpdatePasswordData) {
+      updatePasswordSendRequest(quizDataState.submittedUpdatePasswordData);
+    }
+
+    if (quizDataState.submittedUpdateProfileData) {
+      updateProfileSendRequest(quizDataState.submittedUpdateProfileData);
     }
   }, [
-    submittedSignUpData,
+    quizDataState.submittedSignUpData,
     signupSendRequest,
-    submittedLoginData,
+    quizDataState.submittedLoginData,
     loginSendRequest,
-    submittedForgotPasswordData,
+    quizDataState.submittedForgotPasswordData,
     forgotPasswordSendRequest,
-    submittedUpdatePasswordData,
+    quizDataState.submittedUpdatePasswordData,
     updatePasswordSendRequest,
-    submittedUpdateProfileData,
+    quizDataState.submittedUpdateProfileData,
     updateProfileSendRequest,
+  ]);
+
+  useEffect(() => {
+    if (
+      signUpData ||
+      signupError ||
+      loginData ||
+      loginError ||
+      updatePasswordData ||
+      updatePasswordError ||
+      updateProfileData ||
+      updateProfileError
+    ) {
+      dispatchQuizDataState({ type: "RESET" });
+    }
+  }, [
+    signUpData,
+    signupError,
+    loginData,
+    loginError,
+    updatePasswordData,
+    updatePasswordError,
+    updateProfileData,
+    updateProfileError,
   ]);
 
   // Handler Function
@@ -121,24 +182,26 @@ export const AuthContextProvider = (props) => {
   };
 
   const loginHandler = (userSubmittedData) => {
-    console.log("submitted");
-    setSubmittedLoginData(userSubmittedData);
+    dispatchQuizDataState({ type: "LOGIN", value: userSubmittedData });
   };
 
   const signupHandler = (userSubmittedData) => {
-    setSubmittedSignUpData(userSubmittedData);
+    dispatchQuizDataState({ type: "SIGNUP", value: userSubmittedData });
   };
 
   const forgotPasswordHandler = (userSubmittedData) => {
-    setSubmittedLoginData(userSubmittedData);
+    dispatchQuizDataState({
+      type: "FORGOTPASSWORD",
+      value: userSubmittedData,
+    });
   };
 
   const updatePasswordHandler = (userSubmittedData) => {
-    setSubmittedUpdatePasswordData(userSubmittedData);
+    dispatchQuizDataState({ type: "UPDATEPASSWORD", value: userSubmittedData });
   };
 
   const updateProfileHandler = (userSubmittedData) => {
-    setSubmittedUpdatePasswordData(userSubmittedData);
+    dispatchQuizDataState({ type: "UPDATEPROFILE", value: userSubmittedData });
   };
 
   return (
@@ -161,6 +224,7 @@ export const AuthContextProvider = (props) => {
         updatePasswordLoggingStatus,
         updateProfile: updateProfileHandler,
         updateProfileLoggingStatus,
+        updateProfileData,
       }}
     >
       {props.children}

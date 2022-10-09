@@ -2,11 +2,22 @@ import icons from "../../../assets/svg/SVG/sprite.svg";
 
 import classes from "./alert.module.css";
 
-const Alert = ({ children, img1, img2 }) => {
+const Alert = ({ children, img1, img2, alertType }) => {
   return (
-    <div className={`${classes.alert}`}>
-      <svg className={`${classes.svgError}`}>
-        <use xlinkHref={`${icons}#icon-error`}></use>
+    <div
+      className={`${classes.alert} ${
+        alertType === "success" ? classes.alertSuccess : classes.alertError
+      }`}
+    >
+      <svg
+        className={`${
+          alertType === "success" ? classes.svgSuccess : classes.svgError
+        }`}
+      >
+        {alertType === "success" && (
+          <use xlinkHref={`${icons}#icon-checkmark`}></use>
+        )}
+        {alertType === "error" && <use xlinkHref={`${icons}#icon-error`}></use>}
       </svg>
       <img className={`${classes.alertImg}`} src={img1} alt="img 1" />
       <p>{children}</p>

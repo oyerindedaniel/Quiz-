@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
@@ -21,6 +21,8 @@ import classes from "./authlogin.module.css";
 const AuthLogin = () => {
   const { login, loggingInError, loggingInStatus, loggedInUser } =
     useContext(AuthContext);
+  const [event, setEvent] = useState(null);
+
   const navigate = useNavigate();
 
   const {
@@ -58,7 +60,6 @@ const AuthLogin = () => {
     login(userSubmittedData);
 
     resetEmailInput();
-    resetPasswordInput();
   };
 
   const formItems = [
@@ -113,7 +114,7 @@ const AuthLogin = () => {
       </h3>
       <AuthControl />
       {loggingInError && (
-        <Alert img1={img1} img2={img2}>
+        <Alert img1={img1} img2={img2} alertType="error">
           {loggingInError.message}
         </Alert>
       )}
