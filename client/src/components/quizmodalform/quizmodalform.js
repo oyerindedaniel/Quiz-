@@ -1,11 +1,13 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 
 import AuthContext from "../../contexts/auth-context";
 
 import classes from "./quizmodalform.module.css";
 
 const QuizModalForm = ({ onDisplayModal }) => {
-  const { createQuiz, createQuizLoggingStatus } = useContext(AuthContext);
+  const { createQuiz, createQuizLoggingStatus, createQuizData } =
+    useContext(AuthContext);
+  const [event, setEvent] = useState(null);
 
   const quizNameInputRef = useRef();
   const numberOfQuestionInputRef = useRef();
@@ -13,6 +15,7 @@ const QuizModalForm = ({ onDisplayModal }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    setEvent(e);
 
     const quizUploadForm = new FormData();
     quizUploadForm.append("quizName", quizNameInputRef.current.value);
@@ -24,6 +27,11 @@ const QuizModalForm = ({ onDisplayModal }) => {
 
     createQuiz(quizUploadForm);
   };
+
+  if (createQuizData && event) {
+    event.target.reset();
+    setEvent(null);
+  }
 
   return (
     <form onSubmit={submitHandler} className={`${classes.modalForm}`}>

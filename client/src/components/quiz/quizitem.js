@@ -1,15 +1,17 @@
 import classes from "./quizitem.module.css";
 
-const QuizItem = ({ imgSrc, caption }) => {
+const QuizItem = ({ imgSrc, quizName, numberOfQuestion }) => {
   return (
     <div className={`${classes.quizItem}`}>
       <div className={`${classes.quizItemImgContainer}`}>
         <img className={`${classes.quizItemImg}`} src={imgSrc} alt="Default" />
       </div>
       <div className={`${classes.quizItemCaptionContainer}`}>
-        <span className={`${classes.quizItemCaptionName}`}>{caption}</span>
+        <span className={`${classes.quizItemCaptionName}`}>{quizName}</span>
         <span className={`${classes.quizItemCaptionQuestionNo}`}>
-          225 questions
+          {`${numberOfQuestion} ${
+            numberOfQuestion > 1 ? "Questions" : "Question"
+          }`}
         </span>
       </div>
       {/* <div className={`${classes.quizItemImgContainer}`}>

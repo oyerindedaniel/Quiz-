@@ -180,7 +180,9 @@ export const AuthContextProvider = (props) => {
       updatePasswordData ||
       updatePasswordError ||
       updateProfileData ||
-      updateProfileError
+      updateProfileError ||
+      createQuizError ||
+      createQuizData
     ) {
       dispatchQuizDataState({ type: "RESET" });
     }
@@ -193,6 +195,8 @@ export const AuthContextProvider = (props) => {
     updatePasswordError,
     updateProfileData,
     updateProfileError,
+    createQuizData,
+    createQuizError,
   ]);
 
   // Handler Function
@@ -250,6 +254,7 @@ export const AuthContextProvider = (props) => {
         updateProfileData,
         createQuiz: createQuizHandler,
         createQuizLoggingStatus,
+        createQuizData,
       }}
     >
       {props.children}

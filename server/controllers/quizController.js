@@ -48,3 +48,16 @@ exports.createQuiz = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getAllQuizById = catchAsync(async (req, res, next) => {
+  const AllQuizByUser = await Quiz.find({ user: req.user._id });
+
+  // if (!user) {
+  //   return next(new AppError("Email is invalid or already taken", 401));
+  // }
+
+  res.status(200).json({
+    status: "success",
+    data: AllQuizByUser,
+  });
+});

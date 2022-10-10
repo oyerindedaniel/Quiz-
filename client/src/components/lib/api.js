@@ -100,4 +100,14 @@ export async function createQuiz(userSubmittedData) {
   }
 }
 
+export async function getAllQuizById() {
+  try {
+    const response = await instance.get("/quiz/getAllQuizById");
+    return response.data;
+  } catch (err) {
+    console.log(err.response.data);
+    throw err.response.data;
+  }
+}
+
 // instance.get('/todos')

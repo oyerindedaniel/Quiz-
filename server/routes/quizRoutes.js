@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.use(authController.protect);
 
+router.route("/getAllQuizById").get(quizController.getAllQuizById);
 router
   .route("/createQuiz")
   .post(quizController.uploadQuizFile, quizController.createQuiz);

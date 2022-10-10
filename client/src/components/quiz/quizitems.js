@@ -1,40 +1,68 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import QuizItem from "./quizitem";
 
-import classes from "./quizitems.module.css";
+import { getAllQuizById } from "../lib/api";
+
+import useHttp from "../../hooks/use-http";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
-import excelImg from "../../assets/img/xls.png";
-import wordImg from "../../assets/img/doc.png";
-import pptImg from "../../assets/img/ppt.png";
+import xlsImg from "../../assets/img/xls1.png";
+import xlsxImg from "../../assets/img/xlsx.png";
+
+import classes from "./quizitems.module.css";
 
 const QuizItems = () => {
-  const quizItems = [
-    { key: 1, img: excelImg, caption: "EIE 523" },
-    { key: 2, img: excelImg, caption: "POS 222" },
-    { key: 3, img: excelImg, caption: "CVE 111" },
-    { key: 4, img: excelImg, caption: "MCE 229" },
-    { key: 5, img: excelImg, caption: "TMC 328" },
-    { key: 6, img: excelImg, caption: "AGP 221" },
-    { key: 7, img: excelImg, caption: "AGP 121" },
-    { key: 8, img: excelImg, caption: "AGP 521" },
-    { key: 9, img: excelImg, caption: "AGP 521" },
-    { key: 10, img: excelImg, caption: "AGP 521" },
-    { key: 11, img: excelImg, caption: "AGP 521" },
-    { key: 12, img: excelImg, caption: "AGP 521" },
-    { key: 13, img: excelImg, caption: "AGP 521" },
-  ].map((quizItem) => (
-    <QuizItem
-      key={quizItem.key}
-      imgSrc={quizItem.img}
-      caption={quizItem.caption}
-    />
-  ));
+  const [Quizzes, setQuizzes] = useState(null);
+
+  const {
+    sendRequest: userQuizSendRequest,
+    status: userQuizStatus,
+    data: userQuizData,
+    error: userQuizError,
+  } = useHttp(getAllQuizById);
+
+  useEffect(() => {
+    userQuizSendRequest();
+  }, [userQuizSendRequest]);
+
+  useEffect(() => {
+    if (userQuizData) {
+      const { data: foundUserQuizData } = userQuizData;
+      const UserQuizDataEdits = [...foundUserQuizData];
+      const newUserQuizData = UserQuizDataEdits.map((UserQuizDataEdit) => {
+        const fileType = UserQuizDataEdit.uploadQuiz.split(".")[1];
+
+        if (fileType === "xls") {
+          UserQuizDataEdit["img"] = xlsImg;
+        }
+
+        if (fileType === "xlsx") {
+          UserQuizDataEdit["img"] = xlsxImg;
+        }
+
+        return UserQuizDataEdit;
+      });
+      setQuizzes(newUserQuizData);
+    }
+  }, [userQuizData]);
+
+  let quizItems;
+
+  if (Quizzes) {
+    quizItems = Quizzes.map((quizItem) => (
+      <QuizItem
+        key={quizItem._id}
+        imgSrc={quizItem.img}
+        quizName={quizItem.quizName}
+        numberOfQuestion={quizItem.numberOfQuestion}
+      />
+    ));
+  }
 
   return (
     <Fragment>
-      <div className={`${classes.quizItems}`}>{quizItems}</div>
+      <div className={`${classes.quizItems}`}>{Quizzes && quizItems}</div>
       <div className={`${classes.svgArrowContainer}`}>
         <span className={`${classes.svgArrow1}`}>
           <svg className={`${classes.svgArrow}`}>
