@@ -6,6 +6,7 @@ import {
   updatePassword,
   updateProfile,
   forgotPassword,
+  createQuiz,
 } from "../components/lib/api";
 
 import useHttp from "../hooks/use-http";
@@ -28,6 +29,7 @@ const initialQuizDataState = {
   submittedForgotPasswordData: null,
   submittedUpdatePasswordData: null,
   submittedUpdateProfileData: null,
+  submittedCreateQuizData: null,
 };
 
 const quizDataStateReducer = (state, action) => {
@@ -46,6 +48,9 @@ const quizDataStateReducer = (state, action) => {
   if (action.type === "UPDATEPROFILE") {
     return { submittedUpdateProfileData: action.value };
   }
+  if (action.type === "CREATEQUIZ") {
+    return { submittedCreateQuizData: action.value };
+  }
   if (action.type === "RESET") {
     return {
       submittedLoginData: null,
@@ -53,6 +58,7 @@ const quizDataStateReducer = (state, action) => {
       submittedForgotPasswordData: null,
       submittedUpdatePasswordData: null,
       submittedUpdateProfileData: null,
+      submittedCreateQuizData: null,
     };
   }
   return quizDataStateReducer;
@@ -107,6 +113,14 @@ export const AuthContextProvider = (props) => {
     error: updateProfileError,
   } = useHttp(updateProfile);
 
+  //UseHttp for update profile
+  const {
+    sendRequest: createQuizSendRequest,
+    status: createQuizLoggingStatus,
+    data: createQuizData,
+    error: createQuizError,
+  } = useHttp(createQuiz);
+
   useEffect(() => {
     if (loginData || signUpData) {
       setIsLoggedIn(true);
@@ -139,6 +153,9 @@ export const AuthContextProvider = (props) => {
     if (quizDataState.submittedUpdateProfileData) {
       updateProfileSendRequest(quizDataState.submittedUpdateProfileData);
     }
+    if (quizDataState.submittedCreateQuizData) {
+      createQuizSendRequest(quizDataState.submittedCreateQuizData);
+    }
   }, [
     quizDataState.submittedSignUpData,
     signupSendRequest,
@@ -150,6 +167,8 @@ export const AuthContextProvider = (props) => {
     updatePasswordSendRequest,
     quizDataState.submittedUpdateProfileData,
     updateProfileSendRequest,
+    quizDataState.submittedCreateQuizData,
+    createQuizSendRequest,
   ]);
 
   useEffect(() => {
@@ -204,6 +223,10 @@ export const AuthContextProvider = (props) => {
     dispatchQuizDataState({ type: "UPDATEPROFILE", value: userSubmittedData });
   };
 
+  const createQuizHandler = (userSubmittedData) => {
+    dispatchQuizDataState({ type: "CREATEQUIZ", value: userSubmittedData });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -225,6 +248,8 @@ export const AuthContextProvider = (props) => {
         updateProfile: updateProfileHandler,
         updateProfileLoggingStatus,
         updateProfileData,
+        createQuiz: createQuizHandler,
+        createQuizLoggingStatus,
       }}
     >
       {props.children}

@@ -6,6 +6,7 @@ import Navigation from "../navigation/navigation";
 import QuizItems from "../quiz/quizitems";
 import HistoryItems from "../gameshistory/historyitems";
 import AddQuizModal from "../ui/modal/addquizmodal";
+import QuizModalForm from "../quizmodalform/quizmodalform";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
 
@@ -36,7 +37,7 @@ const Homecp = () => {
       <Navigation isAccountControlNeeded="true" />
       <main>
         <div className={`${classes.main}`}>
-          <h1 className={`${classes.h1}`}>My Quizes</h1>
+          <h1 className={`${classes.h1}`}>My Quizzes</h1>
           <form
             className={`${classes.controlGroupContainer}`}
             onSubmit={searchHandlerOn}
@@ -92,47 +93,7 @@ const Homecp = () => {
                 </a>
               </span>
             </p>
-            <form className={`${classes.modalForm}`}>
-              <div className={`${classes.modalFormInputContainer}`}>
-                <div className={`${classes.modalFormInputContainer1}`}>
-                  <label className={`${classes.modalLabel}`} htmlFor="name">
-                    Quiz Name
-                    <span className={`${classes.labelRequired}`}>*</span>
-                  </label>
-                  <input
-                    className={`${classes.modalQuizNameInput}`}
-                    type="type"
-                    id="name"
-                  />
-                </div>
-                <div className={`${classes.modalFormInputContainer2}`}>
-                  <label
-                    className={`${classes.modalLabel}`}
-                    htmlFor="questionno"
-                  >
-                    Number of Question
-                    <span className={`${classes.labelRequired}`}>*</span>
-                  </label>
-                  <input
-                    className={`${classes.modalQuestionNoInput}`}
-                    type="type"
-                    id="questionno"
-                  />
-                </div>
-                <div className={`${classes.modalFormInputContainer3}`}>
-                  <input
-                    type="file"
-                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                  />
-                </div>
-              </div>
-              <div className={classes.modalActions}>
-                <button type="button" onClick={onDisplayModalHandler}>
-                  Cancel
-                </button>
-                <button className={classes.submit}>Add Quiz</button>
-              </div>
-            </form>
+            <QuizModalForm onDisplayModal={onDisplayModalHandler} />
           </AddQuizModal>
         )}
         <QuizItems />

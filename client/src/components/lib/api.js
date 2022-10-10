@@ -87,4 +87,17 @@ export async function updateProfile(userSubmittedData) {
   }
 }
 
+//Update Profile API call
+export async function createQuiz(userSubmittedData) {
+  try {
+    console.log(userSubmittedData);
+    const response = await instance.post("/quiz/createQuiz", userSubmittedData);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.log(err.response.data);
+    throw err.response.data;
+  }
+}
+
 // instance.get('/todos')

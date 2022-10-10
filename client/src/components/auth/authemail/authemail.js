@@ -17,15 +17,15 @@ const AuthConfirmEmail = () => {
     <Fragment>
       <Navigation isAccountControlNeeded="true" />
       <main className={`${classes.main}`}>
-        <section className={`${classes.confirmEmail}`}>
+        <div className={`${classes.confirmEmail}`}>
           <h1 className={`${classes.confirmEmailH1}`}>Confirm Email</h1>
           <img
             className={`${classes.confirmEmailImg}`}
             src={img1}
             alt="Email Confirm Logo"
           />
-        </section>
-        <div className={`${classes.confirmEmailDetails}`}>
+        </div>
+        <section className={`${classes.confirmEmailDetails}`}>
           <p className={`${classes.confirmEmailP}`}>
             We sent a link to{" "}
             <span className={`${classes.confirmEmailAddress}`}>
@@ -55,7 +55,7 @@ const AuthConfirmEmail = () => {
             You'll be redirected in {resendEmailTime} seconds if email isn't
             confirmed
           </p>
-        </div>
+        </section>
       </main>
     </Fragment>
   );

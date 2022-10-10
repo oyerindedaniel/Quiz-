@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const userRouter = require("./routes/userRoutes");
+const quizRouter = require("./routes/quizRoutes");
 const globalErrorHandler = require("./controllers/errorController");
 
 // Start express app
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/quiz", userRouter);
+app.use("/quiz", quizRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

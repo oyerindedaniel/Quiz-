@@ -106,7 +106,6 @@ exports.initialProtect = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log("protect");
   let token;
   if (req.cookies.jwt) {
     token = req.cookies.jwt;

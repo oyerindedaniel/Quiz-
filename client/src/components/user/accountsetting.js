@@ -7,8 +7,9 @@ import Alert from "../ui/alert/alert";
 
 import useInput from "../../hooks/use-input";
 
-import img1 from "../../assets/alertimg/bear.png";
+import img4 from "../../assets/alertimg/success2.png";
 import img2 from "../../assets/alertimg/refresh-arrow.png";
+import img3 from "../../assets/img/setting3.png";
 
 import { Oval } from "react-loader-spinner";
 
@@ -175,7 +176,6 @@ const AccountSetting = ({ userData }) => {
   ));
 
   const editProfileOnSubmitHandler = (e) => {
-    console.log("submit profile");
     e.preventDefault();
 
     const userSubmittedData = {
@@ -187,7 +187,6 @@ const AccountSetting = ({ userData }) => {
   };
 
   const editPasswordOnSubmitHandler = (e) => {
-    console.log("Password");
     e.preventDefault();
     setEvent(e);
 
@@ -214,7 +213,14 @@ const AccountSetting = ({ userData }) => {
     <Fragment>
       <Navigation isAccountControlNeeded="true" />
       <main className={`${classes.main}`}>
-        <h1 className={`${classes.h1}`}>Account Settings</h1>
+        <div className={`${classes.accountSetting}`}>
+          <h1 className={`${classes.h1}`}>Account Settings</h1>
+          <img
+            className={`${classes.accountSettingImg}`}
+            src={img3}
+            alt="Account Setting Logo"
+          />
+        </div>
         <div className={`${classes.editCont}`}>
           <section
             className={`${classes.editCont1} ${classes.editProfileCont}`}
@@ -224,7 +230,7 @@ const AccountSetting = ({ userData }) => {
               <p>Update your profile information below</p>
             </div>
             {updateProfileData && (
-              <Alert img1={img1} img2={img2} alertType="success">
+              <Alert img2={img4} alertType="success">
                 Successfully updated profile
               </Alert>
             )}
@@ -256,7 +262,7 @@ const AccountSetting = ({ userData }) => {
               <h1>Change Password</h1>
             </div>
             {updatePasswordError && (
-              <Alert img1={img1} img2={img2} alertType="error">
+              <Alert img2={img2} alertType="error">
                 {updatePasswordError.message}
               </Alert>
             )}

@@ -19,7 +19,7 @@ const Alert = ({ children, img1, img2, alertType }) => {
         )}
         {alertType === "error" && <use xlinkHref={`${icons}#icon-error`}></use>}
       </svg>
-      <img className={`${classes.alertImg}`} src={img1} alt="img 1" />
+      {/* <img className={`${classes.alertImg}`} src={img1} alt="img 1" /> */}
       <p>{children}</p>
       <img className={`${classes.alertImg}`} src={img2} alt="img 2" />
     </div>
