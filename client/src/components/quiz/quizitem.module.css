@@ -45,7 +45,7 @@
 
 .quizItemCaptionQuestionNo {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .modalVisibilityDes {
@@ -61,6 +61,7 @@
   margin-top: 0.5rem;
   font-weight: 500;
   color: var(--color-grey-1);
+  text-align: justify;
 }
 
 .modalH2Text {
@@ -68,20 +69,4 @@
   font-weight: 800;
   padding: 1rem 0rem;
   border-bottom: 0.2rem solid var(--color-grey-1);
-}
-
-.aboutQuizLoad {
-  font-weight: 500;
-  font-size: 1.3rem;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  background-color: var(--color-yellow-1);
-  border-radius: 0.5rem;
-  margin-top: 1rem;
-  width: 20rem;
-}
-
-.aboutQuizLoadText {
-  margin-left: 1rem;
 }

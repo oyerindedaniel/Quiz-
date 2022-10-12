@@ -1,0 +1,140 @@
+.aboutQuizLoad {
+  font-weight: 500;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.aboutQuizLoadPending {
+  background-color: var(--color-yellow-1);
+  width: 17rem;
+}
+
+.aboutQuizLoadCompleted {
+  background: var(--color-green-2);
+  width: 9rem;
+}
+
+.aboutQuizLoadAboutQuiz {
+  margin: 1rem 0;
+  border: 0.15rem solid var(--color-grey-2);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.aboutQuizLoadAboutQuiz:hover {
+  border: 0.2rem solid var(--color-grey-1);
+}
+
+.aboutQuizLoadAboutQuiz h1 {
+  font-size: 1.8rem;
+}
+
+.aboutQuizLoadAboutQuiz h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.aboutQuizLoadText {
+  margin-left: 1rem;
+}
+
+.aboutQuizTimeNote {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.aboutQuizTimeNoteSvg {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+.aboutQuizTimeInsert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutQuizTimeInsertInputCont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.aboutQuizTimeInsertInputCont span {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.aboutQuizTimeInsertInputCont input {
+  height: 5rem;
+  width: 5.5rem;
+  border: 0.15rem solid var(--color-grey-2);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  font-size: 3rem;
+  text-align: center;
+  outline: none;
+}
+
+input,
+select,
+textarea {
+  font-weight: 700;
+}
+
+.aboutQuizTimeInsertInputCont input:active,
+.aboutQuizTimeInsertInputCont input:focus {
+  border: 0.2rem solid var(--color-grey-1);
+}
+
+.aboutQuizTimeInsertInputCont input:first-of-type {
+  margin-right: 1rem;
+}
+
+.aboutQuizTimeInsertInputCont input:last-of-type {
+  margin-left: 1rem;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.modalActions button {
+  font-size: 1.3rem;
+  outline: none;
+  border: none;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(var(--color-blue-1), var(--color-blue-4));
+  background-color: white;
+  color: white;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.modalActions button:hover {
+  background: var(--color-blue-1);
+}
+
+.modalActions button:last-of-type {
+  margin-left: 1.5rem;
+}
+
+.aboutQuizLoadSvgCompleted {
+  width: 2.2rem;
+  height: 2.2rem;
+  fill: var(--color-green-1);
+}

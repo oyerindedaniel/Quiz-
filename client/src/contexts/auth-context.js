@@ -277,7 +277,9 @@ export const AuthContextProvider = (props) => {
         createQuiz: createQuizHandler,
         createQuizLoggingStatus,
         createQuizData,
-        getQuizData: getQuizDataHandler,
+        getQuizDataHandler,
+        getQuizData,
+        getQuizLoggingStatus,
       }}
     >
       {props.children}
