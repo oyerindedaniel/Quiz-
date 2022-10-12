@@ -1,4 +1,6 @@
 const multer = require("multer");
+const Excel = require("exceljs");
+const path = require("path");
 const Quiz = require("../models/quizModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
@@ -60,4 +62,44 @@ exports.getAllQuizById = catchAsync(async (req, res, next) => {
     status: "success",
     data: AllQuizByUser,
   });
+});
+
+exports.getQuizData = catchAsync(async (req, res, next) => {
+  const { excelName } = req.body;
+
+  const workbook = new Excel.Workbook();
+
+  try {
+    const file = await workbook.xlsx.readFile(
+      path.join(__dirname, `../public/quiz/files/${excelName}`)
+    );
+
+    let theData = [];
+    workbook.eachSheet((ws, sheetId) => {
+      let headers = {};
+
+      for (let i = 1; i <= ws.actualColumnCount; i++) {
+        headers[i] = ws.getRow(1).getCell(i).value;
+      }
+
+      for (let x = 2; x <= ws.actualRowCount; x++) {
+        let theRow = {};
+        for (let y = 1; y <= ws.actualColumnCount; y++) {
+          theRow[headers[y]] = ws.getRow(x).getCell(y).value;
+        }
+        theData.push(theRow);
+      }
+      return theData;
+    });
+
+    console.log(theData);
+
+    res.status(200).json({
+      status: "success",
+      data: theData,
+    });
+  } catch (err) {
+    console.log(err);
+    return next(new AppError("Error read file", 404));
+  }
 });
