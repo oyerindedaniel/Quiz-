@@ -13,10 +13,10 @@ const AddQuizModal = ({
   return (
     <Fragment>
       <div
-        className={`${classes.backdrop} ${classNameBackdrop}`}
+        className={`${classes.backdrop}`}
         onClick={onDisplayModalHandler}
       ></div>
-      <QuizCard className={`${classes.modal} ${classNameModal}`}>
+      <QuizCard className={`${classes.modal}`}>
         <h1 className={`${classes.h1}`}>Quiz!</h1>
         {children}
       </QuizCard>

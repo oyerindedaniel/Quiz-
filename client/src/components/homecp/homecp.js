@@ -30,7 +30,7 @@ const Homecp = () => {
     navigate("/account/settings");
   };
 
-  const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
+  // const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
 
   return (
     <Fragment>
@@ -70,13 +70,7 @@ const Homecp = () => {
           </div>
         </div>
         {showModal && (
-          <AddQuizModal
-            classNameModal={`${showModal ? classes.modalVisibility : " "}`}
-            classNameBackdrop={`${
-              showModal ? classes.backdropVisibility : " "
-            }`}
-            onDisplayModalHandler={onDisplayModalHandler}
-          >
+          <AddQuizModal onDisplayModalHandler={onDisplayModalHandler}>
             <h2 className={`${classes.modalH2Text}`}>Upload File</h2>
             <p className={`${classes.modalTextP}`}>
               Make sure to upload an{" "}
@@ -89,7 +83,7 @@ const Homecp = () => {
                   href="a"
                   download
                 >
-                  (download template)
+                  (download sample template)
                 </a>
               </span>
             </p>

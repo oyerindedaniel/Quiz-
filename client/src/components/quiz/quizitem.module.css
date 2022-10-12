@@ -6,7 +6,7 @@
   flex-shrink: 0;
   border-radius: 1rem;
   position: relative;
-  overflow: hidden;
+  cursor: pointer;
 }
 
 .quizItemImgContainer {
@@ -46,4 +46,42 @@
 .quizItemCaptionQuestionNo {
   font-size: 1rem;
   font-weight: 500;
+}
+
+.modalVisibilityDes {
+  opacity: 1;
+}
+
+.backdropVisibilityDes {
+  opacity: 0.8;
+}
+
+.modalTextP {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  color: var(--color-grey-1);
+}
+
+.modalH2Text {
+  font-size: 2rem;
+  font-weight: 800;
+  padding: 1rem 0rem;
+  border-bottom: 0.2rem solid var(--color-grey-1);
+}
+
+.aboutQuizLoad {
+  font-weight: 500;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: var(--color-yellow-1);
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  width: 20rem;
+}
+
+.aboutQuizLoadText {
+  margin-left: 1rem;
 }

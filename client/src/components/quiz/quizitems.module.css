@@ -4,6 +4,8 @@
   flex-wrap: nowrap;
   padding-left: 6rem;
   overflow: hidden;
+  height: 20rem;
+  position: relative;
 }
 
 .svgArrowContainer {
@@ -18,7 +20,6 @@
   width: 2rem;
   height: 2rem;
   fill: var(--color-grey-1);
-  /* padding: 1.5rem; */
 }
 
 .svgArrow1 {
@@ -29,4 +30,50 @@
 .svgArrow2 {
   background-color: var(--color-grey-2);
   padding: 0.6rem 1.1rem 0.6rem 1rem;
+}
+
+.noQuizItems {
+  position: absolute;
+  right: 4rem;
+  top: 3.5rem;
+  cursor: default;
+}
+
+.noQuizItemsImg {
+  height: 12rem;
+  width: 14rem;
+  animation: arrowScaling 1s ease-out infinite;
+}
+
+.noQuizItemsImg:hover + .noQuizItemsCaption {
+  opacity: 1;
+}
+
+@keyframes arrowScaling {
+  0% {
+    transform: scale(0.8);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+.noQuizItemsCaption {
+  padding: 1rem 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.5rem;
+  position: absolute;
+  right: 12rem;
+  top: 6.5rem;
+  width: 11rem;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
 }

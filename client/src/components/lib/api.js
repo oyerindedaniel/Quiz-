@@ -110,4 +110,18 @@ export async function getAllQuizById() {
   }
 }
 
+export async function getQuizData(userSubmittedData) {
+  try {
+    const response = await instance.post(
+      "/quiz/getQuizData",
+      userSubmittedData
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.log(err.response.data);
+    throw err.response.data;
+  }
+}
+
 // instance.get('/todos')

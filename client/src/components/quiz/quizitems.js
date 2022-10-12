@@ -2,6 +2,8 @@ import { Fragment, useEffect, useState } from "react";
 
 import QuizItem from "./quizitem";
 
+import QuizItemsSkeletonLoader from "../ui/quizitemsskeletonloader/quizitemsskeletonloader";
+
 import { getAllQuizById } from "../lib/api";
 
 import useHttp from "../../hooks/use-http";
@@ -9,6 +11,7 @@ import useHttp from "../../hooks/use-http";
 import icons from "../../assets/svg/SVG/sprite.svg";
 import xlsImg from "../../assets/img/xls1.png";
 import xlsxImg from "../../assets/img/xlsx.png";
+import quizHere from "../../assets/img/up-arrow.png";
 
 import classes from "./quizitems.module.css";
 
@@ -56,13 +59,27 @@ const QuizItems = () => {
         imgSrc={quizItem.img}
         quizName={quizItem.quizName}
         numberOfQuestion={quizItem.numberOfQuestion}
+        uploadQuizName={quizItem.uploadQuiz}
       />
     ));
   }
 
   return (
     <Fragment>
-      <div className={`${classes.quizItems}`}>{Quizzes && quizItems}</div>
+      <section className={`${classes.quizItems}`}>
+        {userQuizStatus === "pending" && <QuizItemsSkeletonLoader />}
+        {Quizzes && quizItems}
+        {userQuizStatus === "completed" && !userQuizData.data.length && (
+          <div className={`${classes.noQuizItems}`}>
+            <img
+              className={`${classes.noQuizItemsImg}`}
+              src={quizHere}
+              alt="Add Quiz Arrow Point"
+            />
+            <span className={`${classes.noQuizItemsCaption}`}>Add Quiz 🆙</span>
+          </div>
+        )}
+      </section>
       <div className={`${classes.svgArrowContainer}`}>
         <span className={`${classes.svgArrow1}`}>
           <svg className={`${classes.svgArrow}`}>

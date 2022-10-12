@@ -7,6 +7,7 @@ import {
   updateProfile,
   forgotPassword,
   createQuiz,
+  getQuizData,
 } from "../components/lib/api";
 
 import useHttp from "../hooks/use-http";
@@ -30,6 +31,7 @@ const initialQuizDataState = {
   submittedUpdatePasswordData: null,
   submittedUpdateProfileData: null,
   submittedCreateQuizData: null,
+  submittedGetQuizData: null,
 };
 
 const quizDataStateReducer = (state, action) => {
@@ -51,6 +53,9 @@ const quizDataStateReducer = (state, action) => {
   if (action.type === "CREATEQUIZ") {
     return { submittedCreateQuizData: action.value };
   }
+  if (action.type === "GETQUIZDATA") {
+    return { submittedGetQuizData: action.value };
+  }
   if (action.type === "RESET") {
     return {
       submittedLoginData: null,
@@ -59,6 +64,7 @@ const quizDataStateReducer = (state, action) => {
       submittedUpdatePasswordData: null,
       submittedUpdateProfileData: null,
       submittedCreateQuizData: null,
+      submittedGetQuizData: null,
     };
   }
   return quizDataStateReducer;
@@ -121,6 +127,13 @@ export const AuthContextProvider = (props) => {
     error: createQuizError,
   } = useHttp(createQuiz);
 
+  const {
+    sendRequest: getQuizDataSendRequest,
+    status: getQuizLoggingStatus,
+    data: getQuizDataBN,
+    error: getQuizError,
+  } = useHttp(getQuizData);
+
   useEffect(() => {
     if (loginData || signUpData) {
       setIsLoggedIn(true);
@@ -156,7 +169,12 @@ export const AuthContextProvider = (props) => {
     if (quizDataState.submittedCreateQuizData) {
       createQuizSendRequest(quizDataState.submittedCreateQuizData);
     }
+    if (quizDataState.submittedGetQuizData) {
+      getQuizDataSendRequest(quizDataState.submittedGetQuizData);
+    }
   }, [
+    getQuizDataSendRequest,
+    quizDataState.submittedGetQuizData,
     quizDataState.submittedSignUpData,
     signupSendRequest,
     quizDataState.submittedLoginData,
@@ -231,6 +249,10 @@ export const AuthContextProvider = (props) => {
     dispatchQuizDataState({ type: "CREATEQUIZ", value: userSubmittedData });
   };
 
+  const getQuizDataHandler = (userSubmittedData) => {
+    dispatchQuizDataState({ type: "GETQUIZDATA", value: userSubmittedData });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -255,6 +277,7 @@ export const AuthContextProvider = (props) => {
         createQuiz: createQuizHandler,
         createQuizLoggingStatus,
         createQuizData,
+        getQuizData: getQuizDataHandler,
       }}
     >
       {props.children}

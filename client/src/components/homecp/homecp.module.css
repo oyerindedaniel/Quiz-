@@ -117,11 +117,3 @@
 .modalTextSpan {
   font-weight: 800;
 }
-
-.modalVisibility {
-  opacity: 1;
-}
-
-.backdropVisibility {
-  opacity: 0.8;
-}
