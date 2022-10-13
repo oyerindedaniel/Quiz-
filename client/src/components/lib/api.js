@@ -79,7 +79,6 @@ export async function updateProfile(userSubmittedData) {
       username: userSubmittedData.username,
       email: userSubmittedData.email,
     });
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err.response.data);
@@ -92,7 +91,6 @@ export async function createQuiz(userSubmittedData) {
   try {
     console.log(userSubmittedData);
     const response = await instance.post("/quiz/createQuiz", userSubmittedData);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err.response.data);
@@ -116,7 +114,6 @@ export async function getQuizData(userSubmittedData) {
       "/quiz/getQuizData",
       userSubmittedData
     );
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err.response.data);

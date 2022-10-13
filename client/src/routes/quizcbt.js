@@ -10,30 +10,31 @@ import { initialProtect } from "../components/lib/api";
 import useHttp from "../hooks/use-http";
 
 const QuizCbt = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const {
-    sendRequest: initialProtectSendRequest,
-    status: initialProtectStatus,
-    data: initialProtectData,
-    error: initialProtectError,
-  } = useHttp(initialProtect);
+  // const {
+  //   sendRequest: initialProtectSendRequest,
+  //   status: initialProtectStatus,
+  //   data: initialProtectData,
+  //   error: initialProtectError,
+  // } = useHttp(initialProtect);
 
-  //
-  useEffect(() => {
-    initialProtectSendRequest();
-  }, [initialProtectSendRequest]);
+  // //
+  // useEffect(() => {
+  //   initialProtectSendRequest();
+  // }, [initialProtectSendRequest]);
 
-  useEffect(() => {
-    if (initialProtectError) {
-      navigate("/login", { replace: true });
-    }
-  }, [initialProtectError, navigate]);
+  // useEffect(() => {
+  //   if (initialProtectError) {
+  //     navigate("/login", { replace: true });
+  //   }
+  // }, [initialProtectError, navigate]);
 
   return (
     <Fragment>
-      {initialProtectStatus === "pending" && <LoadingScreen />}
-      {initialProtectData && <QuizCbtTest />}
+      {/* {initialProtectStatus === "pending" && <LoadingScreen />}
+      {initialProtectData && <QuizCbtTest />} */}
+      <QuizCbtTest />
     </Fragment>
   );
 };

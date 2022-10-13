@@ -86,11 +86,11 @@
   outline: none;
 }
 
-input,
+/* input,
 select,
 textarea {
   font-weight: 700;
-}
+} */
 
 .aboutQuizTimeInsertInputCont input:active,
 .aboutQuizTimeInsertInputCont input:focus {

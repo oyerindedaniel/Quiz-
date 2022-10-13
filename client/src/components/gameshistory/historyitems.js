@@ -8,9 +8,7 @@ import classes from "./historyitems.module.css";
 import { useEffect } from "react";
 
 const HistoryItems = () => {
-  useEffect(() => {
-    console.log("History Items");
-  }, []);
+  useEffect(() => {}, []);
 
   const historyItems = [
     {

@@ -1,16 +1,41 @@
-import { Fragment } from "react";
+import { Fragment, useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Navigation from "../navigation/navigation";
 import AuthButton from "../ui/authbutton/authbutton";
 import QuizTimer from "./quiztimer";
+import AuthContext from "../../contexts/auth-context";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
 
 import classes from "./quizcbttest.module.css";
 
 const QuizCbtTest = () => {
-  const currentQuizNo = 1;
-  const totalQuizNo = 100;
+  const [questionCount, setQuestionCount] = useState(1);
+  const [quizData, setQuizData] = useState(null);
+
+  const {
+    myQuizData: { data },
+  } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data) {
+      setQuizData(data);
+    }
+
+    if (!data) {
+      navigate("/home", { replace: true });
+    }
+  }, [data, navigate]);
+
+  const previousQuestionChangeHandler = () => {
+    console.log("previous");
+  };
+
+  const nextQuestionChangeHandler = () => {};
+
   const question = "What is your ideal Workplace?";
 
   return (
@@ -22,7 +47,7 @@ const QuizCbtTest = () => {
         </Fragment>
         <div className={`${classes.mainQuiz}`}>
           <h4 className={`${classes.quizQuestionCount}`}>
-            QUESTION {`${currentQuizNo}/${totalQuizNo}`}
+            QUESTION {`${questionCount}/${quizData?.length}`}
           </h4>
           <h2 className={`${classes.quizQuestion}`}>{question}</h2>
           <ul>
@@ -57,13 +82,21 @@ const QuizCbtTest = () => {
             </li>
           </ul>
           <form className={classes.quizButtonContainer}>
-            <AuthButton className={`${classes.button}`} type="button">
+            <AuthButton
+              onClickHandler={previousQuestionChangeHandler}
+              className={`${classes.button}`}
+              type="button"
+            >
               <span>Previous Question</span>
               <svg className={`${classes.svgQuestionChange}`}>
                 <use xlinkHref={`${icons}#icon-arrow-thin-left`}></use>
               </svg>
             </AuthButton>
-            <AuthButton className={`${classes.button}`} type="button">
+            <AuthButton
+              onClickHandler={nextQuestionChangeHandler}
+              className={`${classes.button}`}
+              type="button"
+            >
               <span>Next Question</span>
               <svg className={`${classes.svgQuestionChange}`}>
                 <use xlinkHref={`${icons}#icon-arrow-thin-right`}></use>

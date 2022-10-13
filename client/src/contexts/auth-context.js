@@ -278,7 +278,7 @@ export const AuthContextProvider = (props) => {
         createQuizLoggingStatus,
         createQuizData,
         getQuizDataHandler,
-        getQuizData,
+        myQuizData: getQuizDataBN,
         getQuizLoggingStatus,
       }}
     >

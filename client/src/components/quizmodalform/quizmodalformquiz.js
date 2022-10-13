@@ -9,8 +9,10 @@ import { Oval } from "react-loader-spinner";
 
 import classes from "./quizmodalformquiz.module.css";
 
-const QuizModalFormQuiz = () => {
+const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
   const { getQuizData, getQuizLoggingStatus } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const hoursInputRef = useRef();
   const minutesInputRef = useRef();
@@ -23,7 +25,7 @@ const QuizModalFormQuiz = () => {
     const minutesValue = minutesInputRef.current.value;
     const secondsValue = secondsInputRef.current.value;
 
-    navigate("/quiz/", { replace: true });
+    navigate(`/quiz/${quizName}`, { replace: true });
   };
 
   return (
@@ -57,8 +59,10 @@ const QuizModalFormQuiz = () => {
         </span>
       </div>
       <div className={`${classes.aboutQuizLoadAboutQuiz}`}>
-        <h1>EIE 522</h1>
-        <h3>155 Questions</h3>
+        <h1>{quizName}</h1>
+        <h3>{`${noOfQuestion} ${
+          noOfQuestion === 1 ? "Question" : "Questions"
+        }`}</h3>
       </div>
       <div className={`${classes.aboutQuizTime}`}>
         <div className={`${classes.aboutQuizTimeNote}`}>
@@ -105,7 +109,12 @@ const QuizModalFormQuiz = () => {
             <button type="button" onClick="">
               Cancel
             </button>
-            <button className={classes.submit}>Start Quiz</button>
+            <button
+              className={classes.submit}
+              disabled={getQuizLoggingStatus === "completed" ? false : true}
+            >
+              Start Quiz
+            </button>
           </div>
         </form>
       </div>

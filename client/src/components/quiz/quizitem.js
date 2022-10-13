@@ -1,4 +1,4 @@
-import { useContext, Fragment, useState, useRef } from "react";
+import { useContext, Fragment, useState } from "react";
 
 import AuthContext from "../../contexts/auth-context";
 import AddQuizModal from "../ui/modal/addquizmodal";
@@ -8,8 +8,7 @@ import classes from "./quizitem.module.css";
 
 const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
   const [showModal, setShowModal] = useState(false);
-  const { getQuizDataHandler, getQuizData, getQuizLoggingStatus } =
-    useContext(AuthContext);
+  const { getQuizDataHandler } = useContext(AuthContext);
 
   const onDisplayModalHandler = () => {
     setShowModal((currentModalValue) => {
@@ -57,7 +56,10 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
             you may establish a permanent setting on the profile page to prevent
             having to do so.
           </p>
-          <QuizModalFormQuiz />
+          <QuizModalFormQuiz
+            quizName={quizName}
+            noOfQuestion={numberOfQuestion}
+          />
         </AddQuizModal>
       )}
     </Fragment>
