@@ -1,35 +1,32 @@
-// import { useState } from "react";
+import { useState, useCallback } from "react";
 
-// const useTimer = (getQuizDuration) => {
-//   const [timer, setTimer] = useState(null);
+const useTimer = (countDownTime) => {
+  const [timer, setTimer] = useState(null);
 
-//   const countDownDate = getQuizDuration();
+  const timerFunction = useCallback(() => {
+    const distance = countDownTime() - new Date().getTime();
 
-//   const x = setInterval(function () {
-//     const now = new Date().getTime();
+    const hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-//     const distance = countDownDate - now;
+    setTimer([hours, minutes, seconds]);
+  }, [countDownTime]);
 
-//     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//     const hours = Math.floor(
-//       (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-//     );
-//     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  //
+  //     if (distance < 0) {
+  //       clearInterval(x);
+  // document.getElementById("demo").innerHTML = "EXPIRED";
+  //     }
 
-//     setTimer([hours, minutes, seconds]);
+  //   const x = setInterval(, 1000);
 
-//   document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-//   + minutes + "m " + seconds + "s ";
+  return {
+    timerFunction,
+    timer,
+  };
+};
 
-// If the count down is over, write some text
-//     if (distance < 0) {
-//       clearInterval(x);
-// document.getElementById("demo").innerHTML = "EXPIRED";
-//     }
-//   }, 1000);
-
-//   return timer;
-// };
-
-// export default useTimer;
+export default useTimer;

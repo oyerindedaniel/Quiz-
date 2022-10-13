@@ -77,6 +77,7 @@ export const AuthContextProvider = (props) => {
   );
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [timeDurationValues, setTimeDurationValues] = useState(null);
 
   //UseHttp
   //UseHttp for sign up
@@ -253,6 +254,10 @@ export const AuthContextProvider = (props) => {
     dispatchQuizDataState({ type: "GETQUIZDATA", value: userSubmittedData });
   };
 
+  const setTimerValue = (timerValues) => {
+    setTimeDurationValues(timerValues);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -280,6 +285,8 @@ export const AuthContextProvider = (props) => {
         getQuizDataHandler,
         myQuizData: getQuizDataBN,
         getQuizLoggingStatus,
+        setTimerValue,
+        timeDurationValues,
       }}
     >
       {props.children}

@@ -10,7 +10,8 @@ import { Oval } from "react-loader-spinner";
 import classes from "./quizmodalformquiz.module.css";
 
 const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
-  const { getQuizData, getQuizLoggingStatus } = useContext(AuthContext);
+  const { getQuizData, getQuizLoggingStatus, setTimerValue } =
+    useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -21,9 +22,17 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    const hoursValue = hoursInputRef.current.value;
-    const minutesValue = minutesInputRef.current.value;
-    const secondsValue = secondsInputRef.current.value;
+    const hoursValue = +hoursInputRef.current.value;
+    const minutesValue = +minutesInputRef.current.value;
+    const secondsValue = +secondsInputRef.current.value;
+
+    const timeDuration = {
+      hoursValue,
+      minutesValue,
+      secondsValue,
+    };
+
+    setTimerValue(timeDuration);
 
     navigate(`/quiz/${quizName}`, { replace: true });
   };

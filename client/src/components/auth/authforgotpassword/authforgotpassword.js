@@ -64,8 +64,8 @@ const AuthForgotPassword = () => {
     <AuthCard>
       <h1 className={`${classes.authH1}`}>Quiz!</h1>
       <h3 className={`${classes.authH3}`}>
-        Please fill in the email you've used to create a Camel Cloud account and
-        we'll send you a reset link
+        Please fill in the email you've used to create a Quiz! account and we'll
+        send you a reset link
       </h3>
       <AuthControl />
       <form autoComplete="on" onSubmit={submitHandler}>
