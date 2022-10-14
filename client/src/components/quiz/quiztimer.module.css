@@ -11,4 +11,6 @@
   background: -webkit-linear-gradient(var(--color-blue-1), var(--color-blue-4));
   border: 0.15rem solid white;
   border-radius: 0.5rem;
+  height: 6.167rem;
+  min-width: 3.7rem;
 }

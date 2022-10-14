@@ -30,11 +30,15 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
       hoursValue,
       minutesValue,
       secondsValue,
+      dateNow: new Date(),
     };
 
     setTimerValue(timeDuration);
-
     navigate(`/quiz/${quizName}`, { replace: true });
+
+    // setTimeout(() => {
+
+    // }, 500);
   };
 
   return (
@@ -76,7 +80,7 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
       <div className={`${classes.aboutQuizTime}`}>
         <div className={`${classes.aboutQuizTimeNote}`}>
           <p className={`${classes.aboutQuizTimeNoteP}`}>
-            Time duration of Quiz
+            Time duration of Quiz (Maximum of 24 Hours)
           </p>
           <svg className={`${classes.aboutQuizTimeNoteSvg}`}>
             <use xlinkHref={`${icons}#icon-circle-down`}></use>

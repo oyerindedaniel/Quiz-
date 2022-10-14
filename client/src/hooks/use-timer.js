@@ -12,16 +12,8 @@ const useTimer = (countDownTime) => {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    setTimer([hours, minutes, seconds]);
+    setTimer({ hours, minutes, seconds, distance });
   }, [countDownTime]);
-
-  //
-  //     if (distance < 0) {
-  //       clearInterval(x);
-  // document.getElementById("demo").innerHTML = "EXPIRED";
-  //     }
-
-  //   const x = setInterval(, 1000);
 
   return {
     timerFunction,
