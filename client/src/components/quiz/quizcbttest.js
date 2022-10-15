@@ -44,6 +44,16 @@ const QuizCbtTest = () => {
 
   const submitQuizHandler = () => {};
 
+  const selectAnswerOnClickHandler = (e) => {
+    console.log("click");
+    e.target
+      .closest(".quizcbttest_quizAnswerItem__xA5Cj")
+      .setAttribute(
+        "class",
+        "quizcbttest_showQuizAnswerIndicator__OFqR0 quizcbttest_quizAnswerItem__xA5Cj"
+      );
+  };
+
   let answerItems;
   let questionItem;
   if (quizData) {
@@ -60,12 +70,14 @@ const QuizCbtTest = () => {
       .filter((filterAnswerItem) => filterAnswerItem)
       .map((answerItem) => {
         return (
-          <li className={`${classes.quizAnswerItem}`}>
-            <label className={`${classes.quizAnswerLabel}`}>
+          <li
+            onClick={selectAnswerOnClickHandler}
+            className={`${classes.quizAnswerItem}`}
+          >
+            <div className={`${classes.quizAnswerLabel}`}>
               {answerItem}
-              <input type="radio" name="radio" />
               <span className={`${classes.quizAnswerCheckmark}`}></span>
-            </label>
+            </div>
           </li>
         );
       });

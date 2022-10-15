@@ -32,10 +32,28 @@
   padding: 1rem;
   background-color: var(--color-grey-2);
   border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .quizAnswerItem:not(:last-of-type) {
   margin-bottom: 1rem;
+}
+
+/* .quizAnswerItem:hover {
+  background-color: #ccc;
+} */
+
+.quizAnswerItem:hover div > .quizAnswerCheckmark {
+  background-color: #ccc;
+}
+
+.quizAnswerLabel input:checked ~ .quizAnswerCheckmark {
+  background-color: #2196f3;
+}
+
+.showQuizAnswerIndicator {
+  background-color: red;
 }
 
 /* Customize the label (the container) */
@@ -75,16 +93,6 @@
   /* margin-right: 2rem; */
 }
 
-/* On mouse-over, add a grey background color */
-.quizAnswerLabel:hover input ~ .quizAnswerCheckmark {
-  background-color: #ccc;
-}
-
-/* When the radio button is checked, add a blue background */
-.quizAnswerLabel input:checked ~ .quizAnswerCheckmark {
-  background-color: #2196f3;
-}
-
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .quizAnswerCheckmark:after {
   content: "";
@@ -93,7 +101,7 @@
 }
 
 /* Show the indicator (dot/circle) when checked */
-.quizAnswerLabel input:checked ~ .quizAnswerCheckmark:after {
+.showQuizAnswerLabel input:checked ~ .quizAnswerCheckmark:after {
   display: block;
 }
 
@@ -106,6 +114,7 @@
   height: 1.5rem;
   border-radius: 50%;
   background: white;
+  background-color: #ccc;
 }
 
 .quizButtonContainer {
