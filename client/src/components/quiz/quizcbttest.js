@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext, useEffect } from "react";
+import { Fragment, useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Navigation from "../navigation/navigation";
@@ -14,8 +14,12 @@ const QuizCbtTest = () => {
   const [questionCount, setQuestionCount] = useState(1);
   const [quizLength, setQuizLength] = useState(null);
   const [quizData, setQuizData] = useState(null);
+  const [answerChecked, setAnswerChecked] = useState([]);
+  const [control, setControl] = useState([]);
 
   const { myQuizData } = useContext(AuthContext);
+
+  const ref = useRef([]);
 
   const navigate = useNavigate();
 
@@ -31,7 +35,13 @@ const QuizCbtTest = () => {
   }, [myQuizData, navigate]);
 
   const previousQuestionChangeHandler = () => {
-    if (questionCount < 1) return;
+    if (questionCount < 1) return console.log("yeah less");
+
+    ref.current
+      .filter((input) => input)
+      .forEach((input) => {
+        input.checked = false;
+      });
 
     setQuestionCount((prevQuestionCountState) => prevQuestionCountState - 1);
   };
@@ -39,45 +49,92 @@ const QuizCbtTest = () => {
   const nextQuestionChangeHandler = () => {
     if (questionCount > quizData.length) return;
 
+    ref.current
+      .filter((input) => input)
+      .forEach((input) => {
+        input.checked = false;
+      });
+
     setQuestionCount((prevQuestionCountState) => prevQuestionCountState + 1);
   };
 
   const submitQuizHandler = () => {};
 
+  let options;
+  let question;
+  let correctAnswer;
+
   const selectAnswerOnClickHandler = (e) => {
-    console.log("click");
-    e.target
-      .closest(".quizcbttest_quizAnswerItem__xA5Cj")
-      .setAttribute(
-        "class",
-        "quizcbttest_showQuizAnswerIndicator__OFqR0 quizcbttest_quizAnswerItem__xA5Cj"
-      );
+    console.log(e.target.dataset["id"]);
+    if (correctAnswer?.length > 1) {
+      const correctAnswerLength = correctAnswer.split(",");
+      const checkedOptionsLength = ref.current
+        .filter((input) => input)
+        .map((input) => input.checked);
+
+      if (correctAnswerLength === checkedOptionsLength) return;
+      return "A";
+    }
+
+    if (correctAnswer.length === 1) {
+      return setAnswerChecked((prevAnswerChecked) => {
+        if (prevAnswerChecked.length === 0)
+          return [
+            {
+              questionCount,
+              question,
+              correctAnswer: correctAnswer,
+              yourAnswer: +e.target.dataset["id"],
+              isCorrect: +e.target.dataset["id"] === correctAnswer,
+            },
+          ];
+
+        const filterPrevAnswerChecked = prevAnswerChecked.filter(
+          (e) => +e.questionCount !== questionCount
+        );
+
+        return [
+          ...filterPrevAnswerChecked,
+          {
+            questionCount,
+            question,
+            correctAnswer: correctAnswer,
+            yourAnswer: +e.target.dataset["id"],
+            isCorrect: +e.target.dataset["id"] === correctAnswer,
+          },
+        ];
+      });
+    }
   };
 
-  let answerItems;
-  let questionItem;
+  console.log(answerChecked);
+
   if (quizData) {
     const filterArrayQuizKeys = (quizKeysData) => {
-      questionItem = quizKeysData[0];
-      quizKeysData.pop();
+      question = quizKeysData[0];
+      correctAnswer = quizKeysData.pop();
       quizKeysData.shift();
       return quizKeysData;
     };
 
-    answerItems = filterArrayQuizKeys(
-      Object.values(quizData[questionCount - 1])
-    )
+    options = filterArrayQuizKeys(Object.values(quizData[questionCount - 1]))
       .filter((filterAnswerItem) => filterAnswerItem)
-      .map((answerItem) => {
+      .map((option, i) => {
         return (
-          <li
-            onClick={selectAnswerOnClickHandler}
-            className={`${classes.quizAnswerItem}`}
-          >
-            <div className={`${classes.quizAnswerLabel}`}>
-              {answerItem}
+          <li className={`${classes.quizAnswerItem}`}>
+            <label className={`${classes.quizAnswerLabel}`}>
+              {option}
+              <input
+                type={correctAnswer?.length > 1 ? "checkbox" : "radio"}
+                name="answer"
+                onChange={selectAnswerOnClickHandler}
+                data-id={i + 1}
+                ref={(e) => {
+                  ref.current[i] = e;
+                }}
+              />
               <span className={`${classes.quizAnswerCheckmark}`}></span>
-            </div>
+            </label>
           </li>
         );
       });
@@ -94,8 +151,8 @@ const QuizCbtTest = () => {
           <h4 className={`${classes.quizQuestionCount}`}>
             QUESTION {`${questionCount}/${quizLength}`}
           </h4>
-          <h2 className={`${classes.quizQuestion}`}>{questionItem}</h2>
-          <ul>{answerItems}</ul>
+          <h2 className={`${classes.quizQuestion}`}>{question}</h2>
+          <ul>{options}</ul>
           <form className={classes.quizButtonContainer}>
             {questionCount > 1 && (
               <AuthButton
