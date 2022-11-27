@@ -15,7 +15,6 @@ const QuizCbtTest = () => {
   const [quizLength, setQuizLength] = useState(null);
   const [quizData, setQuizData] = useState(null);
   const [answerChecked, setAnswerChecked] = useState([]);
-  const [control, setControl] = useState([]);
 
   const { myQuizData } = useContext(AuthContext);
 
@@ -67,34 +66,37 @@ const QuizCbtTest = () => {
   const selectAnswerOnClickHandler = (e) => {
     console.log(e.target.dataset["id"]);
     if (correctAnswer?.length > 1) {
-      const correctAnswerLength = correctAnswer.split(",");
-      const checkedOptionsLength = ref.current
-        .filter((input) => input)
-        .map((input) => input.checked);
+      const correctAnswerLength = correctAnswer.split(",").length;
+      const checkedOptions = ref.current.filter(
+        (input) => input && input.checked
+      );
 
-      if (correctAnswerLength === checkedOptionsLength) return;
+      if (checkedOptions?.length === correctAnswerLength) {
+        ref.current
+          .filter((input) => input && !input.checked)
+          .forEach((input) => {
+            input.disabled = true;
+          });
+      }
+
+      if (
+        checkedOptions.length < correctAnswerLength &&
+        checkedOptions.length !== correctAnswerLength
+      ) {
+        console.log(ref.current);
+        ref.current
+          .filter((input) => input)
+          .forEach((input) => {
+            input.disabled = false;
+          });
+      }
+
       return "A";
     }
 
-    if (correctAnswer.length === 1) {
-      return setAnswerChecked((prevAnswerChecked) => {
-        if (prevAnswerChecked.length === 0)
-          return [
-            {
-              questionCount,
-              question,
-              correctAnswer: correctAnswer,
-              yourAnswer: +e.target.dataset["id"],
-              isCorrect: +e.target.dataset["id"] === correctAnswer,
-            },
-          ];
-
-        const filterPrevAnswerChecked = prevAnswerChecked.filter(
-          (e) => +e.questionCount !== questionCount
-        );
-
+    return setAnswerChecked((prevAnswerChecked) => {
+      if (prevAnswerChecked.length === 0)
         return [
-          ...filterPrevAnswerChecked,
           {
             questionCount,
             question,
@@ -103,8 +105,22 @@ const QuizCbtTest = () => {
             isCorrect: +e.target.dataset["id"] === correctAnswer,
           },
         ];
-      });
-    }
+
+      const filterPrevAnswerChecked = prevAnswerChecked.filter(
+        (e) => +e.questionCount !== questionCount
+      );
+
+      return [
+        ...filterPrevAnswerChecked,
+        {
+          questionCount,
+          question,
+          correctAnswer: correctAnswer,
+          yourAnswer: +e.target.dataset["id"],
+          isCorrect: +e.target.dataset["id"] === correctAnswer,
+        },
+      ];
+    });
   };
 
   console.log(answerChecked);
@@ -121,7 +137,7 @@ const QuizCbtTest = () => {
       .filter((filterAnswerItem) => filterAnswerItem)
       .map((option, i) => {
         return (
-          <li className={`${classes.quizAnswerItem}`}>
+          <li key={i} className={`${classes.quizAnswerItem}`}>
             <label className={`${classes.quizAnswerLabel}`}>
               {option}
               <input
