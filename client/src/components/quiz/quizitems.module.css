@@ -4,8 +4,20 @@
   flex-wrap: nowrap;
   padding-left: 6rem;
   overflow: hidden;
-  height: 20rem;
+  height: 22rem;
   position: relative;
+  overflow-x: scroll;
+}
+
+.quizItems::-webkit-scrollbar {
+  height: 0.8rem;
+  margin-top: 3rem;
+}
+
+.quizItems::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  background-color: var(--color-grey-2);
+  border-radius: 20px;
 }
 
 .svgArrowContainer {

@@ -4,26 +4,31 @@ import { Fragment, useContext, useEffect, useState } from "react";
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
-import AuthButton from "../../ui/authbutton/authbutton";
-import Alert from "../../ui/alert/alert";
+import Button from "../../ui/button/button";
 
-import AuthContext from "../../../contexts/auth-context";
+import useHttp from "../../../hooks/use-http";
+import { login } from "../../lib/api";
 
 import { Oval } from "react-loader-spinner";
 
-import img1 from "../../../assets/alertimg/bear.png";
-import img2 from "../../../assets/alertimg/refresh-arrow.png";
+import { useGlobalStoreContext } from "../../../contexts/global-context";
 
 import useInput from "../../../hooks/use-input";
 
 import classes from "./authlogin.module.css";
 
 const AuthLogin = () => {
-  const { login, loggingInError, loggingInStatus, loggedInUser } =
-    useContext(AuthContext);
-  const [event, setEvent] = useState(null);
+  const { state, dispatch } = useGlobalStoreContext();
 
-  const navigate = useNavigate();
+  const { sendRequest, loading } = useHttp(
+    login,
+    dispatch,
+    "/home",
+    "SET_USER",
+    "auth",
+    "Successfully logged in",
+    "POST"
+  );
 
   const {
     value: enteredEmail,
@@ -42,13 +47,6 @@ const AuthLogin = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
   );
 
-  // UseEffect that navigate to the home Page
-  useEffect(() => {
-    if (loggedInUser) {
-      navigate("/home", { replace: true });
-    }
-  }, [loggedInUser, navigate]);
-
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -57,10 +55,13 @@ const AuthLogin = () => {
       password: enteredPassword,
     };
 
-    login(userSubmittedData);
-
-    resetEmailInput();
+    sendRequest(userSubmittedData);
   };
+
+  // if (!loggingInError) {
+  //   resetEmailInput();
+  //   resetPasswordInput();
+  // }
 
   const formItems = [
     {
@@ -113,11 +114,6 @@ const AuthLogin = () => {
         the app
       </h3>
       <AuthControl />
-      {loggingInError && (
-        <Alert img1={img1} img2={img2} alertType="error">
-          {loggingInError.message}
-        </Alert>
-      )}
       <form autoComplete="on" onSubmit={submitHandler}>
         <Fragment>{formItems}</Fragment>
         <div className={`${classes.authCaution}`}>
@@ -126,6 +122,7 @@ const AuthLogin = () => {
               className={`${classes.authCheckbox}`}
               type="checkbox"
               id="checkbox"
+              required
             />
             <label for="checkbox">Remember me</label>
           </div>
@@ -134,8 +131,8 @@ const AuthLogin = () => {
           </Link>
         </div>
         <div className={`${classes.formActions}`}>
-          <AuthButton status={loggingInStatus}>
-            {loggingInStatus === "pending" ? (
+          <Button status={loading}>
+            {loading ? (
               <Oval
                 ariaLabel="loading-indicator"
                 height={20}
@@ -148,7 +145,7 @@ const AuthLogin = () => {
             ) : (
               "Login"
             )}
-          </AuthButton>
+          </Button>
         </div>
       </form>
     </AuthCard>

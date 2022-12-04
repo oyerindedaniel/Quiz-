@@ -1,12 +1,26 @@
 import { useRef, useContext, useState } from "react";
 
-import AuthContext from "../../contexts/auth-context";
+import { createQuiz } from "../lib/api";
+import useHttp from "../../hooks/use-http";
+
+import { useGlobalStoreContext } from "../../contexts/global-context";
 
 import classes from "./quizmodalform.module.css";
 
 const QuizModalForm = ({ onDisplayModal }) => {
-  const { createQuiz, createQuizLoggingStatus, createQuizData } =
-    useContext(AuthContext);
+  const { state, dispatch } = useGlobalStoreContext();
+
+  const { sendRequest, loading } = useHttp(
+    createQuiz,
+    dispatch,
+    "/home",
+    "SET_USER-QUIZ",
+    "",
+    "Successfully Created Quiz",
+    "POST"
+  );
+  // const { createQuiz, createQuizLoggingStatus, createQuizData } =
+  //   useContext(AuthContext);
   const [event, setEvent] = useState(null);
 
   const quizNameInputRef = useRef();
@@ -25,13 +39,13 @@ const QuizModalForm = ({ onDisplayModal }) => {
     );
     quizUploadForm.append("quizFile", quizFileInputRef.current.files[0]);
 
-    createQuiz(quizUploadForm);
+    sendRequest(quizUploadForm);
   };
 
-  if (createQuizData && event) {
-    event.target.reset();
-    setEvent(null);
-  }
+  // if (createQuizData && event) {
+  //   event.target.reset();
+  //   setEvent(null);
+  // }
 
   return (
     <form onSubmit={submitHandler} className={`${classes.modalForm}`}>
@@ -78,7 +92,7 @@ const QuizModalForm = ({ onDisplayModal }) => {
           Cancel
         </button>
         <button className={classes.submit}>
-          {createQuizLoggingStatus === "pending" ? "uploading ..." : "Add Quiz"}
+          {loading ? "uploading ..." : "Add Quiz"}
         </button>
       </div>
     </form>

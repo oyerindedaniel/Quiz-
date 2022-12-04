@@ -19,12 +19,7 @@ export async function initialProtect() {
 //Sign up API call
 export async function signup(userSubmittedData) {
   try {
-    const response = await instance.post("/quiz/signup", {
-      username: userSubmittedData.username,
-      email: userSubmittedData.email,
-      password: userSubmittedData.password,
-      confirmPassword: userSubmittedData.confirmPassword,
-    });
+    const response = await instance.post("/quiz/signup", userSubmittedData);
     return response.data;
   } catch (err) {
     throw err.response.data;
@@ -34,10 +29,7 @@ export async function signup(userSubmittedData) {
 //Login API call
 export async function login(userSubmittedData) {
   try {
-    const response = await instance.post("/quiz/login", {
-      email: userSubmittedData.email,
-      password: userSubmittedData.password,
-    });
+    const response = await instance.post("/quiz/login", userSubmittedData);
     return response.data;
   } catch (err) {
     console.log(err.response.data);

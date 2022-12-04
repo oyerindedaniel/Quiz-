@@ -2,11 +2,12 @@ import { Fragment, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import Navigation from "../navigation/navigation";
 import QuizItems from "../quiz/quizitems";
 import HistoryItems from "../gameshistory/historyitems";
 import AddQuizModal from "../ui/modal/addquizmodal";
 import QuizModalForm from "../quizmodalform/quizmodalform";
+
+import { Toaster } from "react-hot-toast";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
 
@@ -14,8 +15,6 @@ import classes from "./homecp.module.css";
 
 const Homecp = () => {
   const [showModal, setShowModal] = useState(false);
-
-  const navigate = useNavigate();
 
   const onDisplayModalHandler = () => {
     setShowModal((currentModalValue) => {
@@ -27,14 +26,22 @@ const Homecp = () => {
 
   const searchHandlerOn = (e) => {
     e.preventDefault();
-    navigate("/account/settings");
   };
 
   // const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
 
   return (
     <Fragment>
-      <Navigation isAccountControlNeeded="true" />
+      <Toaster
+        toastOptions={{
+          duration: 5000,
+          style: {
+            background: "#fff",
+            color: "#000",
+            fontSize: "1.5rem",
+          },
+        }}
+      />
       <main>
         <div className={`${classes.main}`}>
           <h1 className={`${classes.h1}`}>My Quizzes</h1>

@@ -1,14 +1,30 @@
 import { useContext, Fragment, useState } from "react";
 
-import AuthContext from "../../contexts/auth-context";
+import useHttp from "../../hooks/use-http";
+import { getQuizData } from "../lib/api";
+
+import { useGlobalStoreContext } from "../../contexts/global-context";
+
 import AddQuizModal from "../ui/modal/addquizmodal";
 import QuizModalFormQuiz from "../quizmodalform/quizmodalformquiz";
 
 import classes from "./quizitem.module.css";
 
 const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
+  const { dispatch } = useGlobalStoreContext();
+
+  const { sendRequest, loading } = useHttp(
+    getQuizData,
+    dispatch,
+    "",
+    "SET_QUIZ-QUESTION",
+    "",
+    "",
+    "",
+    ""
+  );
+
   const [showModal, setShowModal] = useState(false);
-  const { getQuizDataHandler } = useContext(AuthContext);
 
   const onDisplayModalHandler = () => {
     setShowModal((currentModalValue) => {
@@ -23,7 +39,7 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
       excelName: uploadQuizName,
     };
 
-    getQuizDataHandler(userSubmittedData);
+    sendRequest(userSubmittedData);
   };
 
   return (
@@ -59,6 +75,7 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
           <QuizModalFormQuiz
             quizName={quizName}
             noOfQuestion={numberOfQuestion}
+            loadingState={loading}
           />
         </AddQuizModal>
       )}

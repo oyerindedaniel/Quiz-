@@ -43,10 +43,12 @@ exports.createQuiz = catchAsync(async (req, res, next) => {
     user: req.user._id,
   });
 
+  const AllQuizByUser = await Quiz.find({ user: req.user._id });
+
   res.status(200).json({
     status: "success",
     data: {
-      newQuiz,
+      data: AllQuizByUser,
     },
   });
 });
@@ -60,7 +62,9 @@ exports.getAllQuizById = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: AllQuizByUser,
+    data: {
+      data: AllQuizByUser,
+    },
   });
 });
 
@@ -96,7 +100,9 @@ exports.getQuizData = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: theData,
+      data: {
+        data: theData,
+      },
     });
   } catch (err) {
     console.log(err);

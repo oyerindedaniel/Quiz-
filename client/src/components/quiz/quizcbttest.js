@@ -1,46 +1,93 @@
 import { Fragment, useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Navigation from "../navigation/navigation";
-import AuthButton from "../ui/authbutton/authbutton";
+import AuthButton from "../ui/button/button";
 import QuizTimer from "./quiztimer";
-import AuthContext from "../../contexts/auth-context";
+import { useGlobalStoreContext } from "../../contexts/global-context";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
 
 import classes from "./quizcbttest.module.css";
 
 const QuizCbtTest = () => {
+  const { state } = useGlobalStoreContext();
+
   const [questionCount, setQuestionCount] = useState(1);
   const [quizLength, setQuizLength] = useState(null);
   const [quizData, setQuizData] = useState(null);
   const [answerChecked, setAnswerChecked] = useState([]);
-
-  const { myQuizData } = useContext(AuthContext);
+  const [change, setChange] = useState(0);
 
   const ref = useRef([]);
+
+  console.log(ref.current);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!myQuizData) {
+    if (!state.quizQuestion) {
       navigate("/home", { replace: true });
     }
 
-    if (myQuizData) {
-      setQuizData(myQuizData.data);
-      setQuizLength(myQuizData.data.length);
+    if (state.quizQuestion) {
+      setQuizData(state.quizQuestion);
+      setQuizLength(state.quizQuestion.length);
     }
-  }, [myQuizData, navigate]);
+  }, [state.quizQuestion, navigate]);
 
-  const previousQuestionChangeHandler = () => {
-    if (questionCount < 1) return console.log("yeah less");
+  const areArrEqual = (arr1, arr2) => {
+    if (arr1.length === arr2.length) {
+      return arr1.every((el, i) => {
+        if (el === arr2[i]) return true;
+        return false;
+      });
+    }
+    return false;
+  };
 
+  const prevNextRenderAnswer = (sign) => {
     ref.current
       .filter((input) => input)
       .forEach((input) => {
         input.checked = false;
+        input.disabled = false;
       });
+
+    let foundAnswer;
+
+    if (sign === "add")
+      foundAnswer = answerChecked.find(
+        (i) => i.questionCount === questionCount + 1
+      );
+
+    if (sign === "sub")
+      foundAnswer = answerChecked.find(
+        (i) => i.questionCount === questionCount - 1
+      );
+
+    console.log(foundAnswer);
+
+    if (answerChecked && foundAnswer) {
+      if (foundAnswer.correctAnswer.toString().length === 1) {
+        const foundAnswerIndex = foundAnswer?.yourAnswer - 1;
+        ref.current[foundAnswerIndex].checked = true;
+
+        setChange(foundAnswerIndex);
+      }
+
+      if (foundAnswer.correctAnswer.length > 1) {
+        const foundAnswerArr = foundAnswer.yourAnswer;
+        foundAnswerArr.forEach((answerIndex) => {
+          ref.current[answerIndex - 1].checked = true;
+        });
+      }
+    }
+  };
+
+  const previousQuestionChangeHandler = () => {
+    if (questionCount < 1) return;
+
+    prevNextRenderAnswer("sub");
 
     setQuestionCount((prevQuestionCountState) => prevQuestionCountState - 1);
   };
@@ -48,11 +95,7 @@ const QuizCbtTest = () => {
   const nextQuestionChangeHandler = () => {
     if (questionCount > quizData.length) return;
 
-    ref.current
-      .filter((input) => input)
-      .forEach((input) => {
-        input.checked = false;
-      });
+    prevNextRenderAnswer("add");
 
     setQuestionCount((prevQuestionCountState) => prevQuestionCountState + 1);
   };
@@ -63,38 +106,65 @@ const QuizCbtTest = () => {
   let question;
   let correctAnswer;
 
-  const selectAnswerOnClickHandler = (e) => {
+  const selectAnswerOnChangeHandler = (e) => {
     console.log(e.target.dataset["id"]);
-    if (correctAnswer?.length > 1) {
-      const correctAnswerLength = correctAnswer.split(",").length;
-      const checkedOptions = ref.current.filter(
-        (input) => input && input.checked
-      );
 
-      if (checkedOptions?.length === correctAnswerLength) {
-        ref.current
-          .filter((input) => input && !input.checked)
-          .forEach((input) => {
-            input.disabled = true;
-          });
+    setAnswerChecked((prevAnswerChecked) => {
+      if (correctAnswer?.length > 1) {
+        const correctAnswerArr = correctAnswer.split(",").map((i) => +i);
+        const checkedOptions = ref.current.filter(
+          (input) => input && input.checked
+        );
+
+        if (checkedOptions?.length === correctAnswerArr.length) {
+          ref.current
+            .filter((input) => input && !input.checked)
+            .forEach((input) => {
+              input.disabled = true;
+            });
+        }
+
+        if (
+          checkedOptions.length < correctAnswerArr.length &&
+          checkedOptions.length !== correctAnswerArr.length
+        ) {
+          ref.current
+            .filter((input) => input)
+            .forEach((input) => {
+              input.disabled = false;
+            });
+        }
+
+        const yourAnswer = ref.current
+          .filter((input) => input && input.checked)
+          .map((input) => +input.dataset["id"]);
+
+        if (prevAnswerChecked.length === 0)
+          return [
+            {
+              questionCount,
+              question,
+              correctAnswer: correctAnswerArr,
+              yourAnswer,
+              isCorrect: areArrEqual(yourAnswer, correctAnswerArr),
+            },
+          ];
+
+        const filterPrevAnswerChecked = prevAnswerChecked.filter(
+          (e) => +e.questionCount !== questionCount
+        );
+        return [
+          ...filterPrevAnswerChecked,
+          {
+            questionCount,
+            question,
+            correctAnswer: correctAnswerArr,
+            yourAnswer,
+            isCorrect: areArrEqual(yourAnswer, correctAnswerArr),
+          },
+        ];
       }
 
-      if (
-        checkedOptions.length < correctAnswerLength &&
-        checkedOptions.length !== correctAnswerLength
-      ) {
-        console.log(ref.current);
-        ref.current
-          .filter((input) => input)
-          .forEach((input) => {
-            input.disabled = false;
-          });
-      }
-
-      return "A";
-    }
-
-    return setAnswerChecked((prevAnswerChecked) => {
       if (prevAnswerChecked.length === 0)
         return [
           {
@@ -141,9 +211,16 @@ const QuizCbtTest = () => {
             <label className={`${classes.quizAnswerLabel}`}>
               {option}
               <input
-                type={correctAnswer?.length > 1 ? "checkbox" : "radio"}
-                name="answer"
-                onChange={selectAnswerOnClickHandler}
+                key={i}
+                type={
+                  correctAnswer?.toString().length === 1 ? "radio" : "checkbox"
+                }
+                name={
+                  correctAnswer?.toString().length === 1
+                    ? "answer"
+                    : `answer${i + 1}`
+                }
+                onChange={selectAnswerOnChangeHandler}
                 data-id={i + 1}
                 ref={(e) => {
                   ref.current[i] = e;
@@ -158,7 +235,6 @@ const QuizCbtTest = () => {
 
   return (
     <Fragment>
-      <Navigation isAccountControlNeeded="false" />
       <main className={`${classes.main}`}>
         <Fragment>
           <QuizTimer />

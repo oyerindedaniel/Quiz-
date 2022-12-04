@@ -1,13 +1,11 @@
-import { useContext } from "react";
-
 import { Navigate, Outlet } from "react-router-dom";
 
-import AuthContext from "../../contexts/auth-context";
+import { useGlobalStoreContext } from "../../contexts/global-context";
 
 const UnProtectedRoute = () => {
-  const { isLoggedState } = useContext(AuthContext);
+  const { state } = useGlobalStoreContext();
 
-  return isLoggedState ? <Navigate to="/home" /> : <Outlet />;
+  return state.user.isAuthenticated ? <Navigate to="/home" /> : <Outlet />;
 };
 
 export default UnProtectedRoute;

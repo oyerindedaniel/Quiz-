@@ -1,7 +1,6 @@
 import { Fragment } from "react";
-
-import Navigation from "../../navigation/navigation";
-import AuthButton from "../../ui/authbutton/authbutton";
+import Navbar from "../../layout/navbar";
+import AuthButton from "../../ui/button/button";
 
 import { Oval } from "react-loader-spinner";
 
@@ -15,7 +14,7 @@ const AuthConfirmEmail = () => {
 
   return (
     <Fragment>
-      <Navigation isAccountControlNeeded="true" />
+      <Navbar />
       <main className={`${classes.main}`}>
         <div className={`${classes.confirmEmail}`}>
           <h1 className={`${classes.confirmEmailH1}`}>Confirm Email</h1>

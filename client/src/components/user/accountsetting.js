@@ -1,296 +1,266 @@
-import { Fragment, useEffect, useContext, useState } from "react";
+// import { Fragment, useEffect, useContext, useState } from "react";
 
-import AuthForm from "../auth/authform/authform";
-import Navigation from "../navigation/navigation";
-import AuthButton from "../ui/authbutton/authbutton";
-import Alert from "../ui/alert/alert";
+// import AuthForm from "../auth/authform/authform";
+// import Button from "../ui/button/button";
+// import Alert from "../ui/alert/alert";
 
-import useInput from "../../hooks/use-input";
+// import useInput from "../../hooks/use-input";
 
-import img4 from "../../assets/alertimg/success2.png";
-import img2 from "../../assets/alertimg/refresh-arrow.png";
-import img3 from "../../assets/img/setting3.png";
+// import img4 from "../../assets/alertimg/success2.png";
+// import img2 from "../../assets/alertimg/refresh-arrow.png";
+// import img3 from "../../assets/img/setting3.png";
 
-import { Oval } from "react-loader-spinner";
+// import { Oval } from "react-loader-spinner";
 
-import AuthContext from "../../contexts/auth-context";
+// import { useGlobalStoreContext } from "../../contexts/global-context";
 
-import classes from "./accountsetting.module.css";
+// import classes from "./accountsetting.module.css";
 
-const AccountSetting = ({ userData }) => {
-  const { username, email } = userData;
-  const [event, setEvent] = useState(null);
+// const AccountSetting = ({ userData }) => {
+//   const { username, email } = userData;
+//   const [event, setEvent] = useState(null);
 
-  const {
-    updatePassword,
-    updatePasswordError,
-    updatePasswordData,
-    updatePasswordLoggingStatus,
-    updateProfileLoggingStatus,
-    updateProfile,
-    updateProfileData,
-  } = useContext(AuthContext);
+//   // const {
+//   //   updatePassword,
+//   //   updatePasswordError,
+//   //   updatePasswordData,
+//   //   updatePasswordLoggingStatus,
+//   //   updateProfileLoggingStatus,
+//   //   updateProfile,
+//   //   updateProfileData,
+//   // } = useContext(AuthContext);
 
-  const {
-    value: enteredUsername,
-    hasError: usernameInputHasError,
-    valueChangeHandler: usernameOnChangedHandler,
-    inputBlurHandler: usernameOnBlurHandler,
-    valueOnLoadHandler: usernameOnLoadHandler,
-  } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
+//   const {
+//     value: enteredUsername,
+//     hasError: usernameInputHasError,
+//     valueChangeHandler: usernameOnChangedHandler,
+//     inputBlurHandler: usernameOnBlurHandler,
+//     valueOnLoadHandler: usernameOnLoadHandler,
+//   } = useInput((value) => /^[A-Za-z0-9]*$/.test(value));
 
-  const {
-    value: enteredEmail,
-    valueChangeHandler: emailOnChangedHandler,
-    inputBlurHandler: emailOnBlurHandler,
-    valueOnLoadHandler: emailOnLoadHandler,
-  } = useInput((value) =>
-    /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
-  );
+//   const {
+//     value: enteredEmail,
+//     valueChangeHandler: emailOnChangedHandler,
+//     inputBlurHandler: emailOnBlurHandler,
+//     valueOnLoadHandler: emailOnLoadHandler,
+//   } = useInput((value) =>
+//     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
+//   );
 
-  const {
-    value: enteredCurrentPassword,
-    valueChangeHandler: currentPasswordOnChangedHandler,
-  } = useInput((value) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
-  );
+//   const {
+//     value: enteredCurrentPassword,
+//     valueChangeHandler: currentPasswordOnChangedHandler,
+//   } = useInput((value) =>
+//     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
+//   );
 
-  const {
-    value: enteredPassword,
-    hasError: passwordInputHasError,
-    valueChangeHandler: passwordOnChangedHandler,
-    inputBlurHandler: passwordOnBlurHandler,
-  } = useInput((value) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
-  );
+//   const {
+//     value: enteredPassword,
+//     hasError: passwordInputHasError,
+//     valueChangeHandler: passwordOnChangedHandler,
+//     inputBlurHandler: passwordOnBlurHandler,
+//   } = useInput((value) =>
+//     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)
+//   );
 
-  const {
-    value: enteredConfirmPassword,
-    hasError: confirmPasswordInputHasError,
-    valueChangeHandler: confirmPasswordOnChangedHandler,
-    inputBlurHandler: confirmPasswordOnBlurHandler,
-  } = useInput((value) => enteredPassword === value);
+//   const {
+//     value: enteredConfirmPassword,
+//     hasError: confirmPasswordInputHasError,
+//     valueChangeHandler: confirmPasswordOnChangedHandler,
+//     inputBlurHandler: confirmPasswordOnBlurHandler,
+//   } = useInput((value) => enteredPassword === value);
 
-  const formItemsEditProfile = [
-    {
-      key: 1,
-      htmlForValue: "username",
-      id: "username",
-      type: "text",
-      value: enteredUsername,
-      label: "Username",
-      placeholder: "doyerinde",
-      onChangeHandler: usernameOnChangedHandler,
-      onBlurHandler: usernameOnBlurHandler,
-      errorValue: "Username may only contain alphanumeric characters",
-      hasError: usernameInputHasError,
-    },
-    {
-      key: 2,
-      htmlForValue: "emailaddress",
-      id: "emailaddress",
-      type: "email",
-      value: enteredEmail,
-      label: "E-mail Address",
-      placeholder: "oyerinde.daniel@mail.com",
-      onChangeHandler: emailOnChangedHandler,
-      onBlurHandler: emailOnBlurHandler,
-    },
-  ].map((formItem) => (
-    <AuthForm
-      key={formItem.key}
-      htmlForValue={formItem.htmlForValue}
-      id={formItem.id}
-      value={formItem.value}
-      type={formItem.type}
-      label={formItem.label}
-      onChange={formItem.onChangeHandler}
-      placeholder={formItem.placeholder}
-      passwordDetail={formItem.passwordDetail}
-      passwordBool={formItem.passwordBool}
-      hasError={formItem.hasError}
-      errorValue={formItem.errorValue}
-      onBlur={formItem.onBlurHandler}
-    />
-  ));
+//   const formItemsEditProfile = [
+//     {
+//       key: 1,
+//       htmlForValue: "username",
+//       id: "username",
+//       type: "text",
+//       value: enteredUsername,
+//       label: "Username",
+//       placeholder: "doyerinde",
+//       onChangeHandler: usernameOnChangedHandler,
+//       onBlurHandler: usernameOnBlurHandler,
+//       errorValue: "Username may only contain alphanumeric characters",
+//       hasError: usernameInputHasError,
+//     },
+//     {
+//       key: 2,
+//       htmlForValue: "emailaddress",
+//       id: "emailaddress",
+//       type: "email",
+//       value: enteredEmail,
+//       label: "E-mail Address",
+//       placeholder: "oyerinde.daniel@mail.com",
+//       onChangeHandler: emailOnChangedHandler,
+//       onBlurHandler: emailOnBlurHandler,
+//     },
+//   ].map((formItem) => (
+//     <AuthForm
+//       key={formItem.key}
+//       htmlForValue={formItem.htmlForValue}
+//       id={formItem.id}
+//       value={formItem.value}
+//       type={formItem.type}
+//       label={formItem.label}
+//       onChange={formItem.onChangeHandler}
+//       placeholder={formItem.placeholder}
+//       passwordDetail={formItem.passwordDetail}
+//       passwordBool={formItem.passwordBool}
+//       hasError={formItem.hasError}
+//       errorValue={formItem.errorValue}
+//       onBlur={formItem.onBlurHandler}
+//     />
+//   ));
 
-  const formItemsEditPassword = [
-    {
-      key: 0,
-      htmlForValue: "currentpassword",
-      id: "currentpassword",
-      type: "password",
-      label: "Current Password",
-      valueCheck: enteredCurrentPassword,
-      placeholder: "Your Password",
-      passwordBool: true,
-      onChangeHandler: currentPasswordOnChangedHandler,
-    },
-    {
-      key: 1,
-      htmlForValue: "password",
-      id: "password",
-      type: "password",
-      label: "Password",
-      valueCheck: enteredPassword,
-      placeholder: "Your Password",
-      passwordBool: true,
-      passwordDetail:
-        "Password must contain at least one uppercase and lowercase letter, number and a minimum of 8 characters",
-      onChangeHandler: passwordOnChangedHandler,
-      onBlurHandler: passwordOnBlurHandler,
-      errorValue: "Password is too week",
-      hasError: passwordInputHasError,
-    },
-    {
-      key: 2,
-      htmlForValue: "confirmpassword",
-      id: "confirmpassword",
-      type: "password",
-      valueCheck: enteredConfirmPassword,
-      label: "Confirm Password",
-      placeholder: "Your Password",
-      passwordBool: true,
-      onChangeHandler: confirmPasswordOnChangedHandler,
-      onBlurHandler: confirmPasswordOnBlurHandler,
-      errorValue: "Password does not match",
-      hasError: confirmPasswordInputHasError,
-    },
-  ].map((formItem) => (
-    <AuthForm
-      key={formItem.key}
-      htmlForValue={formItem.htmlForValue}
-      id={formItem.id}
-      value={formItem.value}
-      type={formItem.type}
-      label={formItem.label}
-      onChange={formItem.onChangeHandler}
-      placeholder={formItem.placeholder}
-      passwordDetail={formItem.passwordDetail}
-      passwordBool={formItem.passwordBool}
-      hasError={formItem.hasError}
-      errorValue={formItem.errorValue}
-      valueCheck={formItem.valueCheck}
-      onBlur={formItem.onBlurHandler}
-    />
-  ));
+//   const formItemsEditPassword = [
+//     {
+//       key: 0,
+//       htmlForValue: "currentpassword",
+//       id: "currentpassword",
+//       type: "password",
+//       label: "Current Password",
+//       valueCheck: enteredCurrentPassword,
+//       placeholder: "Your Password",
+//       passwordBool: true,
+//       onChangeHandler: currentPasswordOnChangedHandler,
+//     },
+//     {
+//       key: 1,
+//       htmlForValue: "password",
+//       id: "password",
+//       type: "password",
+//       label: "Password",
+//       valueCheck: enteredPassword,
+//       placeholder: "Your Password",
+//       passwordBool: true,
+//       passwordDetail:
+//         "Password must contain at least one uppercase and lowercase letter, number and a minimum of 8 characters",
+//       onChangeHandler: passwordOnChangedHandler,
+//       onBlurHandler: passwordOnBlurHandler,
+//       errorValue: "Password is too week",
+//       hasError: passwordInputHasError,
+//     },
+//     {
+//       key: 2,
+//       htmlForValue: "confirmpassword",
+//       id: "confirmpassword",
+//       type: "password",
+//       valueCheck: enteredConfirmPassword,
+//       label: "Confirm Password",
+//       placeholder: "Your Password",
+//       passwordBool: true,
+//       onChangeHandler: confirmPasswordOnChangedHandler,
+//       onBlurHandler: confirmPasswordOnBlurHandler,
+//       errorValue: "Password does not match",
+//       hasError: confirmPasswordInputHasError,
+//     },
+//   ].map((formItem) => (
+//     <AuthForm
+//       key={formItem.key}
+//       htmlForValue={formItem.htmlForValue}
+//       id={formItem.id}
+//       value={formItem.value}
+//       type={formItem.type}
+//       label={formItem.label}
+//       onChange={formItem.onChangeHandler}
+//       placeholder={formItem.placeholder}
+//       passwordDetail={formItem.passwordDetail}
+//       passwordBool={formItem.passwordBool}
+//       hasError={formItem.hasError}
+//       errorValue={formItem.errorValue}
+//       valueCheck={formItem.valueCheck}
+//       onBlur={formItem.onBlurHandler}
+//     />
+//   ));
 
-  const editProfileOnSubmitHandler = (e) => {
-    e.preventDefault();
+//   const editProfileOnSubmitHandler = (e) => {
+//     e.preventDefault();
 
-    const userSubmittedData = {
-      username: enteredUsername,
-      email: enteredEmail,
-    };
+//     const userSubmittedData = {
+//       username: enteredUsername,
+//       email: enteredEmail,
+//     };
 
-    updateProfile(userSubmittedData);
-  };
+//     updateProfile(userSubmittedData);
+//   };
 
-  const editPasswordOnSubmitHandler = (e) => {
-    e.preventDefault();
-    setEvent(e);
+//   const editPasswordOnSubmitHandler = (e) => {
+//     e.preventDefault();
+//     setEvent(e);
 
-    const userSubmittedData = {
-      currentPassword: enteredCurrentPassword,
-      password: enteredPassword,
-      confirmPassword: enteredConfirmPassword,
-    };
+//     const userSubmittedData = {
+//       currentPassword: enteredCurrentPassword,
+//       password: enteredPassword,
+//       confirmPassword: enteredConfirmPassword,
+//     };
 
-    updatePassword(userSubmittedData);
-  };
+//     updatePassword(userSubmittedData);
+//   };
 
-  if (updatePasswordData && event) {
-    event.target.reset();
-    setEvent(null);
-  }
+//   if (updatePasswordData && event) {
+//     event.target.reset();
+//     setEvent(null);
+//   }
 
-  useEffect(() => {
-    usernameOnLoadHandler(username);
-    emailOnLoadHandler(email);
-  }, [usernameOnLoadHandler, emailOnLoadHandler, username, email]);
+//   useEffect(() => {
+//     usernameOnLoadHandler(username);
+//     emailOnLoadHandler(email);
+//   }, [usernameOnLoadHandler, emailOnLoadHandler, username, email]);
 
-  return (
-    <Fragment>
-      <Navigation isAccountControlNeeded="true" />
-      <main className={`${classes.main}`}>
-        <div className={`${classes.accountSetting}`}>
-          <h1 className={`${classes.h1}`}>Account Settings</h1>
-          <img
-            className={`${classes.accountSettingImg}`}
-            src={img3}
-            alt="Account Setting Logo"
-          />
-        </div>
-        <div className={`${classes.editCont}`}>
-          <section
-            className={`${classes.editCont1} ${classes.editProfileCont}`}
-          >
-            <div className={`${classes.editHeader}`}>
-              <h1>User Profile</h1>
-              <p>Update your profile information below</p>
-            </div>
-            {updateProfileData && (
-              <Alert img2={img4} alertType="success">
-                Successfully updated profile
-              </Alert>
-            )}
-            <form autoComplete="on" onSubmit={editProfileOnSubmitHandler}>
-              <Fragment>{formItemsEditProfile}</Fragment>
-              <div className={`${classes.formActions}`}>
-                <AuthButton status={updateProfileLoggingStatus}>
-                  {updateProfileLoggingStatus === "pending" ? (
-                    <Oval
-                      ariaLabel="loading-indicator"
-                      height={20}
-                      width={20}
-                      strokeWidth={10}
-                      strokeWidthSecondary={5}
-                      color="white"
-                      secondaryColor="#6035e7"
-                    />
-                  ) : (
-                    "Update Profile"
-                  )}
-                </AuthButton>
-              </div>
-            </form>
-          </section>
-          <section
-            className={`${classes.editCont1} ${classes.editPasswordCont}`}
-          >
-            <div className={`${classes.editHeader}`}>
-              <h1>Change Password</h1>
-            </div>
-            {updatePasswordError && (
-              <Alert img2={img2} alertType="error">
-                {updatePasswordError.message}
-              </Alert>
-            )}
-            <form autoComplete="off" onSubmit={editPasswordOnSubmitHandler}>
-              <Fragment>{formItemsEditPassword}</Fragment>
-              <div className={`${classes.formActions}`}>
-                <AuthButton status={updatePasswordLoggingStatus}>
-                  {updatePasswordLoggingStatus === "pending" ? (
-                    <Oval
-                      ariaLabel="loading-indicator"
-                      height={20}
-                      width={20}
-                      strokeWidth={10}
-                      strokeWidthSecondary={5}
-                      color="white"
-                      secondaryColor="#6035e7"
-                    />
-                  ) : (
-                    "Change Password"
-                  )}
-                </AuthButton>
-              </div>
-            </form>
-          </section>
-        </div>
-      </main>
-    </Fragment>
-  );
-};
+//   return (
+//     <>
+//       <main className={`${classes.main}`}>
+//         <div className={`${classes.accountSetting}`}>
+//           <h1 className={`${classes.h1}`}>Account Settings</h1>
+//           <img
+//             className={`${classes.accountSettingImg}`}
+//             src={img3}
+//             alt="Account Setting Logo"
+//           />
+//         </div>
+//         <div className={`${classes.editCont}`}>
+//           <section
+//             className={`${classes.editCont1} ${classes.editProfileCont}`}
+//           >
+//             <div className={`${classes.editHeader}`}>
+//               <h1>User Profile</h1>
+//               <p>Update your profile information below</p>
+//             </div>
+//             {updateProfileData && (
+//               <Alert img2={img4} alertType="success">
+//                 Successfully updated profile
+//               </Alert>
+//             )}
+//             <form autoComplete="on" onSubmit={editProfileOnSubmitHandler}>
+//               <Fragment>{formItemsEditProfile}</Fragment>
+//               <div className={`${classes.formActions}`}>
+//                 <Button>Update Profile</Button>
+//               </div>
+//             </form>
+//           </section>
+//           <section
+//             className={`${classes.editCont1} ${classes.editPasswordCont}`}
+//           >
+//             <div className={`${classes.editHeader}`}>
+//               <h1>Change Password</h1>
+//             </div>
+//             {updatePasswordError && (
+//               <Alert img2={img2} alertType="error">
+//                 {updatePasswordError.message}
+//               </Alert>
+//             )}
+//             <form autoComplete="off" onSubmit={editPasswordOnSubmitHandler}>
+//               <Fragment>{formItemsEditPassword}</Fragment>
+//               <div className={`${classes.formActions}`}>
+//                 <Button>Change Password</Button>
+//               </div>
+//             </form>
+//           </section>
+//         </div>
+//       </main>
+//     </>
+//   );
+// };
 
-export default AccountSetting;
+// export default AccountSetting;

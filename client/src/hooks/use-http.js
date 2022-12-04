@@ -1,60 +1,60 @@
-import { useReducer, useCallback } from "react";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function httpReducer(state, action) {
-  if (action.type === "SEND") {
-    return {
-      data: null,
-      error: null,
-      status: "pending",
-    };
-  }
+import toast from "react-hot-toast";
 
-  if (action.type === "SUCCESS") {
-    return {
-      data: action.responseData,
-      error: null,
-      status: "completed",
-    };
-  }
-
-  if (action.type === "ERROR") {
-    return {
-      data: null,
-      error: action.errorData,
-      status: "completed",
-    };
-  }
-
-  return state;
-}
-
-function useHttp(requestFunction, startWithPending = false) {
-  const [httpState, dispatch] = useReducer(httpReducer, {
-    status: startWithPending ? "pending" : null,
-    data: null,
-    error: null,
-  });
-
+const useHttp = (
+  requestFunction,
+  dispatch,
+  navigateURL,
+  dispatchName,
+  dispatchAuth,
+  successMessage,
+  type
+) => {
+  const navigate = useNavigate();
+  const [loading, isLoading] = useState(null);
   const sendRequest = useCallback(
     async (requestData) => {
-      dispatch({ type: "SEND" });
+      isLoading(true);
       try {
         const responseData = await requestFunction(requestData);
-        dispatch({ type: "SUCCESS", responseData });
-      } catch (error) {
+        const { data } = responseData.data;
+        console.log(responseData);
+        console.log(data);
         dispatch({
-          type: "ERROR",
-          errorData: error,
+          type: dispatchName,
+          payload:
+            dispatchAuth === "auth" ? { ...data, isAuthenticated: true } : data,
         });
+        if (type === "POST") {
+          toast.success(successMessage);
+          navigate(navigateURL, { replace: true });
+          return;
+        }
+        return;
+      } catch (error) {
+        toast.error("Error");
+      } finally {
+        isLoading(false);
       }
     },
-    [requestFunction]
+    [
+      requestFunction,
+      navigateURL,
+      dispatchName,
+      dispatch,
+      dispatchAuth,
+      successMessage,
+      type,
+      navigate,
+    ]
   );
 
   return {
     sendRequest,
-    ...httpState,
+    loading,
   };
-}
+};
 
 export default useHttp;

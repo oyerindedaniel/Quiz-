@@ -1,4 +1,4 @@
-import AuthContext from "../contexts/auth-context";
+import AuthContext from "../contexts/global-context";
 
 import AuthSignup from "../components/auth/authsignup/authsignup";
 

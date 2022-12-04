@@ -4,9 +4,9 @@ import classes from "./quizitemsskeletonloader.module.css";
 
 const QuizItemsSkeletonLoader = () => {
   const arrayOfQuizItemsSkeletonLoader = [1, 2, 3, 4, 5, 6].map(
-    (arrayOfQuizItemSkeletonLoader) => {
+    (arrayOfQuizItemSkeletonLoader, i) => {
       return (
-        <div className={`${classes.quizItemSkeletonLoader}`}>
+        <div key={i} className={`${classes.quizItemSkeletonLoader}`}>
           <div className={`${classes.quizItemSkeletonLoaderImgContainer}`}>
             <div className={`${classes.quizItemSkeletonLoaderImg}`}></div>
           </div>

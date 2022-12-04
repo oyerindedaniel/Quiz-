@@ -1,17 +1,15 @@
-import { useRef, useContext } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../../contexts/auth-context";
-
+import { useGlobalStoreContext } from "../../contexts/global-context";
 import icons from "../../assets/svg/SVG/sprite.svg";
 
 import { Oval } from "react-loader-spinner";
 
 import classes from "./quizmodalformquiz.module.css";
 
-const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
-  const { getQuizData, getQuizLoggingStatus, setTimerValue } =
-    useContext(AuthContext);
+const QuizModalFormQuiz = ({ quizName, noOfQuestion, loadingState }) => {
+  const { dispatch } = useGlobalStoreContext();
 
   const navigate = useNavigate();
 
@@ -33,24 +31,24 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
       dateNow: new Date(),
     };
 
-    setTimerValue(timeDuration);
-    navigate(`/quiz/${quizName}`, { replace: true });
+    dispatch({
+      type: "SET_TIME-DURATION",
+      payload: timeDuration,
+    });
 
-    // setTimeout(() => {
-
-    // }, 500);
+    setTimeout(() => {
+      navigate(`/quiz/${quizName}`, { replace: true });
+    }, 250);
   };
 
   return (
     <div className={`${classes.aboutQuiz}`}>
       <div
         className={`${classes.aboutQuizLoad} ${
-          getQuizLoggingStatus === "pending" && classes.aboutQuizLoadPending
-        } ${
-          getQuizLoggingStatus === "completed" && classes.aboutQuizLoadCompleted
-        }`}
+          loadingState && classes.aboutQuizLoadPending
+        } ${!loadingState && classes.aboutQuizLoadCompleted}`}
       >
-        {getQuizLoggingStatus === "pending" && (
+        {loadingState && (
           <Oval
             ariaLabel="loading-indicator"
             height={19}
@@ -61,14 +59,14 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
             secondaryColor="white"
           />
         )}
-        {getQuizLoggingStatus === "completed" && (
+        {!loadingState && (
           <svg className={`${classes.aboutQuizLoadSvgCompleted}`}>
             <use xlinkHref={`${icons}#icon-checkmark`}></use>
           </svg>
         )}
         <span className={`${classes.aboutQuizLoadText}`}>
-          {getQuizLoggingStatus === "pending" && "Writing Quiz Data"}
-          {getQuizLoggingStatus === "completed" && "Done"}
+          {loadingState && "Writing Quiz Data"}
+          {!loadingState && "Done"}
         </span>
       </div>
       <div className={`${classes.aboutQuizLoadAboutQuiz}`}>
@@ -82,9 +80,6 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
           <p className={`${classes.aboutQuizTimeNoteP}`}>
             Time duration of Quiz (Maximum of 24 Hours)
           </p>
-          <svg className={`${classes.aboutQuizTimeNoteSvg}`}>
-            <use xlinkHref={`${icons}#icon-circle-down`}></use>
-          </svg>
         </div>
         <form onSubmit={onSubmitHandler}>
           <div className={`${classes.aboutQuizTimeInsert}`}>
@@ -122,10 +117,7 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion }) => {
             <button type="button" onClick="">
               Cancel
             </button>
-            <button
-              className={classes.submit}
-              disabled={getQuizLoggingStatus === "completed" ? false : true}
-            >
+            <button className={classes.submit} disabled={loadingState}>
               Start Quiz
             </button>
           </div>

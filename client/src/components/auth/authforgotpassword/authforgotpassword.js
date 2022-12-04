@@ -2,16 +2,16 @@ import { useContext } from "react";
 
 import AuthForm from "../authform/authform";
 import AuthCard from "../../ui/authcard/authcard";
-import AuthButton from "../../ui/authbutton/authbutton";
+import Button from "../../ui/button/button";
 import AuthControl from "../authcontrol/authcontrol";
-import AuthContext from "../../../contexts/auth-context";
+import AuthContext from "../../../contexts/global-context";
 
 import useInput from "../../../hooks/use-input";
 
 import classes from "./authforgotpassword.module.css";
 
 const AuthForgotPassword = () => {
-  const { forgotPassword } = useContext(AuthContext);
+  // const { forgotPassword } = useContext(AuthContext);
 
   const {
     value: enteredEmail,
@@ -31,7 +31,7 @@ const AuthForgotPassword = () => {
       email: enteredEmail,
     };
 
-    forgotPassword(userSubmittedData);
+    // forgotPassword(userSubmittedData);
 
     resetEmailInput();
   };
@@ -71,7 +71,7 @@ const AuthForgotPassword = () => {
       <form autoComplete="on" onSubmit={submitHandler}>
         <div>{formItems}</div>
         <div className={`${classes.formActions}`}>
-          <AuthButton>Reset my Password</AuthButton>
+          <Button>Reset my Password</Button>
         </div>
       </form>
     </AuthCard>

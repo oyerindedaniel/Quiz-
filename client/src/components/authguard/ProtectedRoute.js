@@ -1,13 +1,19 @@
-import { useContext } from "react";
-
 import { Navigate, Outlet } from "react-router-dom";
 
-import AuthContext from "../../contexts/auth-context";
+import { useGlobalStoreContext } from "../../contexts/global-context";
+
+import Layout from "../layout";
 
 const ProtectedRoute = () => {
-  const { isLoggedState } = useContext(AuthContext);
+  const { state } = useGlobalStoreContext();
 
-  return isLoggedState ? <Outlet /> : <Navigate to="/login" />;
+  return state.user.isAuthenticated ? (
+    <Layout>
+      <Outlet />
+    </Layout>
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 export default ProtectedRoute;

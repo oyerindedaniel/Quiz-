@@ -27,7 +27,7 @@ const createSendToken = (user, statusCode, res) => {
   res.status(statusCode).json({
     status: "success",
     data: {
-      user,
+      data: user,
     },
   });
 };
@@ -54,6 +54,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
+  console.log("ddd");
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
   }
@@ -100,7 +101,7 @@ exports.initialProtect = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      user: currentUser,
+      data: currentUser,
     },
   });
 });

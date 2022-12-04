@@ -1,24 +1,25 @@
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
 import AuthControl from "../authcontrol/authcontrol";
-import AuthButton from "../../ui/authbutton/authbutton";
-import Alert from "../../ui/alert/alert";
+import AuthButton from "../../ui/button/button";
 
-import AuthContext from "../../../contexts/auth-context";
+import { useGlobalStoreContext } from "../../../contexts/global-context";
 
-import { Oval } from "react-loader-spinner";
+import useHttp from "../../../hooks/use-http";
+import { signup } from "../../lib/api";
 
-import img1 from "../../../assets/alertimg/bear.png";
-import img2 from "../../../assets/alertimg/refresh-arrow.png";
+// import { Oval } from "react-loader-spinner";
 
 import useInput from "../../../hooks/use-input";
 
 import classes from "./authsignup.module.css";
 
 const AuthSignup = () => {
-  const ctx = useContext(AuthContext);
+  const { sendRequest, Loading } = useHttp(signup);
+
+  const { state } = useGlobalStoreContext;
 
   const {
     value: enteredUsername,
@@ -66,12 +67,12 @@ const AuthSignup = () => {
       confirmPassword: enteredConfirmPassword,
     };
 
-    ctx.signup(userSubmittedData);
+    sendRequest(userSubmittedData);
 
     // Clear input after submission,
-    resetUsernameInput();
-    resetEmailInput();
-    e.target.reset();
+    // resetUsernameInput();
+    // resetEmailInput();
+    // e.target.reset();
     // resetPasswordInput();
     // resetConfirmPasswordInput();
   };
@@ -163,29 +164,15 @@ const AuthSignup = () => {
         Get access to exclusive features on Quiz! by creating an account
       </h3>
       <AuthControl />
-      {ctx.signingUpError && (
+      {/* {ctx.signingUpError && (
         <Alert img1={img1} img2={img2}>
           {ctx.signingUpError.message}
         </Alert>
-      )}
+      )} */}
       <form autoComplete="on" onSubmit={signupOnSubmitHandler}>
-        <Fragment>{formItems}</Fragment>
+        <>{formItems}</>
         <div className={`${classes.formActions}`}>
-          <AuthButton status={ctx.signingUpStatus}>
-            {ctx.signingUpStatus === "pending" ? (
-              <Oval
-                ariaLabel="loading-indicator"
-                height={20}
-                width={20}
-                strokeWidth={10}
-                strokeWidthSecondary={5}
-                color="white"
-                secondaryColor="#6035e7"
-              />
-            ) : (
-              "Sign up"
-            )}
-          </AuthButton>
+          <AuthButton loading={Loading}></AuthButton>
         </div>
       </form>
     </AuthCard>

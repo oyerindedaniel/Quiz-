@@ -1,31 +1,35 @@
-import { useEffect, useContext, useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../../contexts/auth-context";
+import { useGlobalStoreContext } from "../../contexts/global-context";
 
 import useTimer from "../../hooks/use-timer";
+
+import toast from "react-hot-toast";
 
 import classes from "./quiztimer.module.css";
 
 const QuizTimer = () => {
   const [timeoutIntervalFunction, setTimeoutIntervalFunction] = useState(null);
 
-  const { timeDurationValues } = useContext(AuthContext);
+  const { state, dispatch } = useGlobalStoreContext();
   const navigate = useNavigate();
 
   const setQuizDuration = useCallback(() => {
-    let date = new Date(timeDurationValues.dateNow);
+    if (!state.timeDuration) {
+      navigate("/home", { replace: true });
+      toast.error("Error start Quiz");
+    }
+    let date = new Date(state.timeDuration.dateNow);
     date.setHours(
-      date.getHours() + timeDurationValues.hoursValue,
-      date.getMinutes() + timeDurationValues.minutesValue,
-      date.getSeconds() + timeDurationValues.secondsValue
+      date.getHours() + state.timeDuration.hoursValue,
+      date.getMinutes() + state.timeDuration.minutesValue,
+      date.getSeconds() + state.timeDuration.secondsValue
     );
     return date.getTime();
-  }, [timeDurationValues]);
+  }, [state.timeDuration, navigate]);
 
   const { timer, timerFunction } = useTimer(setQuizDuration);
-
-  useEffect(() => {});
 
   useEffect(() => {
     let timerInterval = setInterval(timerFunction, 1000);
