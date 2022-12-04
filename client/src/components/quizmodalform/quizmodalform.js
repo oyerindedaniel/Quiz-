@@ -8,7 +8,7 @@ import { useGlobalStoreContext } from "../../contexts/global-context";
 import classes from "./quizmodalform.module.css";
 
 const QuizModalForm = ({ onDisplayModal }) => {
-  const { state, dispatch } = useGlobalStoreContext();
+  const { dispatch } = useGlobalStoreContext();
 
   const { sendRequest, loading } = useHttp(
     createQuiz,

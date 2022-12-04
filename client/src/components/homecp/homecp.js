@@ -6,6 +6,9 @@ import QuizItems from "../quiz/quizitems";
 import HistoryItems from "../gameshistory/historyitems";
 import AddQuizModal from "../ui/modal/addquizmodal";
 import QuizModalForm from "../quizmodalform/quizmodalform";
+import SearchedQuizzes from "../quiz/searchquiz/searchquiz";
+
+import { useGlobalStoreContext } from "../../contexts/global-context";
 
 import { Toaster } from "react-hot-toast";
 
@@ -14,7 +17,10 @@ import icons from "../../assets/svg/SVG/sprite.svg";
 import classes from "./homecp.module.css";
 
 const Homecp = () => {
+  const { state, dispatch } = useGlobalStoreContext();
+
   const [showModal, setShowModal] = useState(false);
+  const [searchQuizzes, setSearchQuizzes] = useState(null);
 
   const onDisplayModalHandler = () => {
     setShowModal((currentModalValue) => {
@@ -22,12 +28,35 @@ const Homecp = () => {
     });
   };
 
-  const searchHandler = () => {};
-
-  const searchHandlerOn = (e) => {
+  const searchHandler = (e) => {
     e.preventDefault();
+    const quizSearch = e.target.value.toLowerCase();
+    const arrayFoundQuiz = [];
+
+    state.quizQuestion.forEach((quiz) => {
+      if (!quizSearch) return;
+      const foundQuiz = quiz.quizName.startsWith(quizSearch);
+      if (foundQuiz) arrayFoundQuiz.push(quiz);
+    });
+
+    setSearchQuizzes(arrayFoundQuiz);
   };
 
+  let searchQuizzesData;
+  if (searchQuizzes) {
+    searchQuizzesData = (
+      <div className={classes.searchQuizDisplay}>
+        {searchQuizzes.map((quiz, i) => (
+          <SearchedQuizzes
+            key={i}
+            quizName={quiz.quizName}
+            image={quiz.image}
+            numberOfQuestion={quiz.numberOfQuestion}
+          />
+        ))}
+      </div>
+    );
+  }
   // const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
 
   return (
@@ -45,25 +74,28 @@ const Homecp = () => {
       <main>
         <div className={`${classes.main}`}>
           <h1 className={`${classes.h1}`}>My Quizzes</h1>
-          <form
-            className={`${classes.controlGroupContainer}`}
-            onSubmit={searchHandlerOn}
-          >
-            <div className={`${classes.controlGroup}`}>
-              <svg className={`${classes.svgSearch}`}>
-                <use xlinkHref={`${icons}#icon-search`}></use>
-              </svg>
-              <input
-                className={`${classes.searchInput}`}
-                type="text"
-                placeholder="Search Quiz ..."
-                onChange={searchHandler}
-              />
-              <svg className={`${classes.svgClear}`}>
-                <use xlinkHref={`${icons}#icon-clear`}></use>
-              </svg>
-            </div>
-          </form>
+          <div className={classes.searchContainer}>
+            <form
+              className={`${classes.controlGroupContainer}`}
+              onSubmit={searchHandler}
+            >
+              <div className={`${classes.controlGroup}`}>
+                <svg className={`${classes.svgSearch}`}>
+                  <use xlinkHref={`${icons}#icon-search`}></use>
+                </svg>
+                <input
+                  className={`${classes.searchInput}`}
+                  type="text"
+                  placeholder="Search Quiz ..."
+                  onChange={searchHandler}
+                />
+                <svg className={`${classes.svgClear}`}>
+                  <use xlinkHref={`${icons}#icon-clear`}></use>
+                </svg>
+              </div>
+            </form>
+            <>{searchQuizzes && searchQuizzesData}</>
+          </div>
           <div
             onClick={onDisplayModalHandler}
             className={`${classes.addButtonSection}`}

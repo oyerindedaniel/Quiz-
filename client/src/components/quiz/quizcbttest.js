@@ -19,9 +19,6 @@ const QuizCbtTest = () => {
   const [change, setChange] = useState(0);
 
   const ref = useRef([]);
-
-  console.log(ref.current);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,8 +61,6 @@ const QuizCbtTest = () => {
       foundAnswer = answerChecked.find(
         (i) => i.questionCount === questionCount - 1
       );
-
-    console.log(foundAnswer);
 
     if (answerChecked && foundAnswer) {
       if (foundAnswer.correctAnswer.toString().length === 1) {
@@ -192,8 +187,6 @@ const QuizCbtTest = () => {
       ];
     });
   };
-
-  console.log(answerChecked);
 
   if (quizData) {
     const filterArrayQuizKeys = (quizKeysData) => {

@@ -17,6 +17,17 @@
   margin-right: auto;
 }
 
+.searchInput {
+  border: none;
+  padding: 0.5rem 0;
+  outline: none;
+  background-color: var(--color-grey-2);
+  margin-left: 1rem;
+  width: 100%;
+}
+
+/* "overflow-scrollbar absolute top-14 left-0 max-h-40 w-full z-50 overflow-auto bg-white shadow-md */
+
 .controlGroup {
   display: flex;
   align-items: center;
@@ -26,26 +37,23 @@
   border-radius: 0.5rem;
   border: 0.1rem solid var(--color-grey-2);
   width: 40rem;
-  margin-right: auto;
   transition: all 0.2s ease-in-out;
 }
 
-.controlGroup:has(.searchInput:focus, .searchInput:active) {
-  border: 0.2rem solid var(--color-grey-1);
+.searchContainer {
+  position: relative;
+  margin-right: auto;
 }
 
-.controlGroup:active,
-.controlGroup:focus {
-  border: 0.2rem solid var(--color-grey-1);
-}
-
-.searchInput {
-  border: none;
-  padding: 0.5rem 0;
-  outline: none;
-  background-color: var(--color-grey-2);
-  margin-left: 1rem;
+.searchQuizDisplay {
+  position: absolute;
+  background-color: red;
+  left: 0;
+  top: 1.2rem;
+  max-height: 10rem;
   width: 100%;
+  overflow: auto;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .svgSearch {

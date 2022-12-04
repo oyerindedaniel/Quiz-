@@ -1,0 +1,16 @@
+/* flex justify-start items-center py-3 px-4 hover:bg-neutral-200 min-h-5r */
+.link {
+  display: flex;
+  justify-items: start;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.flex:hover {
+  background-color: red;
+  min-height: 4rem;
+}
+
+/* w-20 h-14 mr-4 vsm:mr-2 */
+
+/* w-full h-full object-cover rounded-t-md rounded-b-md shadow-md */
