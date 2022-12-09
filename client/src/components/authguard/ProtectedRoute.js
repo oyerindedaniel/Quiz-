@@ -1,18 +1,24 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-import { useGlobalStoreContext } from "../../contexts/global-context";
+import { Toaster } from "react-hot-toast";
 
 import Layout from "../layout";
 
 const ProtectedRoute = () => {
-  const { state } = useGlobalStoreContext();
-
-  return state.user.isAuthenticated ? (
+  return (
     <Layout>
+      <Toaster
+        toastOptions={{
+          duration: 5000,
+          style: {
+            background: "#fff",
+            color: "#000",
+            fontSize: "1.5rem",
+          },
+        }}
+      />
       <Outlet />
     </Layout>
-  ) : (
-    <Navigate to="/login" />
   );
 };
 

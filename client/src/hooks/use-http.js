@@ -1,5 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useGlobalStoreContext } from "../contexts/global-context";
 
 import toast from "react-hot-toast";
 
@@ -14,13 +16,22 @@ const useHttp = (
 ) => {
   const navigate = useNavigate();
   const [loading, isLoading] = useState(null);
+  const [error, setError] = useState(null);
+  const { state } = useGlobalStoreContext();
+
+  const userState = useMemo(
+    () => ({ ...state.user }),
+    [state.user.isAuthenticated]
+  );
+
   const sendRequest = useCallback(
     async (requestData) => {
       isLoading(true);
+      setError(null);
       try {
         const responseData = await requestFunction(requestData);
         const { data } = responseData.data;
-        console.log(responseData);
+        // console.log(responseData);
         console.log(data);
         dispatch({
           type: dispatchName,
@@ -28,13 +39,35 @@ const useHttp = (
             dispatchAuth === "auth" ? { ...data, isAuthenticated: true } : data,
         });
         if (type === "POST") {
-          toast.success(successMessage);
           navigate(navigateURL, { replace: true });
+          toast.success(successMessage);
           return;
         }
         return;
       } catch (error) {
-        toast.error("Error");
+        setError(error);
+
+        if (error?.error?.statusCode === 500) {
+          toast.error("Poor Internet Connection. TRY AGAIN");
+          return;
+        }
+        if (
+          error?.message ===
+          "You are not logged in! Please log in to get access."
+        ) {
+          dispatch({
+            type: "SET_USER",
+            payload: {
+              ...userState,
+              isAuthenticated: false,
+            },
+          });
+          navigate("/login", { replace: true });
+          toast.error(error.message);
+          return;
+        }
+
+        toast.error(error.message);
       } finally {
         isLoading(false);
       }
@@ -48,12 +81,14 @@ const useHttp = (
       successMessage,
       type,
       navigate,
+      userState,
     ]
   );
 
   return {
     sendRequest,
     loading,
+    error,
   };
 };
 

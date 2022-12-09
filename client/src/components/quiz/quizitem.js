@@ -1,19 +1,18 @@
-import { useContext, Fragment, useState } from "react";
+import { useState } from "react";
 
 import useHttp from "../../hooks/use-http";
 import { getQuizData } from "../lib/api";
 
 import { useGlobalStoreContext } from "../../contexts/global-context";
 
-import AddQuizModal from "../ui/modal/addquizmodal";
-import QuizModalFormQuiz from "../quizmodalform/quizmodalformquiz";
+import QuizItemPopUp from "./quizitempopup/quizitempopup";
 
 import classes from "./quizitem.module.css";
 
 const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
   const { dispatch } = useGlobalStoreContext();
 
-  const { sendRequest, loading } = useHttp(
+  const { sendRequest, loading, error } = useHttp(
     getQuizData,
     dispatch,
     "",
@@ -32,8 +31,8 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
     });
   };
 
-  const startQuizHandler = (uploadQuizName) => {
-    onDisplayModalHandler();
+  const startQuizHandler = (uploadQuizName, state) => {
+    if (state === "initial") onDisplayModalHandler();
 
     const userSubmittedData = {
       excelName: uploadQuizName,
@@ -43,9 +42,9 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <div
-        onClick={startQuizHandler.bind(null, uploadQuizName)}
+        onClick={startQuizHandler.bind(null, uploadQuizName, "initial")}
         className={`${classes.quizItem}`}
       >
         <div className={`${classes.quizItemImgContainer}`}>
@@ -64,7 +63,17 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
           </span>
         </div>
       </div>
-      {showModal && (
+      <QuizItemPopUp
+        showModal={showModal}
+        onDisplayModalHandler={onDisplayModalHandler}
+        quizName={quizName}
+        noOfQuestion={numberOfQuestion}
+        loading={loading}
+        error={error}
+        uploadQuizName={uploadQuizName}
+        startQuizHandler={startQuizHandler}
+      />
+      {/* {showModal && (
         <AddQuizModal onDisplayModalHandler={onDisplayModalHandler}>
           <h2 className={`${classes.modalH2Text}`}>Quiz Description</h2>
           <p className={`${classes.modalTextP}`}>
@@ -78,8 +87,8 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
             loadingState={loading}
           />
         </AddQuizModal>
-      )}
-    </Fragment>
+      )} */}
+    </>
   );
 };
 

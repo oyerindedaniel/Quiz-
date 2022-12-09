@@ -1,0 +1,16 @@
+.tabNavItem {
+  font-size: 1.5rem;
+  padding: 0.7rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--color-grey-1);
+}
+
+.tabNavItem:hover {
+  color: black;
+}
+
+.activeTabNavItem {
+  color: black;
+  font-weight: 700;
+}

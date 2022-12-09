@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 import { useGlobalStoreContext } from "../../../contexts/global-context";
 
-import avatarImg from "../../../assets/img/smile.png";
-
 import classes from "./navbar.module.css";
 
 const Navbar = () => {
@@ -20,11 +18,11 @@ const Navbar = () => {
               <li className={`${classes.accountControl}`}>
                 <img
                   className={`${classes.accountAvatar}`}
-                  src={avatarImg}
+                  src={state.profilePicture}
                   alt="default avatar"
                 />
                 <Link to="/me" className={`${classes.accountName}`}>
-                  doyerinde
+                  {state.user.username}
                 </Link>
               </li>
             </ul>

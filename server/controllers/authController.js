@@ -54,7 +54,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  console.log("ddd");
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
   }
@@ -83,6 +82,7 @@ exports.initialProtect = catchAsync(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   const currentUser = await User.findById(decoded.id);
+  console.log(currentUser);
   if (!currentUser) {
     return next(
       new AppError(
@@ -121,6 +121,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   const currentUser = await User.findById(decoded.id);
+
   if (!currentUser) {
     return next(
       new AppError(
@@ -197,6 +198,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
+
+  if (!user) {
+    return next(new AppError("User does not exist", 401));
+  }
 
   if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
     return next(new AppError("Your current password is wrong.", 401));

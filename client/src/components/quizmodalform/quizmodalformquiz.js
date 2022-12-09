@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useGlobalStoreContext } from "../../contexts/global-context";
@@ -8,7 +8,15 @@ import { Oval } from "react-loader-spinner";
 
 import classes from "./quizmodalformquiz.module.css";
 
-const QuizModalFormQuiz = ({ quizName, noOfQuestion, loadingState }) => {
+const QuizModalFormQuiz = ({
+  quizName,
+  noOfQuestion,
+  loading,
+  error,
+  onDisplayModalHandler,
+  uploadQuizName,
+  startQuizHandler,
+}) => {
   const { dispatch } = useGlobalStoreContext();
 
   const navigate = useNavigate();
@@ -37,18 +45,24 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion, loadingState }) => {
     });
 
     setTimeout(() => {
-      navigate(`/quiz/${quizName}`, { replace: true });
+      navigate(`/quiz/${quizName.split(" ").join("-")}`, { replace: true });
     }, 250);
+  };
+
+  const tryAgainFunction = () => {
+    startQuizHandler(uploadQuizName, "retry");
   };
 
   return (
     <div className={`${classes.aboutQuiz}`}>
       <div
         className={`${classes.aboutQuizLoad} ${
-          loadingState && classes.aboutQuizLoadPending
-        } ${!loadingState && classes.aboutQuizLoadCompleted}`}
+          loading && classes.aboutQuizLoadPending
+        } ${!loading && !error && classes.aboutQuizLoadCompleted} ${
+          !loading && error && classes.aboutQuizLoadError
+        }`}
       >
-        {loadingState && (
+        {loading && (
           <Oval
             ariaLabel="loading-indicator"
             height={19}
@@ -59,14 +73,25 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion, loadingState }) => {
             secondaryColor="white"
           />
         )}
-        {!loadingState && (
+        {!loading && !error && (
           <svg className={`${classes.aboutQuizLoadSvgCompleted}`}>
             <use xlinkHref={`${icons}#icon-checkmark`}></use>
           </svg>
         )}
-        <span className={`${classes.aboutQuizLoadText}`}>
-          {loadingState && "Writing Quiz Data"}
-          {!loadingState && "Done"}
+        {!loading && error && (
+          <svg className={`${classes.aboutQuizLoadSvgError}`}>
+            <use xlinkHref={`${icons}#icon-error_outline`}></use>
+          </svg>
+        )}
+        <span
+          className={`${classes.aboutQuizLoadText} ${
+            error && classes.errorCursor
+          }`}
+          onClick={error && tryAgainFunction}
+        >
+          {loading && "Writing Quiz Data"}
+          {!loading && !error && "Done"}
+          {error && !loading && "Try Again"}
         </span>
       </div>
       <div className={`${classes.aboutQuizLoadAboutQuiz}`}>
@@ -114,10 +139,10 @@ const QuizModalFormQuiz = ({ quizName, noOfQuestion, loadingState }) => {
             </div>
           </div>
           <div className={classes.modalActions}>
-            <button type="button" onClick="">
+            <button type="button" onClick={onDisplayModalHandler}>
               Cancel
             </button>
-            <button className={classes.submit} disabled={loadingState}>
+            <button className={classes.submit} disabled={loading || error}>
               Start Quiz
             </button>
           </div>

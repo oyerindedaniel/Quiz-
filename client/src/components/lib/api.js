@@ -32,7 +32,6 @@ export async function login(userSubmittedData) {
     const response = await instance.post("/quiz/login", userSubmittedData);
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
     throw err.response.data;
   }
 }
@@ -59,7 +58,6 @@ export async function updatePassword(userSubmittedData) {
     });
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
     throw err.response.data;
   }
 }
@@ -73,7 +71,6 @@ export async function updateProfile(userSubmittedData) {
     });
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
     throw err.response.data;
   }
 }
@@ -85,7 +82,6 @@ export async function createQuiz(userSubmittedData) {
     const response = await instance.post("/quiz/createQuiz", userSubmittedData);
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
     throw err.response.data;
   }
 }
@@ -95,7 +91,6 @@ export async function getAllQuizById() {
     const response = await instance.get("/quiz/getAllQuizById");
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
     throw err.response.data;
   }
 }
@@ -108,7 +103,19 @@ export async function getQuizData(userSubmittedData) {
     );
     return response.data;
   } catch (err) {
-    console.log(err.response.data);
+    throw err.response.data;
+  }
+}
+
+//Login API call
+export async function setTimeDuration(userSubmittedData) {
+  try {
+    const response = await instance.patch(
+      "/quiz/setTimeDuration",
+      userSubmittedData
+    );
+    return response.data;
+  } catch (err) {
     throw err.response.data;
   }
 }

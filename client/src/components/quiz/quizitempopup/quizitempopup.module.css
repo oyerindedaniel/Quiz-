@@ -1,0 +1,13 @@
+.modalTextP {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  color: var(--color-grey-1);
+}
+
+.modalH2Text {
+  font-size: 2rem;
+  font-weight: 800;
+  padding: 1rem 0rem;
+  border-bottom: 0.2rem solid var(--color-grey-1);
+}

@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Fragment } from "react";
 
 import AuthCard from "../../ui/authcard/authcard";
 import AuthForm from "../authform/authform";
@@ -18,7 +18,7 @@ import useInput from "../../../hooks/use-input";
 import classes from "./authlogin.module.css";
 
 const AuthLogin = () => {
-  const { state, dispatch } = useGlobalStoreContext();
+  const { dispatch } = useGlobalStoreContext();
 
   const { sendRequest, loading } = useHttp(
     login,
@@ -122,6 +122,7 @@ const AuthLogin = () => {
               className={`${classes.authCheckbox}`}
               type="checkbox"
               id="checkbox"
+              checked="true"
               required
             />
             <label for="checkbox">Remember me</label>

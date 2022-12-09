@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,14 +10,12 @@ import SearchedQuizzes from "../quiz/searchquiz/searchquiz";
 
 import { useGlobalStoreContext } from "../../contexts/global-context";
 
-import { Toaster } from "react-hot-toast";
-
 import icons from "../../assets/svg/SVG/sprite.svg";
 
 import classes from "./homecp.module.css";
 
 const Homecp = () => {
-  const { state, dispatch } = useGlobalStoreContext();
+  const { state } = useGlobalStoreContext();
 
   const [showModal, setShowModal] = useState(false);
   const [searchQuizzes, setSearchQuizzes] = useState(null);
@@ -33,9 +31,9 @@ const Homecp = () => {
     const quizSearch = e.target.value.toLowerCase();
     const arrayFoundQuiz = [];
 
-    state.quizQuestion.forEach((quiz) => {
+    state.userQuiz.forEach((quiz) => {
       if (!quizSearch) return;
-      const foundQuiz = quiz.quizName.startsWith(quizSearch);
+      const foundQuiz = quiz.quizName.toLowerCase().startsWith(quizSearch);
       if (foundQuiz) arrayFoundQuiz.push(quiz);
     });
 
@@ -52,6 +50,7 @@ const Homecp = () => {
             quizName={quiz.quizName}
             image={quiz.image}
             numberOfQuestion={quiz.numberOfQuestion}
+            uploadQuizName={quiz.uploadQuiz}
           />
         ))}
       </div>
@@ -60,25 +59,12 @@ const Homecp = () => {
   // const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
 
   return (
-    <Fragment>
-      <Toaster
-        toastOptions={{
-          duration: 5000,
-          style: {
-            background: "#fff",
-            color: "#000",
-            fontSize: "1.5rem",
-          },
-        }}
-      />
+    <>
       <main>
         <div className={`${classes.main}`}>
           <h1 className={`${classes.h1}`}>My Quizzes</h1>
           <div className={classes.searchContainer}>
-            <form
-              className={`${classes.controlGroupContainer}`}
-              onSubmit={searchHandler}
-            >
+            <form onSubmit={searchHandler}>
               <div className={`${classes.controlGroup}`}>
                 <svg className={`${classes.svgSearch}`}>
                   <use xlinkHref={`${icons}#icon-search`}></use>
@@ -135,7 +121,7 @@ const Homecp = () => {
           <HistoryItems />
         </div>
       </main>
-    </Fragment>
+    </>
   );
 };
 

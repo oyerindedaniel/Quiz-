@@ -8,14 +8,9 @@
   margin-top: 1rem;
 }
 
-.aboutQuizLoadPending {
-  background-color: var(--color-yellow-1);
-  width: 17rem;
-}
-
 .aboutQuizLoadCompleted {
   background: var(--color-green-2);
-  width: 9rem;
+  width: max-content;
 }
 
 .aboutQuizLoadAboutQuiz {
@@ -86,12 +81,6 @@
   outline: none;
 }
 
-/* input,
-select,
-textarea {
-  font-weight: 700;
-} */
-
 .aboutQuizTimeInsertInputCont input:active,
 .aboutQuizTimeInsertInputCont input:focus {
   border: 0.2rem solid var(--color-grey-1);
@@ -112,10 +101,10 @@ textarea {
 }
 
 .modalActions button {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  padding: 1rem 1.5rem;
   outline: none;
   border: none;
-  padding: 0.8rem 2rem;
   background: linear-gradient(var(--color-blue-1), var(--color-blue-4));
   background-color: white;
   color: white;
@@ -133,8 +122,27 @@ textarea {
   margin-left: 1.5rem;
 }
 
+.aboutQuizLoadPending {
+  background-color: var(--color-yellow-1);
+  width: max-content;
+}
+
 .aboutQuizLoadSvgCompleted {
   width: 2.2rem;
   height: 2.2rem;
   fill: var(--color-green-1);
+}
+
+.aboutQuizLoadSvgError {
+  width: 2.2rem;
+  height: 2.2rem;
+  fill: var(--color-red-1);
+}
+
+.aboutQuizLoadError {
+  width: max-content;
+}
+
+.errorCursor {
+  cursor: pointer;
 }

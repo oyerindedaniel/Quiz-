@@ -18,5 +18,6 @@ router.use(authController.protect);
 
 router.patch("/updateMyPassword", authController.updatePassword);
 router.patch("/updateMe", userController.updateMe);
+router.patch("/setTimeDuration", userController.setTimeDuration);
 
 module.exports = router;

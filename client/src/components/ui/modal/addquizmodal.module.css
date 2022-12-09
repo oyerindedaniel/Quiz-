@@ -9,6 +9,7 @@
   opacity: 0.8;
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
+  z-index: 5000;
 }
 
 .modal {
@@ -24,6 +25,7 @@
   min-width: 35rem;
   width: 40rem;
   transition: opacity 0.2s ease-in-out;
+  z-index: 7000;
 }
 
 .h1 {

@@ -1,4 +1,4 @@
-import { useRef, useContext, useState } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 
 import { createQuiz } from "../lib/api";
 import useHttp from "../../hooks/use-http";
@@ -8,7 +8,7 @@ import { useGlobalStoreContext } from "../../contexts/global-context";
 import classes from "./quizmodalform.module.css";
 
 const QuizModalForm = ({ onDisplayModal }) => {
-  const { dispatch } = useGlobalStoreContext();
+  const { state, dispatch } = useGlobalStoreContext();
 
   const { sendRequest, loading } = useHttp(
     createQuiz,
@@ -19,8 +19,7 @@ const QuizModalForm = ({ onDisplayModal }) => {
     "Successfully Created Quiz",
     "POST"
   );
-  // const { createQuiz, createQuizLoggingStatus, createQuizData } =
-  //   useContext(AuthContext);
+
   const [event, setEvent] = useState(null);
 
   const quizNameInputRef = useRef();
@@ -42,10 +41,11 @@ const QuizModalForm = ({ onDisplayModal }) => {
     sendRequest(quizUploadForm);
   };
 
-  // if (createQuizData && event) {
-  //   event.target.reset();
-  //   setEvent(null);
-  // }
+  if (!loading && event) {
+    event.target.reset();
+    setEvent(null);
+    onDisplayModal();
+  }
 
   return (
     <form onSubmit={submitHandler} className={`${classes.modalForm}`}>

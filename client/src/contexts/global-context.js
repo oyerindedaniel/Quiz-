@@ -1,6 +1,7 @@
 import { useReducer, useContext, useMemo, createContext } from "react";
 
 import React from "react";
+import Calm from "../assets/img/calm.png";
 
 const localStorageName = "persistentState";
 let localStorageState;
@@ -18,6 +19,8 @@ export const initialState = localStorageState
       user: {},
       userQuiz: [],
       quizQuestion: [],
+      profilePicture: Calm,
+      isTimeDuration: false,
     };
 
 export const GlobalStoreContext = createContext({
@@ -55,6 +58,13 @@ const Reducer = (state, action) => {
       newState = {
         ...state,
         timeDuration: { ...action.payload },
+      };
+      break;
+    }
+    case "SET_PROFILE-PICTURE": {
+      newState = {
+        ...state,
+        profilePicture: action.payload,
       };
       break;
     }

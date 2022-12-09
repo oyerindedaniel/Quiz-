@@ -12,9 +12,6 @@ const filterObj = (obj, ...allowedFields) => {
 exports.updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(req.body, "username", "email");
 
-  console.log(filteredBody);
-
-  // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
@@ -26,4 +23,29 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       data: updatedUser,
     },
   });
+});
+
+exports.setTimeDuration = catchAsync(async (req, res, next) => {
+  const { hours, minutes, seconds } = req.body;
+  console.log(req.user.id);
+  console.log("s");
+  const user = await User.findOneAndUpdateOne(
+    { _id: req.user.id },
+    {
+      $set: {
+        timeDuration: {
+          hours: req.body.hours,
+          minutes: req.body.minutes,
+          seconds: req.body.seconds,
+        },
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  console.log(user);
+
+  return "a";
 });

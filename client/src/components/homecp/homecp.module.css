@@ -13,10 +13,6 @@
   font-weight: 800;
 }
 
-.controlGroupContainer {
-  margin-right: auto;
-}
-
 .searchInput {
   border: none;
   padding: 0.5rem 0;
@@ -31,7 +27,6 @@
 .controlGroup {
   display: flex;
   align-items: center;
-  margin-left: 3rem;
   background-color: var(--color-grey-2);
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -43,17 +38,30 @@
 .searchContainer {
   position: relative;
   margin-right: auto;
+  margin-left: 4rem;
 }
 
 .searchQuizDisplay {
+  background-color: white;
   position: absolute;
-  background-color: red;
   left: 0;
-  top: 1.2rem;
-  max-height: 10rem;
+  top: 5rem;
+  max-height: 14rem;
   width: 100%;
   overflow: auto;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+}
+
+.searchQuizDisplay::-webkit-scrollbar {
+  width: 0.8rem;
+  margin-top: 3rem;
+}
+
+.searchQuizDisplay::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  background-color: var(--color-grey-2);
+  border-radius: 20px;
 }
 
 .svgSearch {

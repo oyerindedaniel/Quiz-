@@ -71,7 +71,7 @@ const QuizItems = () => {
   return (
     <section className={`${classes.quizItems}`}>
       {loading && <QuizItemsSkeletonLoader />}
-      {Quizzes && quizItems}
+      {Quizzes && !loading && quizItems}
       {!loading && !state.userQuiz.length && (
         <div className={`${classes.noQuizItems}`}>
           <img

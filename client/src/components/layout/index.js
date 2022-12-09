@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { initialProtect } from "../lib/api";
 import useHttp from "../../hooks/use-http";
@@ -24,9 +23,13 @@ const Layout = ({ children }) => {
     ""
   );
 
-  useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
+  useEffect(
+    () => {
+      sendRequest();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <>
