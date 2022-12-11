@@ -70,9 +70,6 @@ exports.getAllQuizById = catchAsync(async (req, res, next) => {
 
 exports.getQuizData = catchAsync(async (req, res, next) => {
   const { excelName } = req.body;
-
-  console.log(excelName);
-
   const workbook = new Excel.Workbook();
 
   try {

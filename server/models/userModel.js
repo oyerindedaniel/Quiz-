@@ -128,6 +128,10 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
+userSchema.methods.setTimeDurationBool = function () {
+  this.isTimeDuration = true;
+};
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

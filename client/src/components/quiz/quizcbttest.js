@@ -1,9 +1,11 @@
-import { Fragment, useState, useContext, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AuthButton from "../ui/button/button";
 import QuizTimer from "./quiztimer";
 import { useGlobalStoreContext } from "../../contexts/global-context";
+
+import toast from "react-hot-toast";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
 
@@ -66,14 +68,12 @@ const QuizCbtTest = () => {
       if (foundAnswer.correctAnswer.toString().length === 1) {
         const foundAnswerIndex = foundAnswer?.yourAnswer - 1;
         ref.current[foundAnswerIndex].checked = true;
-
-        setChange(foundAnswerIndex);
       }
 
       if (foundAnswer.correctAnswer.length > 1) {
         const foundAnswerArr = foundAnswer.yourAnswer;
         foundAnswerArr.forEach((answerIndex) => {
-          ref.current[answerIndex - 1].checked = true;
+          ref.current[+answerIndex - 1].checked = true;
         });
       }
     }
@@ -187,6 +187,9 @@ const QuizCbtTest = () => {
       ];
     });
   };
+
+  console.log(answerChecked);
+  console.log(ref.current);
 
   if (quizData) {
     const filterArrayQuizKeys = (quizKeysData) => {

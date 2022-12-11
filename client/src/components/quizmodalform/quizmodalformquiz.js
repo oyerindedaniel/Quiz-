@@ -40,7 +40,7 @@ const QuizModalFormQuiz = ({
     };
 
     dispatch({
-      type: "SET_TIME-DURATION",
+      type: "SET_LOCAL-TIME-DURATION",
       payload: timeDuration,
     });
 
@@ -142,9 +142,7 @@ const QuizModalFormQuiz = ({
             <button type="button" onClick={onDisplayModalHandler}>
               Cancel
             </button>
-            <button className={classes.submit} disabled={loading || error}>
-              Start Quiz
-            </button>
+            <button disabled={loading || error}>Start Quiz</button>
           </div>
         </form>
       </div>

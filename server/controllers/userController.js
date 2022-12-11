@@ -27,16 +27,14 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 exports.setTimeDuration = catchAsync(async (req, res, next) => {
   const { hours, minutes, seconds } = req.body;
-  console.log(req.user.id);
-  console.log("s");
-  const user = await User.findOneAndUpdateOne(
+  const user = await User.findOneAndUpdate(
     { _id: req.user.id },
     {
       $set: {
         timeDuration: {
-          hours: req.body.hours,
-          minutes: req.body.minutes,
-          seconds: req.body.seconds,
+          hours,
+          minutes,
+          seconds,
         },
       },
     },
@@ -45,7 +43,18 @@ exports.setTimeDuration = catchAsync(async (req, res, next) => {
     }
   );
 
-  console.log(user);
+  user.setTimeDurationBool();
 
-  return "a";
+  if (!user) {
+    return next(
+      new AppError("You are not logged in! Please log in to get access.", 401)
+    );
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: user,
+    },
+  });
 });

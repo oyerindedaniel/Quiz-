@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState } from "react";
 
 import { createQuiz } from "../lib/api";
 import useHttp from "../../hooks/use-http";
@@ -8,7 +8,7 @@ import { useGlobalStoreContext } from "../../contexts/global-context";
 import classes from "./quizmodalform.module.css";
 
 const QuizModalForm = ({ onDisplayModal }) => {
-  const { state, dispatch } = useGlobalStoreContext();
+  const { dispatch, error } = useGlobalStoreContext();
 
   const { sendRequest, loading } = useHttp(
     createQuiz,
@@ -17,6 +17,7 @@ const QuizModalForm = ({ onDisplayModal }) => {
     "SET_USER-QUIZ",
     "",
     "Successfully Created Quiz",
+    true,
     "POST"
   );
 
@@ -41,9 +42,8 @@ const QuizModalForm = ({ onDisplayModal }) => {
     sendRequest(quizUploadForm);
   };
 
-  if (!loading && event) {
+  if (!loading && !error && event) {
     event.target.reset();
-    setEvent(null);
     onDisplayModal();
   }
 
@@ -92,7 +92,7 @@ const QuizModalForm = ({ onDisplayModal }) => {
           Cancel
         </button>
         <button className={classes.submit}>
-          {loading ? "uploading ..." : "Add Quiz"}
+          {loading ? "Uploading ..." : "Add Quiz"}
         </button>
       </div>
     </form>

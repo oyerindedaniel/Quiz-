@@ -20,7 +20,6 @@ export const initialState = localStorageState
       userQuiz: [],
       quizQuestion: [],
       profilePicture: Calm,
-      isTimeDuration: false,
     };
 
 export const GlobalStoreContext = createContext({
@@ -54,7 +53,7 @@ const Reducer = (state, action) => {
       };
       break;
     }
-    case "SET_TIME-DURATION": {
+    case "SET_LOCAL-TIME-DURATION": {
       newState = {
         ...state,
         timeDuration: { ...action.payload },

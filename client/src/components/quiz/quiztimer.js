@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useGlobalStoreContext } from "../../contexts/global-context";
@@ -10,15 +10,13 @@ import toast from "react-hot-toast";
 import classes from "./quiztimer.module.css";
 
 const QuizTimer = () => {
-  const [timeoutIntervalFunction, setTimeoutIntervalFunction] = useState(null);
-
-  const { state, dispatch } = useGlobalStoreContext();
+  const { state } = useGlobalStoreContext();
   const navigate = useNavigate();
 
   const setQuizDuration = useCallback(() => {
-    if (!state.timeDuration) {
-      navigate("/home", { replace: true });
-      toast.error("Error start Quiz");
+    if (!state.user.isTimeDuration && !state.timeDuration) {
+      toast.error("No time duration set");
+      return navigate("/home", { replace: true });
     }
     let date = new Date(state.timeDuration.dateNow);
     date.setHours(
@@ -27,19 +25,26 @@ const QuizTimer = () => {
       date.getSeconds() + state.timeDuration.secondsValue
     );
     return date.getTime();
-  }, [state.timeDuration, navigate]);
+  }, [state.timeDuration, state.user.isTimeDuration, navigate]);
 
   const { timer, timerFunction } = useTimer(setQuizDuration);
 
   useEffect(() => {
+    if (!state.user.isTimeDuration && !state.timeDuration)
+      return navigate("/home", { replace: true });
     let timerInterval = setInterval(timerFunction, 1000);
-    setTimeoutIntervalFunction(timerInterval);
-  }, [timerFunction]);
 
-  if (timer?.distance < 0) {
-    clearInterval(timeoutIntervalFunction);
-    navigate("/home", { replace: true });
-  }
+    if (timer?.distance < 0) {
+      clearInterval(timerInterval);
+      navigate("/home", { replace: true });
+    }
+  }, [
+    timerFunction,
+    state?.user?.isTimeDuration,
+    navigate,
+    timer?.distance,
+    state?.timeDuration,
+  ]);
 
   return (
     <div className={`${classes.quizTimer}`}>

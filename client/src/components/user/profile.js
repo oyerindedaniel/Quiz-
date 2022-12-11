@@ -19,28 +19,30 @@ import classes from "./profile.module.css";
 const Profile = () => {
   const { state, dispatch } = useGlobalStoreContext();
 
+  const [persistentTimeInput, setPersistentTimeInput] = useState({
+    hours: state.user.timeDuration.hours,
+    minutes: state.user.timeDuration.minutes,
+    seconds: state.user.timeDuration.seconds,
+  });
   const [activeTab, setActiveTab] = useState("picture");
 
   const { sendRequest, loading } = useHttp(
     setTimeDuration,
     dispatch,
     "/home",
-    "SET_TIME-DURATION",
-    "",
+    "SET_USER",
+    "auth",
     "Successfully set time duration",
+    false,
     "POST"
   );
-
-  const hoursInputRef = useRef();
-  const minutesInputRef = useRef();
-  const secondsInputRef = useRef();
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    const hours = +hoursInputRef.current.value;
-    const minutes = +minutesInputRef.current.value;
-    const seconds = +secondsInputRef.current.value;
+    const hours = +persistentTimeInput.hours;
+    const minutes = +persistentTimeInput.minutes;
+    const seconds = +persistentTimeInput.seconds;
 
     const timeDuration = {
       hours,
@@ -111,8 +113,9 @@ const Profile = () => {
                     { src: Trauma, alt: "trauma avatar" },
                     { src: Bandage, alt: "bandage avatar" },
                     { src: Pain, alt: "pain avatar" },
-                  ].map((avatar) => (
+                  ].map((avatar, i) => (
                     <img
+                      key={i}
                       className={`${classes.avatarImg} ${
                         state.profilePicture === avatar.src &&
                         classes.avatarImgActive
@@ -142,7 +145,16 @@ const Profile = () => {
                     name="hours"
                     min="0"
                     max="24"
-                    ref={hoursInputRef}
+                    value={persistentTimeInput.hours}
+                    onChange={(e) => {
+                      setPersistentTimeInput((prev) => {
+                        return {
+                          hours: e.target.value,
+                          minutes: prev.minutes,
+                          seconds: prev.seconds,
+                        };
+                      });
+                    }}
                   />
                   <span>Hours</span>
                 </div>
@@ -151,7 +163,16 @@ const Profile = () => {
                     type="text"
                     id="minutes"
                     name="minutes"
-                    ref={minutesInputRef}
+                    value={persistentTimeInput.minutes}
+                    onChange={(e) => {
+                      setPersistentTimeInput((prev) => {
+                        return {
+                          hours: prev.hours,
+                          minutes: e.target.value,
+                          seconds: prev.seconds,
+                        };
+                      });
+                    }}
                   />
                   <span>Minutes</span>
                 </div>
@@ -160,7 +181,16 @@ const Profile = () => {
                     type="text"
                     id="seconds"
                     name="seconds"
-                    ref={secondsInputRef}
+                    value={persistentTimeInput.seconds}
+                    onChange={(e) => {
+                      setPersistentTimeInput((prev) => {
+                        return {
+                          hours: prev.hours,
+                          minutes: prev.minutes,
+                          seconds: e.target.value,
+                        };
+                      });
+                    }}
                   />
                   <span>Seconds</span>
                 </div>
@@ -183,6 +213,30 @@ const Profile = () => {
                 </Button>
               </div>
             </form>
+          </TabContent>
+          <TabContent id="delete" activeTab={activeTab}>
+            <h1 className={classes.deleteH1}>We are sorry to see you go</h1>
+            <p className={classes.deleteP}>
+              Be advised, account deletion is final. There will be no way to
+              restore your account.
+            </p>
+            <div className={`${classes.modalActions}`}>
+              <Button status={loading}>
+                {loading ? (
+                  <Oval
+                    ariaLabel="loading-indicator"
+                    height={20}
+                    width={20}
+                    strokeWidth={10}
+                    strokeWidthSecondary={5}
+                    color="white"
+                    secondaryColor="#6035e7"
+                  />
+                ) : (
+                  "Delete my account"
+                )}
+              </Button>
+            </div>
           </TabContent>
         </div>
       </main>

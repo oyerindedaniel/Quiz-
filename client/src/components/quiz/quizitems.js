@@ -27,6 +27,8 @@ const QuizItems = () => {
     "",
     "SET_USER-QUIZ",
     "",
+    "",
+    "",
     ""
   );
 

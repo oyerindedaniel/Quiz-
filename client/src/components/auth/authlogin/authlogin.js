@@ -27,6 +27,7 @@ const AuthLogin = () => {
     "SET_USER",
     "auth",
     "Successfully logged in",
+    "true",
     "POST"
   );
 

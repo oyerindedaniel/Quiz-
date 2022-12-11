@@ -12,6 +12,7 @@ const useHttp = (
   dispatchName,
   dispatchAuth,
   successMessage,
+  navigateBool,
   type
 ) => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const useHttp = (
             dispatchAuth === "auth" ? { ...data, isAuthenticated: true } : data,
         });
         if (type === "POST") {
-          navigate(navigateURL, { replace: true });
+          if (navigateBool) navigate(navigateURL, { replace: true });
           toast.success(successMessage);
           return;
         }
@@ -66,8 +67,9 @@ const useHttp = (
           toast.error(error.message);
           return;
         }
+        console.log(error);
 
-        toast.error(error.message);
+        // toast.error(error.message);
       } finally {
         isLoading(false);
       }
@@ -82,6 +84,7 @@ const useHttp = (
       type,
       navigate,
       userState,
+      navigateBool,
     ]
   );
 
