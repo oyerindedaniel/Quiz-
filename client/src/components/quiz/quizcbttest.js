@@ -1,9 +1,12 @@
 import { Fragment, useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import AuthButton from "../ui/button/button";
+import Button from "../ui/button/button";
 import QuizTimer from "./quiztimer";
 import { useGlobalStoreContext } from "../../contexts/global-context";
+import { createQuizScore } from "../lib/api";
+import useHttp from "../../hooks/use-http";
 
 import toast from "react-hot-toast";
 
@@ -12,13 +15,25 @@ import icons from "../../assets/svg/SVG/sprite.svg";
 import classes from "./quizcbttest.module.css";
 
 const QuizCbtTest = () => {
-  const { state } = useGlobalStoreContext();
+  const { state, dispatch } = useGlobalStoreContext();
+
+  let { quizName, quizId } = useParams();
+
+  const { sendRequest, loading } = useHttp(
+    createQuizScore,
+    dispatch,
+    "",
+    "SET_USER-QUIZ-SCORE",
+    "",
+    "Quiz submitted",
+    "",
+    "POST"
+  );
 
   const [questionCount, setQuestionCount] = useState(1);
   const [quizLength, setQuizLength] = useState(null);
   const [quizData, setQuizData] = useState(null);
   const [answerChecked, setAnswerChecked] = useState([]);
-  const [change, setChange] = useState(0);
 
   const ref = useRef([]);
   const navigate = useNavigate();
@@ -70,7 +85,7 @@ const QuizCbtTest = () => {
         ref.current[foundAnswerIndex].checked = true;
       }
 
-      if (foundAnswer.correctAnswer.length > 1) {
+      if (foundAnswer.correctAnswer.length >= 1) {
         const foundAnswerArr = foundAnswer.yourAnswer;
         foundAnswerArr.forEach((answerIndex) => {
           ref.current[+answerIndex - 1].checked = true;
@@ -82,27 +97,43 @@ const QuizCbtTest = () => {
   const previousQuestionChangeHandler = () => {
     if (questionCount < 1) return;
 
-    prevNextRenderAnswer("sub");
-
     setQuestionCount((prevQuestionCountState) => prevQuestionCountState - 1);
+
+    prevNextRenderAnswer("sub");
   };
 
   const nextQuestionChangeHandler = () => {
     if (questionCount > quizData.length) return;
 
-    prevNextRenderAnswer("add");
-
     setQuestionCount((prevQuestionCountState) => prevQuestionCountState + 1);
+
+    prevNextRenderAnswer("add");
   };
 
-  const submitQuizHandler = () => {};
+  const submitQuizHandler = () => {
+    let answer = 0;
+    if (answerChecked) {
+      answerChecked.forEach((ans) => {
+        if (ans.isCorrect) answer += 1;
+      });
+    }
+
+    const userSubmittedQuiz = {
+      quizName: quizName.split("-").join(" "),
+      hasTaken: true,
+      quizScore: !answerChecked ? 0 : Math.round((answer / quizLength) * 100),
+      createdAt: Date.now(),
+      quiz: quizId,
+    };
+    sendRequest(userSubmittedQuiz);
+  };
 
   let options;
   let question;
   let correctAnswer;
 
   const selectAnswerOnChangeHandler = (e) => {
-    console.log(e.target.dataset["id"]);
+    // console.log(e.target.dataset["id"]);
 
     setAnswerChecked((prevAnswerChecked) => {
       if (correctAnswer?.length > 1) {
@@ -189,7 +220,9 @@ const QuizCbtTest = () => {
   };
 
   console.log(answerChecked);
-  console.log(ref.current);
+  // console.log(ref.current);
+
+  useEffect(() => {});
 
   if (quizData) {
     const filterArrayQuizKeys = (quizKeysData) => {
@@ -208,13 +241,13 @@ const QuizCbtTest = () => {
               {option}
               <input
                 key={i}
-                type={
-                  correctAnswer?.toString().length === 1 ? "radio" : "checkbox"
-                }
                 name={
                   correctAnswer?.toString().length === 1
                     ? "answer"
-                    : `answer${i + 1}`
+                    : `answer${i}`
+                }
+                type={
+                  correctAnswer?.toString().length === 1 ? "radio" : "checkbox"
                 }
                 onChange={selectAnswerOnChangeHandler}
                 data-id={i + 1}
@@ -243,7 +276,7 @@ const QuizCbtTest = () => {
           <ul>{options}</ul>
           <form className={classes.quizButtonContainer}>
             {questionCount > 1 && (
-              <AuthButton
+              <Button
                 onClickHandler={previousQuestionChangeHandler}
                 className={`${classes.button}`}
                 type="button"
@@ -252,10 +285,10 @@ const QuizCbtTest = () => {
                 <svg className={`${classes.svgQuestionChange}`}>
                   <use xlinkHref={`${icons}#icon-arrow-thin-left`}></use>
                 </svg>
-              </AuthButton>
+              </Button>
             )}
             {questionCount < quizLength && (
-              <AuthButton
+              <Button
                 onClickHandler={nextQuestionChangeHandler}
                 className={`${classes.button}`}
                 type="button"
@@ -264,19 +297,16 @@ const QuizCbtTest = () => {
                 <svg className={`${classes.svgQuestionChange}`}>
                   <use xlinkHref={`${icons}#icon-arrow-thin-right`}></use>
                 </svg>
-              </AuthButton>
+              </Button>
             )}
             {questionCount === quizLength && (
-              <AuthButton
+              <Button
                 onClickHandler={submitQuizHandler}
                 className={`${classes.button}`}
                 type="button"
               >
                 <span>Submit</span>
-                {/* <svg className={`${classes.svgQuestionChange}`}>
-                <use xlinkHref={`${icons}#icon-arrow-thin-right`}></use>
-              </svg> */}
-              </AuthButton>
+              </Button>
             )}
           </form>
         </div>

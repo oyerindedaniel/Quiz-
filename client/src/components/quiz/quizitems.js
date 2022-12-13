@@ -64,6 +64,7 @@ const QuizItems = () => {
         key={quizItem._id}
         imgSrc={quizItem.img}
         quizName={quizItem.quizName}
+        quizId={quizItem._id}
         numberOfQuestion={quizItem.numberOfQuestion}
         uploadQuizName={quizItem.uploadQuiz}
       />

@@ -12,5 +12,6 @@ router
   .post(quizController.uploadQuizFile, quizController.createQuiz);
 
 router.route("/getQuizData").post(quizController.getQuizData);
+router.route("/createQuizScore").post(quizController.createQuizScore);
 
 module.exports = router;

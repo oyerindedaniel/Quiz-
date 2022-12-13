@@ -10,6 +10,7 @@ import classes from "./quizmodalformquiz.module.css";
 
 const QuizModalFormQuiz = ({
   quizName,
+  quizId,
   noOfQuestion,
   loading,
   error,
@@ -45,7 +46,9 @@ const QuizModalFormQuiz = ({
     });
 
     setTimeout(() => {
-      navigate(`/quiz/${quizName.split(" ").join("-")}`, { replace: true });
+      navigate(`/quiz/${quizId}/${quizName.split(" ").join("-")}`, {
+        replace: true,
+      });
     }, 250);
   };
 

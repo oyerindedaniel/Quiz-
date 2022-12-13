@@ -28,7 +28,7 @@ const App = () => {
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="account/settings" element={<UserAccountSettings />} />
         <Route path="me" element={<MyProfile />} />
-        <Route path="quiz/:quizName" element={<QuizCbt />} />
+        <Route path="quiz/:quizId/:quizName" element={<QuizCbt />} />
         <Route path="confirm-email" element={<ConfirmEmail />} />
         <Route path="*" element={<NotFound />} />
       </Route>

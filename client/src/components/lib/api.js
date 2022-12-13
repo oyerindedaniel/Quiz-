@@ -94,6 +94,15 @@ export async function getAllQuizById() {
   }
 }
 
+export async function createQuizScore() {
+  try {
+    const response = await instance.get("/quiz/createQuizScore");
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+}
+
 export async function getQuizData(userSubmittedData) {
   try {
     const response = await instance.post(

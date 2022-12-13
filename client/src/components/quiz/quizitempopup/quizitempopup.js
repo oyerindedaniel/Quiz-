@@ -7,6 +7,7 @@ const QuizItemPopUp = ({
   showModal,
   onDisplayModalHandler,
   quizName,
+  quizId,
   noOfQuestion,
   loading,
   error,
@@ -25,6 +26,7 @@ const QuizItemPopUp = ({
           </p>
           <QuizModalFormQuiz
             quizName={quizName}
+            quizId={quizId}
             noOfQuestion={noOfQuestion}
             loading={loading}
             error={error}

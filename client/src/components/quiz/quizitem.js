@@ -9,7 +9,13 @@ import QuizItemPopUp from "./quizitempopup/quizitempopup";
 
 import classes from "./quizitem.module.css";
 
-const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
+const QuizItem = ({
+  imgSrc,
+  quizName,
+  quizId,
+  numberOfQuestion,
+  uploadQuizName,
+}) => {
   const { dispatch } = useGlobalStoreContext();
 
   const { sendRequest, loading, error } = useHttp(
@@ -67,6 +73,7 @@ const QuizItem = ({ imgSrc, quizName, numberOfQuestion, uploadQuizName }) => {
         showModal={showModal}
         onDisplayModalHandler={onDisplayModalHandler}
         quizName={quizName}
+        quizId={quizId}
         noOfQuestion={numberOfQuestion}
         loading={loading}
         error={error}

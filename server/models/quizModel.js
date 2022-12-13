@@ -14,6 +14,11 @@ const quizSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please upload the Quiz File"],
   },
+  hasTaken: {
+    type: Boolean,
+    default: false,
+  },
+  quizScore: {},
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
