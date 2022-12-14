@@ -1,17 +1,10 @@
-import { Fragment } from "react";
-
 import QuizCard from "../quizcard/quizcard";
 
 import classes from "./addquizmodal.module.css";
 
-const AddQuizModal = ({
-  children,
-  classNameModal,
-  classNameBackdrop,
-  onDisplayModalHandler,
-}) => {
+const AddQuizModal = ({ children, onDisplayModalHandler }) => {
   return (
-    <Fragment>
+    <>
       <div
         className={`${classes.backdrop}`}
         onClick={onDisplayModalHandler}
@@ -20,7 +13,7 @@ const AddQuizModal = ({
         <h1 className={`${classes.h1}`}>Quiz!</h1>
         {children}
       </QuizCard>
-    </Fragment>
+    </>
   );
 };
 

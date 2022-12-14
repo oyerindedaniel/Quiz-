@@ -20,7 +20,9 @@ const Layout = ({ children }) => {
     "SET_USER",
     "auth",
     "",
-    ""
+    "",
+    "",
+    true
   );
 
   useEffect(

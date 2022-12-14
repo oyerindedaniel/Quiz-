@@ -22,6 +22,7 @@ const quizScoreSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: [true, "Quiz must belong to a User."],
+    select: false,
   },
   quiz: {
     type: mongoose.Schema.ObjectId,
@@ -32,4 +33,4 @@ const quizScoreSchema = new mongoose.Schema({
 
 const QuizScore = mongoose.model("QuizScore", quizScoreSchema);
 
-module.exports = Quiz;
+module.exports = QuizScore;

@@ -4,7 +4,7 @@ import QuizItem from "./quizitem";
 
 import QuizItemsSkeletonLoader from "../ui/quizitemsskeletonloader/quizitemsskeletonloader";
 
-import { useGlobalStoreContext } from "../../contexts/global-context";
+import { useDataStoreContext } from "../../contexts/data-context";
 
 import { getAllQuizById } from "../lib/api";
 
@@ -17,15 +17,15 @@ import quizHere from "../../assets/img/up-arrow.png";
 import classes from "./quizitems.module.css";
 
 const QuizItems = () => {
+  const { state, dispatch } = useDataStoreContext();
   const [Quizzes, setQuizzes] = useState(null);
 
-  const { state, dispatch } = useGlobalStoreContext();
-
-  const { sendRequest, loading } = useHttp(
+  const { sendRequest, loading, error } = useHttp(
     getAllQuizById,
     dispatch,
     "",
     "SET_USER-QUIZ",
+    "",
     "",
     "",
     "",
@@ -75,7 +75,7 @@ const QuizItems = () => {
     <section className={`${classes.quizItems}`}>
       {loading && <QuizItemsSkeletonLoader />}
       {Quizzes && !loading && quizItems}
-      {!loading && !state.userQuiz.length && (
+      {!loading && !state.userQuiz?.length && !error && (
         <div className={`${classes.noQuizItems}`}>
           <img
             className={`${classes.noQuizItemsImg}`}
@@ -84,6 +84,13 @@ const QuizItems = () => {
           />
           <span className={`${classes.noQuizItemsCaption}`}>Add Quiz 🆙</span>
         </div>
+      )}
+      {error && (
+        <>
+          <div className={classes.errorContainer}>
+            <p className={classes.errorP}>Could not fetch Quiz</p>
+          </div>
+        </>
       )}
     </section>
   );

@@ -17,8 +17,6 @@ export const initialState = localStorageState
   : {
       timeDuration: {},
       user: {},
-      userQuiz: [],
-      quizQuestion: [],
       profilePicture: Calm,
     };
 
@@ -36,20 +34,6 @@ const Reducer = (state, action) => {
         user: {
           ...action.payload,
         },
-      };
-      break;
-    }
-    case "SET_USER-QUIZ": {
-      newState = {
-        ...state,
-        userQuiz: [...action.payload],
-      };
-      break;
-    }
-    case "SET_QUIZ-QUESTION": {
-      newState = {
-        ...state,
-        quizQuestion: [...action.payload],
       };
       break;
     }

@@ -3,14 +3,14 @@ import { useRef, useState } from "react";
 import { createQuiz } from "../lib/api";
 import useHttp from "../../hooks/use-http";
 
-import { useGlobalStoreContext } from "../../contexts/global-context";
+import { useDataStoreContext } from "../../contexts/data-context";
 
 import classes from "./quizmodalform.module.css";
 
 const QuizModalForm = ({ onDisplayModal }) => {
-  const { dispatch, error } = useGlobalStoreContext();
+  const { dispatch } = useDataStoreContext();
 
-  const { sendRequest, loading } = useHttp(
+  const { sendRequest, loading, error } = useHttp(
     createQuiz,
     dispatch,
     "/home",
@@ -18,7 +18,8 @@ const QuizModalForm = ({ onDisplayModal }) => {
     "",
     "Successfully Created Quiz",
     true,
-    "POST"
+    "NAVIGATE",
+    ""
   );
 
   const [event, setEvent] = useState(null);

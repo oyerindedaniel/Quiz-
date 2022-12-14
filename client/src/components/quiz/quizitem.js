@@ -3,7 +3,7 @@ import { useState } from "react";
 import useHttp from "../../hooks/use-http";
 import { getQuizData } from "../lib/api";
 
-import { useGlobalStoreContext } from "../../contexts/global-context";
+import { useDataStoreContext } from "../../contexts/data-context";
 
 import QuizItemPopUp from "./quizitempopup/quizitempopup";
 
@@ -16,7 +16,7 @@ const QuizItem = ({
   numberOfQuestion,
   uploadQuizName,
 }) => {
-  const { dispatch } = useGlobalStoreContext();
+  const { dispatch } = useDataStoreContext();
 
   const { sendRequest, loading, error } = useHttp(
     getQuizData,
@@ -80,21 +80,6 @@ const QuizItem = ({
         uploadQuizName={uploadQuizName}
         startQuizHandler={startQuizHandler}
       />
-      {/* {showModal && (
-        <AddQuizModal onDisplayModalHandler={onDisplayModalHandler}>
-          <h2 className={`${classes.modalH2Text}`}>Quiz Description</h2>
-          <p className={`${classes.modalTextP}`}>
-            * The time duration box must be filled up before each quiz, however
-            you may establish a permanent setting on the profile page to prevent
-            having to do so.
-          </p>
-          <QuizModalFormQuiz
-            quizName={quizName}
-            noOfQuestion={numberOfQuestion}
-            loadingState={loading}
-          />
-        </AddQuizModal>
-      )} */}
     </>
   );
 };

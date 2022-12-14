@@ -2,6 +2,7 @@ const multer = require("multer");
 const Excel = require("exceljs");
 const path = require("path");
 const Quiz = require("../models/quizModel");
+const QuizScore = require("../models/quizScoreModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -65,22 +66,35 @@ exports.getAllQuizById = catchAsync(async (req, res, next) => {
 });
 
 exports.createQuizScore = catchAsync(async (req, res, next) => {
-  // const {} = req.body;
+  const { quizName, hasTaken, quizScore, createdAt, quizId } = req.body;
 
-  console.log(req.body);
+  let query = { quiz: quizId };
+  let update = {
+    quizName,
+    hasTaken,
+    quizScore,
+    createdAt,
+    user: req.user._id,
+    quiz: quizId,
+  };
+  let options = { upsert: true, new: true, setDefaultsOnInsert: true };
+  const newQuizScore = await QuizScore.findOneAndUpdate(query, update, options);
 
-  // const user = await User.findOne({ email });
+  if (!newQuizScore) {
+    return next(
+      new AppError(
+        "There was a problem! Quiz could not be submitted. Try Again",
+        401
+      )
+    );
+  }
 
-  // if (user) {
-  //   return next(new AppError("Email is invalid or already taken", 401));
-  // }
-
-  // const newUser = await User.create({
-  //   username,
-  //   email,
-  //   password,
-  //   confirmPassword,
-  // });
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: newQuizScore,
+    },
+  });
 });
 
 exports.getQuizData = catchAsync(async (req, res, next) => {
@@ -91,8 +105,6 @@ exports.getQuizData = catchAsync(async (req, res, next) => {
     const file = await workbook.xlsx.readFile(
       path.join(__dirname, `../public/quiz/files/${excelName}`)
     );
-
-    // console.log(file);
 
     let theData = [];
     workbook.eachSheet((ws, sheetId) => {

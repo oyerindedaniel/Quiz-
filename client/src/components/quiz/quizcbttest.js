@@ -1,10 +1,12 @@
-import { Fragment, useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../ui/button/button";
 import QuizTimer from "./quiztimer";
-import { useGlobalStoreContext } from "../../contexts/global-context";
+import QuizModalSubmitted from "../quizmodalform/quizmodalsubmitted";
+
+import { useDataStoreContext } from "../../contexts/data-context";
 import { createQuizScore } from "../lib/api";
 import useHttp from "../../hooks/use-http";
 
@@ -15,25 +17,27 @@ import icons from "../../assets/svg/SVG/sprite.svg";
 import classes from "./quizcbttest.module.css";
 
 const QuizCbtTest = () => {
-  const { state, dispatch } = useGlobalStoreContext();
+  const { state, dispatch } = useDataStoreContext();
 
   let { quizName, quizId } = useParams();
 
-  const { sendRequest, loading } = useHttp(
+  const { sendRequest, loading, error } = useHttp(
     createQuizScore,
     dispatch,
     "",
-    "SET_USER-QUIZ-SCORE",
+    "SET_QUIZ-SCORE",
     "",
     "Quiz submitted",
     "",
-    "POST"
+    "NAVIGATE",
+    ""
   );
 
   const [questionCount, setQuestionCount] = useState(1);
   const [quizLength, setQuizLength] = useState(null);
   const [quizData, setQuizData] = useState(null);
   const [answerChecked, setAnswerChecked] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const ref = useRef([]);
   const navigate = useNavigate();
@@ -41,6 +45,7 @@ const QuizCbtTest = () => {
   useEffect(() => {
     if (!state.quizQuestion) {
       navigate("/home", { replace: true });
+      toast.error("No quiz question found.");
     }
 
     if (state.quizQuestion) {
@@ -60,12 +65,10 @@ const QuizCbtTest = () => {
   };
 
   const prevNextRenderAnswer = (sign) => {
-    ref.current
-      .filter((input) => input)
-      .forEach((input) => {
-        input.checked = false;
-        input.disabled = false;
-      });
+    ref.current.forEach((input) => {
+      input.checked = false;
+      input.disabled = false;
+    });
 
     let foundAnswer;
 
@@ -110,7 +113,9 @@ const QuizCbtTest = () => {
     prevNextRenderAnswer("add");
   };
 
-  const submitQuizHandler = () => {
+  const submitQuizHandler = (e) => {
+    e.preventDefault();
+
     let answer = 0;
     if (answerChecked) {
       answerChecked.forEach((ans) => {
@@ -118,15 +123,29 @@ const QuizCbtTest = () => {
       });
     }
 
-    const userSubmittedQuiz = {
+    const userSubmittedData = {
       quizName: quizName.split("-").join(" "),
       hasTaken: true,
       quizScore: !answerChecked ? 0 : Math.round((answer / quizLength) * 100),
       createdAt: Date.now(),
-      quiz: quizId,
+      quizId,
     };
-    sendRequest(userSubmittedQuiz);
+    sendRequest(userSubmittedData);
   };
+
+  const onDisplayModalHandler = () => {
+    setShowModal((currentModalValue) => {
+      return !currentModalValue;
+    });
+  };
+
+  // useEffect(() => {
+  //   if (!error && !loading) {
+  //     console.log("here");
+  //     setShowModal(false);
+  //   }
+  //   return;
+  // }, [error, loading]);
 
   let options;
   let question;
@@ -263,18 +282,18 @@ const QuizCbtTest = () => {
   }
 
   return (
-    <Fragment>
+    <>
       <main className={`${classes.main}`}>
-        <Fragment>
+        <>
           <QuizTimer />
-        </Fragment>
+        </>
         <div className={`${classes.mainQuiz}`}>
           <h4 className={`${classes.quizQuestionCount}`}>
             QUESTION {`${questionCount}/${quizLength}`}
           </h4>
           <h2 className={`${classes.quizQuestion}`}>{question}</h2>
           <ul>{options}</ul>
-          <form className={classes.quizButtonContainer}>
+          <div className={classes.quizButtonContainer}>
             {questionCount > 1 && (
               <Button
                 onClickHandler={previousQuestionChangeHandler}
@@ -301,17 +320,23 @@ const QuizCbtTest = () => {
             )}
             {questionCount === quizLength && (
               <Button
-                onClickHandler={submitQuizHandler}
-                className={`${classes.button}`}
-                type="button"
+                className={classes.button}
+                onClickHandler={() => setShowModal(true)}
               >
-                <span>Submit</span>
+                Submit
               </Button>
             )}
-          </form>
+          </div>
         </div>
       </main>
-    </Fragment>
+      <QuizModalSubmitted
+        showModal={showModal}
+        quizName={quizName}
+        onDisplayModalHandler={onDisplayModalHandler}
+        onSubmitHandler={submitQuizHandler}
+        loading={loading}
+      />
+    </>
   );
 };
 

@@ -5,6 +5,11 @@ import { useGlobalStoreContext } from "../contexts/global-context";
 
 import toast from "react-hot-toast";
 
+// if(data !== )
+// console.log(data);
+// // console.log(responseData);
+// console.log(data);
+
 const useHttp = (
   requestFunction,
   dispatch,
@@ -13,7 +18,8 @@ const useHttp = (
   dispatchAuth,
   successMessage,
   navigateBool,
-  type
+  type,
+  isDispatch
 ) => {
   const navigate = useNavigate();
   const [loading, isLoading] = useState(null);
@@ -32,14 +38,13 @@ const useHttp = (
       try {
         const responseData = await requestFunction(requestData);
         const { data } = responseData.data;
-        // console.log(responseData);
-        console.log(data);
         dispatch({
           type: dispatchName,
           payload:
             dispatchAuth === "auth" ? { ...data, isAuthenticated: true } : data,
         });
-        if (type === "POST") {
+
+        if (type === "NAVIGATE") {
           if (navigateBool) navigate(navigateURL, { replace: true });
           toast.success(successMessage);
           return;
@@ -49,7 +54,7 @@ const useHttp = (
         setError(error);
 
         if (error?.error?.statusCode === 500) {
-          toast.error("Poor Internet Connection. TRY AGAIN");
+          toast.error("Something went wrong, TRY AGAIN.");
           return;
         }
         if (
@@ -69,7 +74,7 @@ const useHttp = (
         }
         console.log(error);
 
-        // toast.error(error.message);
+        toast.error(error.message);
       } finally {
         isLoading(false);
       }
