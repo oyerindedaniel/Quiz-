@@ -18,8 +18,7 @@ const useHttp = (
   dispatchAuth,
   successMessage,
   navigateBool,
-  type,
-  isDispatch
+  type
 ) => {
   const navigate = useNavigate();
   const [loading, isLoading] = useState(null);
@@ -54,7 +53,7 @@ const useHttp = (
         setError(error);
 
         if (error?.error?.statusCode === 500) {
-          toast.error("Something went wrong, TRY AGAIN.");
+          toast.error("No Internet Connection.");
           return;
         }
         if (
@@ -74,7 +73,7 @@ const useHttp = (
         }
         console.log(error);
 
-        toast.error(error.message);
+        // toast.error(error.message);
       } finally {
         isLoading(false);
       }

@@ -44,6 +44,11 @@ const QuizItem = ({
       excelName: uploadQuizName,
     };
 
+    dispatch({
+      type: "SET_QUIZ-SCORE",
+      payload: [],
+    });
+
     sendRequest(userSubmittedData);
   };
 

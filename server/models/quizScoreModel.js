@@ -22,7 +22,6 @@ const quizScoreSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: [true, "Quiz must belong to a User."],
-    select: false,
   },
   quiz: {
     type: mongoose.Schema.ObjectId,

@@ -2,7 +2,10 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useGlobalStoreContext } from "../../contexts/global-context";
+import { useDataStoreContext } from "../../contexts/data-context";
 import icons from "../../assets/svg/SVG/sprite.svg";
+
+import toast from "react-hot-toast";
 
 import { Oval } from "react-loader-spinner";
 
@@ -18,7 +21,9 @@ const QuizModalFormQuiz = ({
   uploadQuizName,
   startQuizHandler,
 }) => {
-  const { dispatch } = useGlobalStoreContext();
+  const { state: globalState, dispatch: globalDispatch } =
+    useGlobalStoreContext();
+  const { dispatch: dataDispatch } = useDataStoreContext();
 
   const navigate = useNavigate();
 
@@ -40,10 +45,24 @@ const QuizModalFormQuiz = ({
       dateNow: new Date(),
     };
 
-    dispatch({
+    globalDispatch({
       type: "SET_LOCAL-TIME-DURATION",
       payload: timeDuration,
     });
+
+    dataDispatch({
+      type: "SET_QUIZ-SCORE",
+      payload: {},
+    });
+
+    if (
+      !globalState.user.isTimeDuration &&
+      !hoursValue &&
+      !minutesValue &&
+      !secondsValue
+    ) {
+      return toast.error("No time duration set");
+    }
 
     setTimeout(() => {
       navigate(`/quiz/${quizId}/${quizName.split(" ").join("-")}`, {

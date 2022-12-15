@@ -7,20 +7,21 @@ const HistoryItem = ({
   trophyName,
   quizScore,
 }) => {
+  const createdAt = new Date(dateLast).toLocaleString();
   return (
-    <ul className={`${classes.historyItem}`}>
-      <li className={`${classes.historyItemDate}`}>{dateLast}</li>
-      <li className={`${classes.historyItemName}`}>{quizName}</li>
-      <li className={`${classes.historyItemPicContainer}`}>
+    <div className={`${classes.historyItem}`}>
+      <p className={`${classes.historyItemDate}`}>{createdAt}</p>
+      <p className={`${classes.historyItemName}`}>{quizName}</p>
+      <div className={`${classes.historyItemPicContainer}`}>
         <img
           className={`${classes.historyItemPic}`}
           src={trophyPic}
           alt="trophy img"
         />
-      </li>
-      <li className={`${classes.historyItemTName}`}>{trophyName}</li>
-      <li className={`${classes.historyItemScore}`}>{quizScore}</li>
-    </ul>
+      </div>
+      <p className={`${classes.historyItemTName}`}>{trophyName}</p>
+      <p className={`${classes.historyItemScore}`}>{`${quizScore}%`}</p>
+    </div>
   );
 };
 

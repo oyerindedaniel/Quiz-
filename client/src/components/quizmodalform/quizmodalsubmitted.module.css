@@ -16,7 +16,7 @@
 .button {
   font-weight: 600;
   padding: 1.3rem 1.7rem;
-  width: 6rem;
+  width: auto;
 }
 
 .buttonActions {

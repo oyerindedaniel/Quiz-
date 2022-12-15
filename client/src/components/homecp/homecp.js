@@ -6,14 +6,14 @@ import AddQuizModal from "../ui/modal/addquizmodal";
 import QuizModalForm from "../quizmodalform/quizmodalform";
 import SearchedQuizzes from "../quiz/searchquiz/searchquiz";
 
-import { useGlobalStoreContext } from "../../contexts/global-context";
+import { useDataStoreContext } from "../../contexts/data-context";
 
 import icons from "../../assets/svg/SVG/sprite.svg";
 
 import classes from "./homecp.module.css";
 
 const Homecp = () => {
-  const { state } = useGlobalStoreContext();
+  const { state } = useDataStoreContext();
 
   const [showModal, setShowModal] = useState(false);
   const [searchQuizzes, setSearchQuizzes] = useState(null);
@@ -26,6 +26,7 @@ const Homecp = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
+    if (state.userQuiz) return;
     const quizSearch = e.target.value.toLowerCase();
     const arrayFoundQuiz = [];
 

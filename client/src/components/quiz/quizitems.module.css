@@ -20,30 +20,6 @@
   border-radius: 20px;
 }
 
-.svgArrowContainer {
-  display: flex;
-  margin-left: auto;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
-  margin-right: 6rem;
-}
-
-.svgArrow {
-  width: 2rem;
-  height: 2rem;
-  fill: var(--color-grey-1);
-}
-
-.svgArrow1 {
-  background-color: var(--color-grey-2);
-  padding: 0.6rem 0.6rem 0.6rem 1.4rem;
-}
-
-.svgArrow2 {
-  background-color: var(--color-grey-2);
-  padding: 0.6rem 1.1rem 0.6rem 1rem;
-}
-
 .noQuizItems {
   position: absolute;
   right: 4rem;

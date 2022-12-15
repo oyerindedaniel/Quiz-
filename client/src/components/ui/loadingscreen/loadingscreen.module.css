@@ -6,6 +6,10 @@
   font-weight: 800;
 }
 
+.threeDots {
+  margin-top: -1.5rem;
+}
+
 .loadingScreen {
   position: fixed;
   top: 0;

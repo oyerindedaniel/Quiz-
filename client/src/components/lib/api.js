@@ -94,6 +94,15 @@ export async function getAllQuizById() {
   }
 }
 
+export async function getAllQuizHistoryById() {
+  try {
+    const response = await instance.get("/quiz/getAllQuizHistoryById");
+    return response.data;
+  } catch (err) {
+    throw err.response.data;
+  }
+}
+
 export async function createQuizScore(userSubmittedData) {
   try {
     const response = await instance.post(
@@ -130,5 +139,3 @@ export async function setTimeDuration(userSubmittedData) {
     throw err.response.data;
   }
 }
-
-// instance.get('/todos')

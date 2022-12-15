@@ -28,8 +28,7 @@ const AuthLogin = () => {
     "auth",
     "Successfully logged in",
     true,
-    "NAVIGATE",
-    true
+    "NAVIGATE"
   );
 
   const {

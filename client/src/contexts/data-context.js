@@ -4,6 +4,7 @@ import React from "react";
 
 export const initialState = {
   userQuiz: [],
+  userQuizHistory: [],
   quizQuestion: [],
   quizScore: {},
 };
@@ -34,6 +35,13 @@ const Reducer = (state, action) => {
       newState = {
         ...state,
         quizScore: { ...action.payload },
+      };
+      break;
+    }
+    case "SET_USER-QUIZ-HISTORY": {
+      newState = {
+        ...state,
+        userQuizHistory: [...action.payload],
       };
       break;
     }

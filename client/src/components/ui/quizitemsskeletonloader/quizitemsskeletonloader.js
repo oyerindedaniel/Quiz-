@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 import classes from "./quizitemsskeletonloader.module.css";
 
 const QuizItemsSkeletonLoader = () => {
@@ -23,7 +21,7 @@ const QuizItemsSkeletonLoader = () => {
     }
   );
 
-  return <Fragment>{arrayOfQuizItemsSkeletonLoader}</Fragment>;
+  return <>{arrayOfQuizItemsSkeletonLoader}</>;
 };
 
 export default QuizItemsSkeletonLoader;

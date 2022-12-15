@@ -29,8 +29,7 @@ const QuizCbtTest = () => {
     "",
     "Quiz submitted",
     "",
-    "NAVIGATE",
-    ""
+    "NAVIGATE"
   );
 
   const [questionCount, setQuestionCount] = useState(1);
@@ -43,12 +42,12 @@ const QuizCbtTest = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!state.quizQuestion) {
+    if (!state.quizQuestion.length) {
       navigate("/home", { replace: true });
-      toast.error("No quiz question found.");
+      toast.error("No quiz question found. Do not refresh.");
     }
 
-    if (state.quizQuestion) {
+    if (state.quizQuestion.length) {
       setQuizData(state.quizQuestion);
       setQuizLength(state.quizQuestion.length);
     }
@@ -113,9 +112,7 @@ const QuizCbtTest = () => {
     prevNextRenderAnswer("add");
   };
 
-  const submitQuizHandler = (e) => {
-    e.preventDefault();
-
+  const submitQuizHandler = () => {
     let answer = 0;
     if (answerChecked) {
       answerChecked.forEach((ans) => {
@@ -134,13 +131,18 @@ const QuizCbtTest = () => {
   };
 
   const onDisplayModalHandler = () => {
+    dispatch({
+      type: "SET_QUIZ-SCORE",
+      payload: {},
+    });
+
     setShowModal((currentModalValue) => {
       return !currentModalValue;
     });
   };
 
   // useEffect(() => {
-  //   if (!error && !loading) {
+  //   if (!error && !loading ) {
   //     console.log("here");
   //     setShowModal(false);
   //   }
@@ -238,10 +240,8 @@ const QuizCbtTest = () => {
     });
   };
 
-  console.log(answerChecked);
+  // console.log(answerChecked);
   // console.log(ref.current);
-
-  useEffect(() => {});
 
   if (quizData) {
     const filterArrayQuizKeys = (quizKeysData) => {

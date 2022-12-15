@@ -65,6 +65,19 @@ exports.getAllQuizById = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getAllQuizHistoryById = catchAsync(async (req, res, next) => {
+  const AllQuizHistoryByUser = await QuizScore.find({ user: req.user._id });
+
+  console.log(AllQuizHistoryByUser);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: AllQuizHistoryByUser,
+    },
+  });
+});
+
 exports.createQuizScore = catchAsync(async (req, res, next) => {
   const { quizName, hasTaken, quizScore, createdAt, quizId } = req.body;
 

@@ -44,6 +44,7 @@ exports.setTimeDuration = catchAsync(async (req, res, next) => {
   );
 
   user.setTimeDurationBool();
+  await user.save({ validateBeforeSave: false });
 
   if (!user) {
     return next(

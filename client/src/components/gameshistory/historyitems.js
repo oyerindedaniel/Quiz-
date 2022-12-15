@@ -1,52 +1,101 @@
+import { useState, useEffect } from "react";
+
+import useHttp from "../../hooks/use-http";
+import { getAllQuizHistoryById } from "../lib/api";
+import { useDataStoreContext } from "../../contexts/data-context";
+
 import HistoryItem from "./historyitem";
+import QuizHistorySkeletonLoader from "../ui/quizhistoryskeleton/quizhistoryskeleton";
 
 import goldImg from "../../assets/img/gold-cup.png";
 import silverImg from "../../assets/img/silver-cup.png";
 import bronzeImg from "../../assets/img/bronze-cup.png";
 
 import classes from "./historyitems.module.css";
-import { useEffect } from "react";
 
 const HistoryItems = () => {
-  useEffect(() => {}, []);
+  const { state, dispatch } = useDataStoreContext();
+  const [QuizzesHistory, setQuizzesHistory] = useState(null);
 
-  const historyItems = [
-    {
-      key: 1,
-      dateLast: "Jan 15, 13:30",
-      quizName: "MCE 421",
-      trophyPic: goldImg,
-      trophyName: "Gold",
-      quizScore: "90%",
-    },
-    {
-      key: 2,
-      dateLast: " Dec 25, 22:45",
-      quizName: "EDS 111",
-      trophyPic: silverImg,
-      trophyName: "Silver",
-      quizScore: "67%",
-    },
-    {
-      key: 3,
-      dateLast: "Feb 1, 9:12",
-      quizName: "POS 221",
-      trophyPic: bronzeImg,
-      trophyName: "Bronze",
-      quizScore: "30%",
-    },
-  ].map((historyItem) => (
-    <HistoryItem
-      key={historyItem.key}
-      dateLast={historyItem.dateLast}
-      quizName={historyItem.quizName}
-      trophyPic={historyItem.trophyPic}
-      trophyName={historyItem.trophyName}
-      quizScore={historyItem.quizScore}
-    />
-  ));
+  const { sendRequest, loading, error } = useHttp(
+    getAllQuizHistoryById,
+    dispatch,
+    "",
+    "SET_USER-QUIZ-HISTORY",
+    "",
+    "",
+    "",
+    ""
+  );
 
-  return <div className={`${classes.historyItems}`}>{historyItems}</div>;
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
+
+  useEffect(() => {
+    if (state.userQuizHistory) {
+      const UserQuizScoreDataEdits = [...state.userQuizHistory];
+      const newUserQuizScoreData = UserQuizScoreDataEdits.map(
+        (UserQuizScoreDataEdit) => {
+          const quizScore = +UserQuizScoreDataEdit.quizScore;
+          if (quizScore >= 80) {
+            UserQuizScoreDataEdit["trophyImg"] = goldImg;
+            UserQuizScoreDataEdit["trophyName"] = "Gold";
+            return UserQuizScoreDataEdit;
+          }
+          if (quizScore >= 50) {
+            UserQuizScoreDataEdit["trophyImg"] = silverImg;
+            UserQuizScoreDataEdit["trophyName"] = "Silver";
+            return UserQuizScoreDataEdit;
+          }
+
+          UserQuizScoreDataEdit["trophyImg"] = bronzeImg;
+          UserQuizScoreDataEdit["trophyName"] = "Bronze";
+
+          return UserQuizScoreDataEdit;
+        }
+      );
+      setQuizzesHistory(newUserQuizScoreData);
+    }
+  }, [state.userQuizHistory]);
+
+  let quizHistoryItems;
+
+  if (QuizzesHistory) {
+    quizHistoryItems = QuizzesHistory.map((quizHistoryItem) => (
+      <HistoryItem
+        key={quizHistoryItem._id}
+        trophyPic={quizHistoryItem.trophyImg}
+        quizName={quizHistoryItem.quizName}
+        trophyName={quizHistoryItem.trophyName}
+        quizScore={quizHistoryItem.quizScore}
+        dateLast={quizHistoryItem.createdAt}
+      />
+    ));
+  }
+
+  return (
+    <section className={`${classes.quizHistoryItems}`}>
+      {loading && <QuizHistorySkeletonLoader />}
+      {!loading && QuizzesHistory && quizHistoryItems}
+      {!loading && !state.userQuizHistory?.length && !error && (
+        <div className={classes.errorContainer}>
+          <p className={classes.errorP}>
+            You have no Quiz History, Take a Quiz 😁👍
+          </p>
+        </div>
+      )}
+      {error && (
+        <>
+          <div className={classes.errorContainer}>
+            <p className={classes.errorP}>
+              Could not fetch your Quizzes History 😭🤔
+            </p>
+          </div>
+        </>
+      )}
+    </section>
+  );
 };
 
 export default HistoryItems;

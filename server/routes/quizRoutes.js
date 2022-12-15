@@ -8,6 +8,9 @@ router.use(authController.protect);
 
 router.route("/getAllQuizById").get(quizController.getAllQuizById);
 router
+  .route("/getAllQuizHistoryById")
+  .get(quizController.getAllQuizHistoryById);
+router
   .route("/createQuiz")
   .post(quizController.uploadQuizFile, quizController.createQuiz);
 

@@ -7,6 +7,7 @@ const Button = ({
   status,
   onClickHandler,
   disabled,
+  buttonRef,
 }) => {
   return (
     <button
@@ -16,6 +17,7 @@ const Button = ({
       } ${className}`}
       disabled={disabled}
       onClick={onClickHandler}
+      ref={buttonRef}
     >
       {children}
     </button>

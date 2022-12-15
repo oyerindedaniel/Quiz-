@@ -28,7 +28,6 @@ const QuizItems = () => {
     "",
     "",
     "",
-    "",
     ""
   );
 
@@ -74,7 +73,7 @@ const QuizItems = () => {
   return (
     <section className={`${classes.quizItems}`}>
       {loading && <QuizItemsSkeletonLoader />}
-      {Quizzes && !loading && quizItems}
+      {!loading && Quizzes && quizItems}
       {!loading && !state.userQuiz?.length && !error && (
         <div className={`${classes.noQuizItems}`}>
           <img
@@ -88,7 +87,7 @@ const QuizItems = () => {
       {error && (
         <>
           <div className={classes.errorContainer}>
-            <p className={classes.errorP}>Could not fetch Quiz</p>
+            <p className={classes.errorP}>Could not fetch your Quizzes 😭🤔</p>
           </div>
         </>
       )}
