@@ -55,7 +55,6 @@ const Homecp = () => {
       </div>
     );
   }
-  // const showModalClasses = `${classes.modalVisibility} ${classes.backdropVisibility}`;
 
   return (
     <>

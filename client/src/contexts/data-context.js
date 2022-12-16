@@ -7,6 +7,7 @@ export const initialState = {
   userQuizHistory: [],
   quizQuestion: [],
   quizScore: {},
+  isSubmitted: { bool: false, why: null },
 };
 
 export const DataStoreContext = createContext({
@@ -42,6 +43,13 @@ const Reducer = (state, action) => {
       newState = {
         ...state,
         userQuizHistory: [...action.payload],
+      };
+      break;
+    }
+    case "SET_IS-SUBMITTED": {
+      newState = {
+        ...state,
+        isSubmitted: { ...action.payload },
       };
       break;
     }

@@ -34,6 +34,16 @@ const QuizModalFormQuiz = ({
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
+    dataDispatch({
+      type: "SET_QUIZ-SCORE",
+      payload: {},
+    });
+
+    // globalDispatch({
+    //   type: "SET_LOCAL-TIME-DURATION",
+    //   payload: {},
+    // });
+
     const hoursValue = +hoursInputRef.current.value;
     const minutesValue = +minutesInputRef.current.value;
     const secondsValue = +secondsInputRef.current.value;
@@ -42,18 +52,8 @@ const QuizModalFormQuiz = ({
       hoursValue,
       minutesValue,
       secondsValue,
-      dateNow: new Date(),
+      isLocalTimeDuration: true,
     };
-
-    globalDispatch({
-      type: "SET_LOCAL-TIME-DURATION",
-      payload: timeDuration,
-    });
-
-    dataDispatch({
-      type: "SET_QUIZ-SCORE",
-      payload: {},
-    });
 
     if (
       !globalState.user.isTimeDuration &&
@@ -63,6 +63,11 @@ const QuizModalFormQuiz = ({
     ) {
       return toast.error("No time duration set");
     }
+
+    globalDispatch({
+      type: "SET_LOCAL-TIME-DURATION",
+      payload: timeDuration,
+    });
 
     setTimeout(() => {
       navigate(`/quiz/${quizId}/${quizName.split(" ").join("-")}`, {

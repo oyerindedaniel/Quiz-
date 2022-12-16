@@ -1,50 +1,62 @@
 import { useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useGlobalStoreContext } from "../../contexts/global-context";
+import { useDataStoreContext } from "../../contexts/data-context";
 
 import useTimer from "../../hooks/use-timer";
-
-import toast from "react-hot-toast";
 
 import classes from "./quiztimer.module.css";
 
 const QuizTimer = () => {
-  const { state } = useGlobalStoreContext();
-  const navigate = useNavigate();
+  const { state: globalState } = useGlobalStoreContext();
+  const { state: dataState, dispatch: dataDispatch } = useDataStoreContext();
 
   const setQuizDuration = useCallback(() => {
-    if (!state.user.isTimeDuration && !state.timeDuration) {
-      toast.error("No time duration set");
-      return navigate("/home", { replace: true });
-    }
-    let date = new Date(state.timeDuration.dateNow);
+    let date = new Date(Date.now());
+    let hours = dataState.isLocalTimeDuration
+      ? dataState.hoursValue
+      : globalState.user.timeDuration.hours;
+    let minutes = dataState.isLocalTimeDuration
+      ? dataState.minutesValue
+      : globalState.user.timeDuration.minutes;
+    let seconds = dataState.isLocalTimeDuration
+      ? dataState.secondsValue
+      : globalState.user.timeDuration.seconds;
     date.setHours(
-      date.getHours() + state.timeDuration.hoursValue,
-      date.getMinutes() + state.timeDuration.minutesValue,
-      date.getSeconds() + state.timeDuration.secondsValue
+      date.getHours() + hours,
+      date.getMinutes() + minutes,
+      date.getSeconds() + seconds
     );
     return date.getTime();
-  }, [state.timeDuration, state.user.isTimeDuration, navigate]);
+  }, [
+    globalState.user.timeDuration.hours,
+    globalState.user.timeDuration.minutes,
+    globalState.user.timeDuration.seconds,
+    dataState.isLocalTimeDuration,
+    dataState.minutesValue,
+    dataState.hoursValue,
+    dataState.secondsValue,
+  ]);
 
   const { timer, timerFunction } = useTimer(setQuizDuration);
 
   useEffect(() => {
-    if (!state.user.isTimeDuration && !state.timeDuration)
-      return navigate("/home", { replace: true });
-    let timerInterval = setInterval(timerFunction, 1000);
+    let timerInterval;
+    if (Object.keys(dataState.quizScore).length !== 0)
+      return clearInterval(timerInterval);
+
+    timerInterval = setInterval(timerFunction, 1000);
 
     if (timer?.distance < 0) {
-      clearInterval(timerInterval);
-      navigate("/home", { replace: true });
+      dataDispatch({
+        type: "SET_IS-SUBMITTED",
+        payload: { bool: true, why: "timeDurationFinished" },
+      });
+      return clearInterval(timerInterval);
     }
-  }, [
-    timerFunction,
-    state?.user?.isTimeDuration,
-    navigate,
-    timer?.distance,
-    state?.timeDuration,
-  ]);
+
+    return () => clearInterval(timerInterval);
+  }, [timerFunction, timer?.distance, dataState.quizScore, dataDispatch]);
 
   return (
     <div className={`${classes.quizTimer}`}>

@@ -9,11 +9,12 @@ import Button from "../ui/button/button";
 import classes from "./quizmodalsubmitted.module.css";
 
 const QuizModalSubmitted = ({
-  showModal,
   onDisplayModalHandler,
   quizName,
+  quizId,
   onSubmitHandler,
   loading,
+  error,
 }) => {
   const { state } = useDataStoreContext();
   const buttonLeftRef = useRef();
@@ -26,7 +27,7 @@ const QuizModalSubmitted = ({
       return;
     }
     if (buttonLeftRef.current.innerText === "Return to Home") {
-      navigate(`/home`, {
+      navigate("/home", {
         replace: true,
       });
       return;
@@ -34,12 +35,16 @@ const QuizModalSubmitted = ({
   };
 
   const handleRightButtonClick = () => {
-    if (buttonRightRef.current.innerText === "Yes") {
+    if (
+      buttonRightRef.current.innerText === "Yes" ||
+      buttonRightRef.current.innerText === "Submit Quiz" ||
+      buttonRightRef.current.innerText === "Submit Again"
+    ) {
       onSubmitHandler();
       return;
     }
     if (buttonRightRef.current.innerText === "Review Quiz") {
-      navigate(`/review`, {
+      navigate(`/review/${quizId}/${quizName.split(" ").join("-")}`, {
         replace: true,
       });
       return;
@@ -48,11 +53,14 @@ const QuizModalSubmitted = ({
 
   return (
     <>
-      {showModal && (
+      {state.isSubmitted.bool && (
         <AddQuizModal>
           <>
             <h2 className={classes.modalH2Text}>
-              {Object.keys(state.quizScore).length === 0
+              {state.isSubmitted.why === "timeDurationFinished" &&
+              Object.keys(state.quizScore).length === 0
+                ? `Time Duration for ${quizName} Quiz exhausted`
+                : Object.keys(state.quizScore).length === 0
                 ? `Are you sure you want to submit ${quizName} ?`
                 : `You score for ${quizName.split("-").join(" ")} is ${
                     state.quizScore.quizScore
@@ -65,9 +73,12 @@ const QuizModalSubmitted = ({
                 buttonRef={buttonLeftRef}
                 onClickHandler={handleLeftButtonClick}
               >
-                {Object.keys(state.quizScore).length === 0
-                  ? "No"
-                  : "Return to Home"}
+                {state.isSubmitted.why === "timeDurationFinished" &&
+                  "Return to Home"}
+                {state.isSubmitted.why !== "timeDurationFinished" &&
+                  (Object.keys(state.quizScore).length === 0
+                    ? "No"
+                    : "Return to Home")}
               </Button>
               <Button
                 className={`${classes.button}`}
@@ -76,6 +87,11 @@ const QuizModalSubmitted = ({
               >
                 {loading
                   ? "Submitting ..."
+                  : error
+                  ? "Submit Again"
+                  : Object.keys(state.quizScore).length === 0 &&
+                    state.isSubmitted.why === "timeDurationFinished"
+                  ? "Submit Quiz"
                   : Object.keys(state.quizScore).length === 0
                   ? "Yes"
                   : "Review Quiz"}

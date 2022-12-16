@@ -5,11 +5,6 @@ import { useGlobalStoreContext } from "../contexts/global-context";
 
 import toast from "react-hot-toast";
 
-// if(data !== )
-// console.log(data);
-// // console.log(responseData);
-// console.log(data);
-
 const useHttp = (
   requestFunction,
   dispatch,
@@ -72,8 +67,9 @@ const useHttp = (
           return;
         }
         console.log(error);
-
-        // toast.error(error.message);
+        if (error?.message) {
+          return toast.error(error.message);
+        }
       } finally {
         isLoading(false);
       }

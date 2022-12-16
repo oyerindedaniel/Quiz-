@@ -36,7 +36,6 @@ const QuizCbtTest = () => {
   const [quizLength, setQuizLength] = useState(null);
   const [quizData, setQuizData] = useState(null);
   const [answerChecked, setAnswerChecked] = useState([]);
-  const [showModal, setShowModal] = useState(false);
 
   const ref = useRef([]);
   const navigate = useNavigate();
@@ -136,18 +135,11 @@ const QuizCbtTest = () => {
       payload: {},
     });
 
-    setShowModal((currentModalValue) => {
-      return !currentModalValue;
+    dispatch({
+      type: "SET_IS-SUBMITTED",
+      payload: { bool: false, why: "NoYetFinished" },
     });
   };
-
-  // useEffect(() => {
-  //   if (!error && !loading ) {
-  //     console.log("here");
-  //     setShowModal(false);
-  //   }
-  //   return;
-  // }, [error, loading]);
 
   let options;
   let question;
@@ -321,7 +313,12 @@ const QuizCbtTest = () => {
             {questionCount === quizLength && (
               <Button
                 className={classes.button}
-                onClickHandler={() => setShowModal(true)}
+                onClickHandler={() =>
+                  dispatch({
+                    type: "SET_IS-SUBMITTED",
+                    payload: { bool: true, why: "readyToSubmit" },
+                  })
+                }
               >
                 Submit
               </Button>
@@ -330,11 +327,11 @@ const QuizCbtTest = () => {
         </div>
       </main>
       <QuizModalSubmitted
-        showModal={showModal}
         quizName={quizName}
         onDisplayModalHandler={onDisplayModalHandler}
         onSubmitHandler={submitQuizHandler}
         loading={loading}
+        error={error}
       />
     </>
   );
