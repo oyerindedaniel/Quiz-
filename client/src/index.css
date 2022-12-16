@@ -41,6 +41,13 @@ html {
   font-size: 62.5%;
   font-family: "Open Sans", sans-serif;
   min-height: 100vh;
+  background-color: rgb(246, 248, 250);
+  background-image: radial-gradient(
+      at 100% 0%,
+      hsla(14, 0%, 100%, 1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 99% 20%, rgb(180, 191, 204) 0px, transparent 100%);
 }
 
 body {

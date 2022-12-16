@@ -43,7 +43,7 @@ const QuizCbtTest = () => {
   useEffect(() => {
     if (!state.quizQuestion.length) {
       navigate("/home", { replace: true });
-      toast.error("No quiz question found. Do not refresh.");
+      toast.error("No quiz question found.");
     }
 
     if (state.quizQuestion.length) {

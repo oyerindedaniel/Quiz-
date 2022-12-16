@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useGlobalStoreContext } from "../../contexts/global-context";
@@ -31,18 +31,25 @@ const QuizModalFormQuiz = ({
   const minutesInputRef = useRef();
   const secondsInputRef = useRef();
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     dataDispatch({
       type: "SET_QUIZ-SCORE",
       payload: {},
     });
 
-    // globalDispatch({
-    //   type: "SET_LOCAL-TIME-DURATION",
-    //   payload: {},
-    // });
+    dataDispatch({
+      type: "SET_IS-SUBMITTED",
+      payload: {},
+    });
+
+    globalDispatch({
+      type: "SET_LOCAL-TIME-DURATION",
+      payload: {},
+    });
+  }, [dataDispatch, globalDispatch]);
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
 
     const hoursValue = +hoursInputRef.current.value;
     const minutesValue = +minutesInputRef.current.value;
@@ -64,10 +71,12 @@ const QuizModalFormQuiz = ({
       return toast.error("No time duration set");
     }
 
-    globalDispatch({
-      type: "SET_LOCAL-TIME-DURATION",
-      payload: timeDuration,
-    });
+    if (hoursValue || minutesValue || secondsValue) {
+      globalDispatch({
+        type: "SET_LOCAL-TIME-DURATION",
+        payload: timeDuration,
+      });
+    }
 
     setTimeout(() => {
       navigate(`/quiz/${quizId}/${quizName.split(" ").join("-")}`, {

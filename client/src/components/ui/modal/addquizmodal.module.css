@@ -10,6 +10,13 @@
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
   z-index: 5000;
+  background-color: hsla(210, 56%, 88%, 1);
+  background-image: radial-gradient(
+      at 87% 69%,
+      hsla(151, 0%, 100%, 1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 87% 61%, hsla(219, 34%, 97%, 1) 0px, transparent 50%);
 }
 
 .modal {
@@ -26,6 +33,13 @@
   width: 40rem;
   transition: opacity 0.2s ease-in-out;
   z-index: 7000;
+  background-color: rgb(246, 248, 250);
+  background-image: radial-gradient(
+      at 100% 100%,
+      rgb(245, 243, 243) 0px,
+      transparent 10%
+    ),
+    radial-gradient(at 99% 20%, rgb(232, 236, 241) 0px, transparent 100%);
 }
 
 .h1 {

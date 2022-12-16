@@ -59,7 +59,9 @@ const QuizModalSubmitted = ({
             <h2 className={classes.modalH2Text}>
               {state.isSubmitted.why === "timeDurationFinished" &&
               Object.keys(state.quizScore).length === 0
-                ? `Time Duration for ${quizName} Quiz exhausted`
+                ? `Time Duration for ${quizName
+                    .split("-")
+                    .join(" ")} Quiz exhausted`
                 : Object.keys(state.quizScore).length === 0
                 ? `Are you sure you want to submit ${quizName} ?`
                 : `You score for ${quizName.split("-").join(" ")} is ${
